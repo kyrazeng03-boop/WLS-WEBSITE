@@ -1,0 +1,130 @@
+---
+const navItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Products', href: '/products' },
+  { label: 'About Us', href: '/about' },
+  { label: 'News', href: '/news' },
+  { label: 'Cooperation', href: '/cooperation' },
+  { label: 'Contact Us', href: '/contact' },
+];
+const currentPath = Astro.url.pathname;
+---
+<header class="site-header">
+  <div class="container site-header__inner">
+    <a href="/" class="site-header__logo">
+      <span class="logo-mark">WLS</span>
+      <span class="logo-text">LIGHTING</span>
+    </a>
+    <nav class="site-header__nav" id="siteNav">
+      {navItems.map((item) => (
+        <a
+          href={item.href}
+          class={currentPath === item.href || (item.href !== '/' && currentPath.startsWith(item.href)) ? 'active' : ''}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <a href="/contact" class="btn btn--primary site-header__cta">Get a Quote</a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: var(--ink);
+    border-bottom: 1px solid rgba(255,255,255,0.15);
+  }
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 76px;
+  }
+  .site-header__logo {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    font-family: var(--font-display);
+  }
+  .logo-mark { color: #fff; font-weight: 700; font-size: 22px; }
+  .logo-text { color: rgba(255,255,255,0.85); font-weight: 600; font-size: 15px; letter-spacing: 0.08em; }
+
+  .site-header__nav {
+    display: flex;
+    gap: 4px;
+  }
+  .site-header__nav a {
+    color: rgba(255,255,255,0.75);
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 6px;
+    position: relative;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+  .site-header__nav a:hover {
+    color: #fff;
+    background: var(--glow);
+  }
+  .site-header__nav a.active {
+    color: #fff;
+  }
+  .site-header__nav a.active::after {
+    content: '';
+    position: absolute;
+    left: 14px; right: 14px; bottom: -2px;
+    height: 2px;
+    background: #fff;
+    box-shadow: 0 0 8px rgba(255,255,255,0.7);
+  }
+  .site-header__cta {
+    padding: 10px 20px;
+    font-size: 14px;
+    background: #fff;
+    color: var(--glow);
+  }
+  .site-header__cta:hover {
+    background: rgba(255,255,255,0.9);
+  }
+
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+  }
+  .nav-toggle span {
+    width: 22px; height: 2px; background: var(--paper);
+  }
+
+  @media (max-width: 860px) {
+    .site-header__nav { display: none; }
+    .site-header__cta { display: none; }
+    .nav-toggle { display: flex; }
+    .site-header__nav.open {
+      display: flex;
+      flex-direction: column;
+      position: absolute;
+      top: 76px; left: 0; right: 0;
+      background: var(--ink);
+      padding: 20px 24px;
+      gap: 18px;
+      border-bottom: 1px solid rgba(255,255,255,0.15);
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const nav = document.getElementById('siteNav');
+  toggle?.addEventListener('click', () => nav?.classList.toggle('open'));
+</script>

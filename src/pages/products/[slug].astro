@@ -1,0 +1,286 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getAllProducts, getProductBySlug, urlFor } from '../../lib/sanity';
+import { productCategoryLabels } from '../../lib/categories';
+import { companyAdvantages, productFAQs } from '../../lib/content';
+
+export async function getStaticPaths() {
+  try {
+    const products = await getAllProducts();
+    return products.map((p) => ({ params: { slug: p.slug.current } }));
+  } catch (e) {
+    return [];
+  }
+}
+
+const { slug } = Astro.params;
+const product = await getProductBySlug(slug);
+
+if (!product) {
+  return Astro.redirect('/products');
+}
+
+const coverUrl = product.coverImage ? urlFor(product.coverImage).width(1000).height(750).url() : '/images/placeholder-product.jpg';
+const galleryUrls = (product.gallery || []).map((img) => urlFor(img).width(1000).height(750).url());
+// 主图轮播用的完整图片列表：封面图 + 图集，供左右箭头切换
+const allImages = [coverUrl, ...galleryUrls];
+const categoryLabel = productCategoryLabels[product.category] || product.category;
+---
+<Layout title={`${product.name} | WLS Lighting`} description={product.shortDescription}>
+  <section class="section" style="padding-top: 48px;">
+    <div class="container product-detail">
+      <div class="product-detail__media">
+        <div class="product-detail__main-image" id="productCarousel">
+          {allImages.map((url, i) => (
+            <img src={url} alt={product.name} class={`carousel-img ${i === 0 ? 'active' : ''}`} data-index={i} />
+          ))}
+          {allImages.length > 1 && (
+            <>
+              <button class="carousel-arrow carousel-arrow--prev" id="prevImg" aria-label="Previous image">‹</button>
+              <button class="carousel-arrow carousel-arrow--next" id="nextImg" aria-label="Next image">›</button>
+            </>
+          )}
+        </div>
+        {allImages.length > 1 && (
+          <div class="product-detail__thumbs">
+            {allImages.map((url, i) => (
+              <img src={url} alt={product.name} class={`thumb-img ${i === 0 ? 'active' : ''}`} data-index={i} />
+            ))}
+          </div>
+        )}
+      </div>
+
+      <div class="product-detail__info">
+        <span class="eyebrow">{categoryLabel}</span>
+        <h1>{product.name}</h1>
+        <p>{product.shortDescription}</p>
+
+        {product.customizable && (
+          <span class="badge">Customizable — size, thickness &amp; light output</span>
+        )}
+
+        <nav class="jump-nav">
+          <a href="#specs">Tech Specs</a>
+          <a href="#advantages">Why WLS</a>
+          <a href="#faq">FAQs</a>
+        </nav>
+
+        {product.specs && product.specs.length > 0 && (
+          <table class="spec-table" id="specs">
+            {product.specs.map((s) => (
+              <tr><td>{s.label}</td><td>{s.value}</td></tr>
+            ))}
+          </table>
+        )}
+
+        <ul class="advantages-list" id="advantages">
+          {companyAdvantages.map((a) => (
+            <li set:html={a} />
+          ))}
+        </ul>
+
+        <div class="product-detail__actions">
+          <button type="button" class="btn btn--primary js-inquiry-btn" data-product={product.name}>Inquiry Now</button>
+          <a href="https://wa.me/8615807600815" target="_blank" rel="noopener" class="btn btn--outline-dark">Chat on WhatsApp</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="section faq-section" id="faq" style="padding-top:0;">
+    <div class="container">
+      <span class="eyebrow">Frequently Asked</span>
+      <h2 class="section-title">Common questions from our partners</h2>
+      <div class="faq-list">
+        {productFAQs.map((item, i) => (
+          <details class="faq-item">
+            <summary>{item.q}</summary>
+            <p>{item.a}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .section-title { font-size: clamp(24px, 3vw, 32px); max-width: 640px; }
+  .jump-nav {
+    display: flex;
+    gap: 4px;
+    border-bottom: 1px solid var(--line);
+    margin: 24px 0;
+  }
+  .jump-nav a {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    padding: 10px 16px 10px 0;
+    margin-right: 16px;
+    border-bottom: 2px solid transparent;
+  }
+  .jump-nav a:hover { color: var(--glow); border-color: var(--glow-soft); }
+
+  .faq-section { background: var(--section-wash); padding-top: 56px; }
+  .faq-list {
+    max-width: 760px;
+    margin-top: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .faq-item {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 18px 22px;
+  }
+  .faq-item summary {
+    font-weight: 600;
+    font-size: 15px;
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .faq-item summary::after {
+    content: '+';
+    font-size: 20px;
+    color: var(--glow);
+    margin-left: 12px;
+    flex-shrink: 0;
+  }
+  .faq-item[open] summary::after { content: '−'; }
+  .faq-item summary::-webkit-details-marker { display: none; }
+  .faq-item p {
+    margin: 12px 0 0;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+</style>
+
+<style>
+  .product-detail {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 56px;
+  }
+  .product-detail__main-image {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--paper-soft);
+  }
+  .carousel-img {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.35s ease;
+  }
+  .carousel-img.active { opacity: 1; }
+  .carousel-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.85);
+    color: var(--ink);
+    font-size: 22px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s ease;
+  }
+  .carousel-arrow:hover { background: #fff; color: var(--glow); }
+  .carousel-arrow--prev { left: 14px; }
+  .carousel-arrow--next { right: 14px; }
+
+  .product-detail__thumbs {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 10px;
+  }
+  .thumb-img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    cursor: pointer;
+    opacity: 0.55;
+    border: 2px solid transparent;
+    transition: all 0.2s ease;
+  }
+  .thumb-img:hover { opacity: 0.85; }
+  .thumb-img.active { opacity: 1; border-color: var(--glow); }
+
+  .badge {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--steel);
+    border: 1px solid var(--line);
+    padding: 6px 12px;
+    margin-bottom: 24px;
+  }
+  .advantages-list {
+    list-style: none;
+    margin: 24px 0 0;
+    padding: 20px 0 0;
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: 10px;
+  }
+  .advantages-list li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 14px;
+    color: var(--text-muted);
+  }
+  .advantages-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 7px;
+    width: 8px; height: 8px;
+    background: var(--glow);
+    border-radius: 2px;
+  }
+  .product-detail__actions {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+  }
+  @media (max-width: 860px) {
+    .product-detail { grid-template-columns: 1fr; }
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById('productCarousel');
+  const images = document.querySelectorAll('.carousel-img');
+  const thumbs = document.querySelectorAll('.thumb-img');
+  const prevBtn = document.getElementById('prevImg');
+  const nextBtn = document.getElementById('nextImg');
+  let current = 0;
+
+  function goTo(index: number) {
+    const total = images.length;
+    const i = ((index % total) + total) % total;
+    images.forEach((img) => img.classList.remove('active'));
+    thumbs.forEach((t) => t.classList.remove('active'));
+    images[i]?.classList.add('active');
+    thumbs[i]?.classList.add('active');
+    current = i;
+  }
+
+  prevBtn?.addEventListener('click', () => goTo(current - 1));
+  nextBtn?.addEventListener('click', () => goTo(current + 1));
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const index = parseInt(thumb.getAttribute('data-index') || '0', 10);
+      goTo(index);
+    });
+  });
+</script>

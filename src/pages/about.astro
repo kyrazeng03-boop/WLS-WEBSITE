@@ -1,0 +1,275 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getAboutPage, urlFor } from '../lib/sanity';
+
+let aboutData = null;
+try {
+  aboutData = await getAboutPage();
+} catch (e) {
+  // Sanity尚未配置数据时，页面仍可渲染，下面用占位图兜底
+}
+
+const milestones = [
+  { year: '2013', text: 'DOB lighting items promoted into multiple countries.', icon: 'flag' },
+  { year: '2017', text: 'Established WLS Lighting overseas factory in Egypt.', icon: 'factory' },
+  { year: '2023', text: 'Sales network expanded to over 20 countries and regions.', icon: 'globe' },
+  { year: '2025', text: 'Continued growth across India, Middle East and African markets.', icon: 'growth' },
+];
+
+const milestoneIcons = {
+  flag: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4s1.2-1 4-1 4.5 2 7.5 2 3.5-1 3.5-1v10s-1 1-3.5 1-4.5-2-7.5-2-4 1-4 1"/></svg>',
+  factory: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V11l5 3v-3l5 3v-3l5 3v7z"/><path d="M3 21h18"/><path d="M8 21v-4"/><path d="M13 21v-4"/></svg>',
+  globe: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 3.2 9 14 14 0 0 1-3.2 9 14 14 0 0 1-3.2-9A14 14 0 0 1 12 3z"/></svg>',
+  growth: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9.5 10.5 13.5 14.5 21 6"/><polyline points="14 6 21 6 21 13"/></svg>',
+};
+
+// ⚠️ 占位数字 — 需要替换成公司真实数据，用户已确认这些不是真实数字
+const manufacturingStats = [
+  { value: 'XXX', label: 'Employees' },
+  { value: 'XX', label: 'Engineers' },
+  { value: 'X,XXXsqm', label: 'Intelligent Show Room' },
+  { value: 'X,XXXsqm', label: 'CNAS Laboratory' },
+  { value: 'XX,XXXsqm', label: 'Manufacturing Workshop' },
+  { value: 'XXX+', label: 'Patents' },
+];
+
+// ---- 图片：Sanity有数据就用，没有就用现成的占位图兜底 ----
+const factoryImageUrl = aboutData?.factoryImage ? urlFor(aboutData.factoryImage).width(1200).height(900).url() : '/images/factory-1.jpg';
+const certificatesImageUrl = aboutData?.certificatesImage ? urlFor(aboutData.certificatesImage).width(1200).height(900).url() : '/images/certificates.jpg';
+
+const fallbackEquipmentCaptions = ['R&amp;D lab', 'Testing equipment', 'Production line', 'Quality inspection'];
+const equipmentPhotos = (aboutData?.equipmentPhotos && aboutData.equipmentPhotos.length > 0)
+  ? aboutData.equipmentPhotos.map((p) => ({ url: urlFor(p.image).width(1200).height(900).url(), caption: p.caption || '' }))
+  : fallbackEquipmentCaptions.map((caption) => ({ url: '/images/equipment-photo.jpg', caption }));
+
+const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos.length > 0)
+  ? aboutData.workshopPhotos.map((img) => urlFor(img).width(1200).height(900).url())
+  : new Array(6).fill('/images/workshop-photo.jpg');
+---
+<Layout title="About Us | WLS Lighting" description="WLS Lighting builds healthy, reliable lighting — DOB light source panels manufactured in Zhongshan and Egypt for 20+ export markets.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">About Us</span>
+      <h1>An innovator in DOB manufacturing, built on a healthy-lighting standard.</h1>
+      <p>WLS Lighting is a light source panel and DOB (Driver-on-Board) lighting solution supplier headquartered in Zhongshan, Guangdong, China, with an additional factory in Egypt serving the Middle East and African markets directly.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-media">
+        <img src={factoryImageUrl} alt="WLS Lighting factory production line" />
+      </div>
+      <div class="about-copy">
+        <span class="eyebrow">Manufacturing Strength</span>
+        <h2 class="section-title">Two factories, one quality standard</h2>
+        <p>Our Zhongshan headquarters runs full production lines for light source panels and DOB drivers, from raw materials through to finished, tested product. Our Egypt facility extends that same standard closer to Middle Eastern and African customers, shortening lead times and simplifying logistics.</p>
+        <p>Every batch goes through structured quality checks before it leaves the factory — because for our distributors and project partners, consistency across container loads matters as much as the spec sheet.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--dark">
+    <div class="container">
+      <span class="eyebrow">Company Milestones</span>
+      <h2 class="section-title">A decade of building export relationships</h2>
+      <div class="milestones">
+        {milestones.map((m) => (
+          <div class="milestone">
+            <div class="milestone__icon" set:html={milestoneIcons[m.icon]} />
+            <div class="milestone__year">{m.year}</div>
+            <p>{m.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Manufacturing Center stats — ⚠️ 占位数字，等待真实数据替换 -->
+  <section class="section mfg-center">
+    <div class="container">
+      <span class="eyebrow">By The Numbers</span>
+      <h2 class="section-title">Manufacturing Center</h2>
+      <p class="mfg-note">⚠ Placeholder figures — replace with real company data</p>
+      <div class="grid grid--3 mfg-grid">
+        {manufacturingStats.map((s) => (
+          <div class="mfg-stat">
+            <div class="mfg-stat__value">{s.value}</div>
+            <div class="mfg-stat__label">{s.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- R&D / Testing equipment photos -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <span class="eyebrow">R&amp;D &amp; Testing</span>
+      <h2 class="section-title" style="margin-bottom:32px;">Die-casting, machining &amp; quality testing</h2>
+      <div class="grid grid--4">
+        {equipmentPhotos.map((p) => (
+          <div class="photo-tile">
+            <img src={p.url} alt={p.caption} />
+            <span>{p.caption}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Workshop photo wall -->
+  <section class="section" style="padding-top:0;">
+    <div class="container">
+      <span class="eyebrow">Inside WLS</span>
+      <h2 class="section-title" style="margin-bottom:32px;">Workshop Glance</h2>
+      <div class="grid grid--3">
+        {workshopPhotoUrls.map((url, i) => (
+          <div class="photo-tile">
+            <img src={url} alt={`WLS Lighting workshop photo ${i + 1}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container about-grid">
+      <div class="about-copy">
+        <span class="eyebrow">Certifications &amp; Trust</span>
+        <h2 class="section-title">Compliant for the markets you sell into</h2>
+        <p>Our products carry the certifications distributors and project buyers ask for during due diligence. Certificate copies are available on request — reach out via the contact page and we'll send the relevant documents for your target market.</p>
+        <a href="/contact" class="btn btn--outline-dark">Request Certificates</a>
+      </div>
+      <div class="about-media">
+        <img src={certificatesImageUrl} alt="WLS Lighting product certifications" />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 64px 0 48px;
+  }
+  .page-hero h1 { font-size: clamp(30px, 4vw, 46px); max-width: 100%; }
+  .page-hero p { max-width: 100%; color: var(--text-muted); }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .about-media img { aspect-ratio: 4/3; object-fit: cover; }
+  .section-title { font-size: clamp(24px, 3vw, 32px); }
+
+  .milestones {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    margin-top: 56px;
+  }
+  .milestones::before {
+    content: '';
+    position: absolute;
+    top: 28px;
+    left: 28px;
+    right: calc(25% - 28px);
+    height: 2px;
+    background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
+    box-shadow: 0 0 14px 0 rgba(164,0,130,0.3);
+  }
+  .milestone {
+    position: relative;
+    text-align: left;
+  }
+  .milestone__icon {
+    position: relative;
+    z-index: 2;
+    width: 56px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 20px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--glow-soft);
+    box-shadow: 0 0 0 5px var(--section-wash);
+    transition: transform 0.25s ease, color 0.25s ease;
+  }
+  .milestone__icon svg { width: 24px; height: 24px; }
+  .milestone:hover .milestone__icon {
+    transform: scale(1.08);
+    color: #fff;
+  }
+  .milestone__year {
+    font-family: var(--font-display);
+    font-size: 26px;
+    color: var(--ink);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  .milestone p {
+    font-size: 14px;
+    color: var(--text-muted);
+    max-width: 220px;
+    margin: 0;
+  }
+
+  .mfg-center { background: var(--paper-soft); }
+  .mfg-note {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: #b45309;
+    background: #fef3c7;
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 12px 0 0;
+  }
+  .mfg-grid { margin-top: 32px; }
+  .mfg-stat {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 26px;
+    text-align: center;
+  }
+  .mfg-stat__value {
+    font-family: var(--font-display);
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--glow);
+  }
+  .mfg-stat__label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .photo-tile {
+    position: relative;
+    aspect-ratio: 4/3;
+    overflow: hidden;
+    background: var(--paper-soft);
+  }
+  .photo-tile img { width: 100%; height: 100%; object-fit: cover; }
+  .photo-tile span {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(14,18,32,0.75);
+    color: #fff;
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  @media (max-width: 860px) {
+    .about-grid { grid-template-columns: 1fr; }
+    .about-media { order: -1; }
+    .milestones { grid-template-columns: repeat(2, 1fr); row-gap: 48px; }
+    .milestones::before { display: none; }
+  }
+</style>

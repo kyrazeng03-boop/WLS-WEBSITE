@@ -1,0 +1,182 @@
+---
+import { productCategories } from '../lib/categories';
+const { settings } = Astro.props;
+const phone = settings?.phone || '+86 158 0760 0815';
+const email = settings?.email || 'export@wlsdoblighting.com';
+const address = settings?.address || '4th north, east bank road, Guzhen town, Zhongshan, GD, China';
+const workingHours = settings?.workingHours || '09:00-19:30 Mon-Sat';
+
+const socialLinks = [
+  {
+    name: 'Facebook',
+    href: settings?.facebookUrl || '#',
+    svg: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>',
+  },
+  {
+    name: 'LinkedIn',
+    href: settings?.linkedinUrl || '#',
+    svg: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>',
+  },
+  {
+    name: 'Instagram',
+    href: settings?.instagramUrl || '#',
+    svg: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+  },
+  {
+    name: 'YouTube',
+    href: settings?.youtubeUrl || '#',
+    svg: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02" fill="currentColor" stroke="none"/></svg>',
+  },
+];
+---
+<footer class="site-footer">
+  <!-- CTA band -->
+  <div class="footer-cta">
+    <div class="container footer-cta__inner">
+      <span class="footer-cta__text">Don't hesitate to tell us about your needs</span>
+      <a href="/contact" class="btn footer-cta__btn">Contact Us</a>
+    </div>
+  </div>
+
+  <div class="container site-footer__inner">
+    <div class="footer-col">
+      <div class="logo-mark" style="font-size:22px; color:var(--glow); font-weight:700; font-family:var(--font-display);">WLS LIGHTING</div>
+      <p>Build Healthy Lighting. DOB lighting, light source panel and emergency lighting solutions, factory-direct from China, serving 20+ countries across South &amp; Southeast Asia, the Middle East and Africa.</p>
+      <div class="footer-sitemap">
+        <a href="/">Home</a>
+        <a href="/about">About Us</a>
+        <a href="/news">News</a>
+        <a href="/cooperation">Cooperation</a>
+      </div>
+      <div class="footer-social">
+        <span class="footer-social__label">Follow Us On:</span>
+        <div class="footer-social__icons">
+          {socialLinks.map((s) => (
+            <a href={s.href} target="_blank" rel="noopener" class="footer-social__icon" aria-label={s.name} set:html={s.svg} />
+          ))}
+        </div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      {productCategories.map((c) => (
+        <a href={`/products?cat=${c.value}`}>{c.label}</a>
+      ))}
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <p>Tel: {phone}</p>
+      <p>Email: {email}</p>
+      <p>{address}</p>
+      <p>Working hours: {workingHours}</p>
+    </div>
+  </div>
+  <div class="container site-footer__bottom">
+    <span>© {new Date().getFullYear()} WLS Lighting. All rights reserved.</span>
+  </div>
+</footer>
+
+<style>
+  .footer-cta {
+    background: var(--ink);
+  }
+  .footer-cta__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 24px;
+  }
+  .footer-cta__text {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2.4vw, 24px);
+    font-weight: 600;
+    color: #fff;
+  }
+  .footer-cta__btn {
+    background: #fff;
+    color: var(--glow);
+    padding: 12px 26px;
+    white-space: nowrap;
+  }
+  .footer-cta__btn:hover { background: rgba(255,255,255,0.9); }
+
+  .site-footer {
+    background: var(--section-wash);
+    color: var(--text-muted);
+  }
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 40px;
+    padding: 48px 24px 40px;
+  }
+  .footer-col h4 {
+    color: var(--ink);
+    font-size: 14px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .footer-col a, .footer-col p {
+    display: block;
+    font-size: 14px;
+    color: var(--text-muted);
+    margin-bottom: 10px;
+  }
+  .footer-col a:hover { color: var(--glow); }
+  .footer-sitemap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 16px;
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-sitemap a { margin-bottom: 0; }
+  .footer-social {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+  }
+  .footer-social__label {
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .footer-social__icons {
+    display: flex;
+    gap: 10px;
+  }
+  .footer-col .footer-social__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    margin-bottom: 0;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    flex-shrink: 0;
+  }
+  .footer-col .footer-social__icon:hover {
+    background: var(--glow);
+    transform: translateY(-2px);
+  }
+  .site-footer__bottom {
+    border-top: 1px solid var(--line);
+    padding: 20px 24px;
+    font-size: 13px;
+    color: var(--steel);
+  }
+  @media (max-width: 700px) {
+    .site-footer__inner { grid-template-columns: 1fr; }
+    .footer-cta__inner { flex-direction: column; align-items: flex-start; }
+  }
+</style>

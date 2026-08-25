@@ -1,0 +1,43 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import NewsCard from '../../components/NewsCard.astro';
+import { getAllNews } from '../../lib/sanity';
+
+let news = [];
+try {
+  news = await getAllNews();
+} catch (e) {
+  news = [];
+}
+---
+<Layout title="News | WLS Lighting" description="Company updates, exhibition recaps and industry insights from WLS Lighting.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">News</span>
+      <h1>Follow The Latest Information</h1>
+      <p>Get the latest information on product launches, and industry innovations to stay ahead in the world of modern lighting.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 48px;">
+    <div class="container">
+      <div class="grid grid--3">
+        {news.length > 0 ? (
+          news.map((n) => <NewsCard item={n} />)
+        ) : (
+          <p>Articles will appear here once published in the CMS.</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 64px 0 40px;
+  }
+  .page-hero h1 { font-size: clamp(32px, 4vw, 48px); }
+  .page-hero p { max-width: 100%; color: var(--text-muted); }
+</style>

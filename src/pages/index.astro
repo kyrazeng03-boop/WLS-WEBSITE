@@ -1,0 +1,730 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ProductCard from '../components/ProductCard.astro';
+import NewsCard from '../components/NewsCard.astro';
+import { getFeaturedProducts, getLatestNews, getSiteSettings, getHomepage, getPartners, urlFor } from '../lib/sanity';
+import { productCategories } from '../lib/categories';
+
+let featuredProducts = [];
+let latestNews = [];
+let settings = null;
+let homepage = null;
+let partnersFromCMS = [];
+try {
+  [featuredProducts, latestNews, settings, homepage, partnersFromCMS] = await Promise.all([
+    getFeaturedProducts(),
+    getLatestNews(3),
+    getSiteSettings(),
+    getHomepage(),
+    getPartners(),
+  ]);
+} catch (e) {
+  // Sanity内容尚未填充时，页面仍可渲染，下面用占位内容兜底
+}
+
+const stats = [
+  { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries served' },
+  { value: '12', label: 'Samsung SMT Lines' },
+  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '10+', label: 'Years in DOB lighting' },
+  { value: '2', label: 'Factories (China + Egypt)' },
+  { value: '24h', label: 'Inquiry response time' },
+];
+
+const categoryTiles = productCategories;
+
+const trustBadges = [
+  { label: 'Highest Quality', desc: 'Structured QC on every batch' },
+  { label: 'Competitive Prices', desc: 'Factory-direct, no middlemen' },
+  { label: 'Expertise', desc: '10+ years in DOB manufacturing' },
+  { label: 'Extensive Stock', desc: 'Ready for fast turnaround orders' },
+];
+
+// ---- Hero轮播：Sanity有数据就用Sanity，没有就用现成的4张占位图+文案兜底 ----
+const fallbackHeroSlides = [
+  { imageUrl: '/images/hero-1.jpg', eyebrow: 'Manufacturing Excellence', heading: 'Inside the factory built for reliable,<br/>at-scale production.', description: "WLS Lighting's Zhongshan and Egypt facilities run full production lines from raw materials to finished, tested product — built for consistency across every container load." },
+  { imageUrl: '/images/hero-2.jpg', eyebrow: 'Complete Product Range', heading: 'One supplier, a full range —<br/>from light source panels to DOB drivers.', description: 'Outdoor, commercial, smart and furniture lighting, plus DOB drivers — all built to the same Build Healthy Lighting standard.' },
+  { imageUrl: '/images/hero-3.jpg', eyebrow: 'Flagship Solutions', heading: 'Our best-selling DOB lighting,<br/>engineered for demanding export markets.', description: 'Factory-direct pricing, fast turnaround and customization on the products our distributors and project partners order most.' },
+  { imageUrl: '/images/hero-4.jpg', eyebrow: 'Global Export Partner', heading: 'Trusted across 20+ countries in<br/>Asia, the Middle East and Africa.', description: 'Over a decade of export experience, with a dedicated overseas factory in Egypt shortening lead times for Middle Eastern and African customers.' },
+];
+const heroSlides = (homepage?.heroSlides && homepage.heroSlides.length > 0)
+  ? homepage.heroSlides.map((s) => ({
+      imageUrl: urlFor(s.image).width(2400).height(1600).url(),
+      eyebrow: s.eyebrow || '',
+      heading: s.heading || '',
+      description: s.description || '',
+    }))
+  : fallbackHeroSlides;
+
+// ---- 创始人区块：同样的兜底逻辑 ----
+const founderPhotoUrl = homepage?.founderPhoto ? urlFor(homepage.founderPhoto).width(800).height(800).url() : '/images/founder-photo.jpg';
+const founderQuote = homepage?.founderQuote || '"We started WLS Lighting to make DOB technology accessible, reliable and healthy for every market we serve. Quality comes first — everything else follows from that."';
+const founderName = homepage?.founderName || 'Founder, WLS Lighting';
+const founderIsPlaceholder = !homepage?.founderQuote;
+
+// ---- 客户评价：Sanity有数据就用，没有就用占位文字 ----
+const fallbackTestimonials = [
+  { quote: 'WLS responded within a day and the sample quality matched exactly what we discussed. Reliable partner for our region.', author: 'Arjun, India' },
+  { quote: 'The Egypt factory made a real difference — our shipments now clear in half the time compared to sourcing from further afield.', author: 'Youssef, Egypt' },
+  { quote: 'We needed a custom DOB driver spec for our market voltage, and WLS engineered it without slowing down our launch timeline.', author: 'Fatima, UAE' },
+  { quote: 'Consistent quality across every container so far — no surprises between the sample batch and the bulk order.', author: 'Kwame, Nigeria' },
+  { quote: 'Factory-direct pricing let us stay competitive locally while still offering OEM branding on the housing.', author: 'Priya, India' },
+  { quote: 'Good communication throughout, from first inquiry to after-sales support. Easy to work with as a long-term supplier.', author: 'Amara, Kenya' },
+];
+const testimonials = (homepage?.testimonials && homepage.testimonials.length > 0)
+  ? homepage.testimonials
+  : fallbackTestimonials;
+const testimonialsArePlaceholder = !(homepage?.testimonials && homepage.testimonials.length > 0);
+
+// ---- 合作伙伴Logo：Sanity有数据就用，没有就用现成的20个静态图兜底 ----
+const fallbackPartnerNames = [
+  'bps', 'kiwi', 'smilet', 'joulwatt',
+  'bmtc', 'mls', 'lcled', 'sanan',
+  'aishi', 'yunrui', 'dzdz', 'anboom',
+  'jingdaowei', 'youjun', 'rcd', 'cctc',
+  'liz', 'fenghua', 'sigabete', 'hd',
+];
+const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
+  ? partnersFromCMS.map((p) => ({ name: p.name, url: urlFor(p.logo).width(320).height(160).url() }))
+  : fallbackPartnerNames.map((name) => ({ name, url: `/images/partners/${name}.png` }));
+---
+<Layout>
+  <!-- Hero Carousel (dynamic slide count, driven by Sanity homepage.heroSlides or fallback) -->
+  <section class="hero">
+    <div class="hero__media" id="heroCarousel">
+      {heroSlides.map((slide, i) => (
+        <img src={slide.imageUrl} alt={`WLS Lighting slide ${i + 1}`} class={`hero-slide ${i === 0 ? 'active' : ''}`} />
+      ))}
+      <div class="hero__overlay"></div>
+      <div class="hero__dots" id="heroDots">
+        {heroSlides.map((_, i) => (
+          <button class={`hero__dot ${i === 0 ? 'active' : ''}`} data-index={i} aria-label={`Slide ${i + 1}`}></button>
+        ))}
+      </div>
+    </div>
+    <div class="container hero__content">
+      <span class="eyebrow" id="heroEyebrow">{heroSlides[0]?.eyebrow}</span>
+      <h1 id="heroHeading" set:html={heroSlides[0]?.heading}></h1>
+      <p class="hero__desc" id="heroDesc">{heroSlides[0]?.description}</p>
+      <div class="hero__actions">
+        <a href="/contact" class="btn btn--primary">Get a Quote</a>
+        <a href="/products" class="btn btn--outline">View Products</a>
+      </div>
+    </div>
+  </section>
+  <script type="application/json" id="heroSlideData" set:html={JSON.stringify(heroSlides.map(s => ({ eyebrow: s.eyebrow, heading: s.heading, description: s.description })))} />
+
+  <!-- Stats strip -->
+  <section class="stats">
+    <div class="container stats__grid">
+      {stats.map((s) => (
+        <div class="stat">
+          <div class="stat__value">{s.value}</div>
+          <div class="stat__label">{s.label}</div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Founder / Company Story -->
+  <section class="section founder-section">
+    <div class="container founder-grid">
+      <div class="founder-media" id="founderMedia">
+        <video
+          id="founderVideo"
+          class="founder-video"
+          poster="/images/founder-video-poster.png"
+          playsinline
+          preload="metadata"
+        >
+          <source src="/videos/founder-intro.mp4" type="video/mp4" />
+        </video>
+        <button class="founder-play" id="founderPlayBtn" aria-label="Play company introduction video">▶</button>
+      </div>
+      <div class="founder-copy">
+        <span class="eyebrow">Our Story</span>
+        <h2 class="section-title">Built on a simple belief</h2>
+        <p class="founder-quote">{founderQuote}</p>
+        <p class="founder-name">
+          — {founderName}
+          {founderIsPlaceholder && <span class="placeholder-tag">placeholder quote</span>}
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured products -->
+  <section class="section section--dark">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Product Range</span>
+          <h2 class="section-title">A full lineup, ready to customize</h2>
+        </div>
+        <a href="/products" class="btn btn--outline-dark">All Products</a>
+      </div>
+      <div class="grid grid--3">
+        {featuredProducts.length > 0 ? (
+          featuredProducts.map((p) => <ProductCard product={p} />)
+        ) : (
+          <p style="color: var(--steel)">Products will appear here once added in the CMS.</p>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- Strategy Partners -->
+  <section class="section partners-section">
+    <div class="container">
+      <span class="eyebrow">Strategy Partners</span>
+      <h2 class="section-title" style="margin-bottom:4px;">Outstanding strategic partners</h2>
+      <div class="partners-strip">
+        {partnerLogos.map((p) => (
+          <div class="partner-logo">
+            <img src={p.url} alt={`${p.name} logo`} loading="lazy" />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials carousel -->
+  <section class="section testimonials-section">
+    <div class="container">
+      <div class="testimonials-header">
+        <span class="eyebrow">Client Feedback</span>
+        <h2 class="section-title testimonials-title">What our distributors say</h2>
+      </div>
+      <div class="testimonial-carousel" id="testimonialCarousel">
+        <button class="testimonial-arrow testimonial-arrow--prev" id="testPrev" aria-label="Previous testimonial">‹</button>
+        <div class="testimonial-card">
+          <span class="testimonial-quote-mark" aria-hidden="true">&ldquo;</span>
+          <div class="testimonial-track" id="testimonialTrack">
+            {testimonials.map((t) => (
+              <div class="testimonial-slide">
+                <p class="testimonial-quote">{t.quote}</p>
+                <p class="testimonial-author">{t.author}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <button class="testimonial-arrow testimonial-arrow--next" id="testNext" aria-label="Next testimonial">›</button>
+      </div>
+      {testimonialsArePlaceholder && (
+        <p class="placeholder-tag" style="margin-top:16px; text-align:center;">⚠ Placeholder quotes — replace with 6 real customer reviews via Sanity</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Cooperation CTA -->
+  <section class="section coop-cta">
+    <div class="container coop-cta__inner">
+      <div>
+        <span class="eyebrow">Partner with us</span>
+        <h2 class="section-title">Looking for a distributor or OEM partner?</h2>
+        <p>We work with regional distributors and project contractors across India, the Middle East and Africa. Get pricing support, samples and territory guidance.</p>
+      </div>
+      <a href="/cooperation" class="btn btn--primary">Explore Cooperation</a>
+    </div>
+  </section>
+
+  <!-- Latest news -->
+  <section class="section news-section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="eyebrow">Latest News</span>
+          <h2 class="section-title">From the factory floor</h2>
+        </div>
+        <a href="/news" class="btn btn--outline-dark">All News</a>
+      </div>
+      <div class="grid grid--3">
+        {latestNews.length > 0 ? (
+          latestNews.map((n) => <NewsCard item={n} />)
+        ) : (
+          <p>News articles will appear here once published in the CMS.</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: flex;
+    align-items: flex-end;
+    color: var(--paper);
+  }
+  .hero__media {
+    position: absolute; inset: 0;
+  }
+  .hero-slide {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease;
+  }
+  .hero-slide.active { opacity: 1; }
+  .hero__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(0deg, rgba(23,19,28,0.72) 0%, rgba(23,19,28,0.32) 45%, rgba(23,19,28,0.05) 100%);
+    z-index: 2;
+  }
+  .hero__dots {
+    position: absolute;
+    bottom: 36px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3;
+    display: flex;
+    gap: 16px;
+  }
+  .hero__dot {
+    width: 16px; height: 16px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.7);
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    transition: all 0.25s ease;
+  }
+  .hero__dot:hover { border-color: #fff; transform: scale(1.15); }
+  .hero__dot.active {
+    background: var(--glow-soft);
+    border-color: #fff;
+    box-shadow: 0 0 10px rgba(255,255,255,0.6);
+    transform: scale(1.15);
+  }
+  .hero__content {
+    position: relative;
+    z-index: 3;
+    padding-bottom: 80px;
+    max-width: 780px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 4.6vw, 56px);
+    margin-bottom: 20px;
+  }
+  .hero__desc {
+    color: rgba(246,245,242,0.78);
+    font-size: 17px;
+    max-width: 620px;
+  }
+  .hero__actions {
+    display: flex; gap: 16px; margin-top: 28px;
+  }
+
+  .stats {
+    background: #fff;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .stats__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    padding: 40px 24px;
+  }
+  .stat { text-align: center; }
+  .stat__value {
+    font-family: var(--font-display);
+    font-size: 34px;
+    font-weight: 700;
+    color: var(--glow);
+  }
+  .stat__label {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 6px;
+  }
+
+  .section-title { font-size: clamp(24px, 3vw, 32px); max-width: 640px; }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 40px;
+    gap: 24px;
+  }
+
+  .category-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 32px;
+  }
+  .category-tile {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 22px 14px;
+    border: 1px solid var(--line);
+    background: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    transition: all 0.2s ease;
+    min-height: 76px;
+  }
+  .category-tile:hover {
+    border-color: var(--glow);
+    color: var(--glow);
+    transform: translateY(-2px);
+  }
+
+  .trust-strip { padding-top: 40px; }
+  .trust-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    border-top: 1px solid var(--line);
+    padding-top: 32px;
+  }
+  .trust-item__label {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--glow);
+    margin-bottom: 6px;
+  }
+  .trust-item__desc { font-size: 13px; margin: 0; }
+
+  .why-grid { margin-top: 36px; }
+  .why-item {
+    border-top: 2px solid var(--ink);
+    padding-top: 18px;
+  }
+  .why-item h3 { font-size: 18px; }
+
+  .belief {
+    background: var(--paper-soft);
+  }
+  .belief-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .belief-intro p { max-width: 480px; }
+  .belief-points {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+  }
+  .belief-point {
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 28px 30px;
+  }
+  .belief-point h3 { font-size: 19px; margin-bottom: 10px; }
+  .belief-point p { font-size: 14px; margin: 0; }
+
+  .coop-cta {
+    background: var(--paper-soft);
+  }
+  .coop-cta__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 40px;
+  }
+  .coop-cta__inner p { max-width: 520px; }
+
+  /* 板块衔接：细分割线，避免相邻板块背景太接近时显得大段空白 */
+  .founder-section,
+  .section--dark,
+  .partners-section,
+  .testimonials-section,
+  .coop-cta,
+  .news-section {
+    border-top: 1px solid var(--line);
+  }
+
+  /* Founder section */
+  .founder-section { background: var(--paper-soft); }
+  .founder-grid {
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .founder-media {
+    position: relative;
+    aspect-ratio: 960 / 544;
+    overflow: hidden;
+    background: var(--ink);
+  }
+  .founder-video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: var(--ink);
+  }
+  .founder-play {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.9);
+    color: var(--glow);
+    font-size: 22px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s ease;
+  }
+  .founder-play:hover { transform: translate(-50%, -50%) scale(1.08); }
+  .founder-play.is-hidden { opacity: 0; pointer-events: none; }
+  .founder-quote {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-style: normal;
+    font-size: 17px;
+    color: var(--ink);
+    line-height: 1.95;
+    margin: 20px 0 18px;
+    text-align: justify;
+    text-justify: inter-word;
+  }
+  .founder-name { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+  .placeholder-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #b45309;
+    background: #fef3c7;
+    padding: 3px 8px;
+    margin-left: 6px;
+  }
+
+  /* Partners */
+  .partners-strip {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 14px;
+    margin-top: 24px;
+  }
+  .partner-logo {
+    aspect-ratio: 2/1;
+    background: #fff;
+    border: 1px solid var(--line);
+    display: flex; align-items: center; justify-content: center;
+    padding: 10px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .partner-logo:hover {
+    border-color: var(--glow-soft);
+    box-shadow: 0 8px 20px -12px rgba(164,0,130,0.35);
+  }
+  .partner-logo img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  /* Testimonials */
+  .testimonials-section { background: var(--paper); }
+  .testimonials-header { text-align: center; margin-bottom: 40px; }
+  .testimonials-header .eyebrow { justify-content: center; }
+  .testimonials-title {
+    text-align: center;
+    margin: 0 auto;
+    max-width: none;
+    color: var(--glow);
+    font-size: clamp(26px, 3.4vw, 38px);
+  }
+  .testimonial-carousel { position: relative; margin: 0 auto; }
+  .testimonial-card {
+    position: relative;
+    background: var(--ink);
+    border-radius: 28px;
+    padding: 72px 96px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(32, 22, 38, 0.22);
+  }
+  .testimonial-quote-mark {
+    position: absolute;
+    top: 18px;
+    left: 36px;
+    font-family: var(--font-display);
+    font-size: 110px;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--glow);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+  .testimonial-track {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    transition: transform 0.4s ease;
+  }
+  .testimonial-slide {
+    flex: 0 0 100%;
+    padding: 0 8px;
+    text-align: center;
+  }
+  .testimonial-quote {
+    font-family: var(--font-display);
+    font-size: clamp(18px, 2vw, 22px);
+    line-height: 1.65;
+    color: #fff;
+    max-width: 620px;
+    margin: 0 auto 20px;
+  }
+  .testimonial-author {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--glow-soft);
+    font-family: var(--font-mono);
+  }
+  .testimonial-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--ink);
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(32, 22, 38, 0.14);
+    z-index: 2;
+  }
+  .testimonial-arrow:hover { border-color: var(--glow); color: var(--glow); }
+  .testimonial-arrow--prev { left: 24px; }
+  .testimonial-arrow--next { right: 24px; }
+
+  @media (max-width: 860px) {
+    .founder-grid { grid-template-columns: 1fr; }
+    .partners-strip { grid-template-columns: repeat(3, 1fr); }
+    .testimonial-card { padding: 60px 20px 40px; border-radius: 20px; }
+    .testimonial-quote-mark { font-size: 80px; top: 8px; left: 20px; }
+    .testimonial-arrow { width: 36px; height: 36px; font-size: 16px; }
+    .testimonial-arrow--prev { left: 8px; }
+    .testimonial-arrow--next { right: 8px; }
+  }
+
+  @media (max-width: 860px) {
+    .stats__grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+    .section-header, .coop-cta__inner { flex-direction: column; align-items: flex-start; }
+    .belief-grid { grid-template-columns: 1fr; gap: 32px; }
+    .category-grid { grid-template-columns: repeat(2, 1fr); }
+    .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script>
+  // Hero轮播：图+对应文案 同步自动切换（5秒一次），支持点击圆点手动切换
+  // 文案数据从页面内嵌的JSON读取（服务端渲染时已经根据Sanity数据或兜底内容生成好）
+  const slides = document.querySelectorAll('.hero-slide');
+  const dots = document.querySelectorAll('.hero__dot');
+  const eyebrowEl = document.getElementById('heroEyebrow');
+  const headingEl = document.getElementById('heroHeading');
+  const descEl = document.getElementById('heroDesc');
+  let current = 0;
+  let timer: ReturnType<typeof setInterval>;
+
+  const dataEl = document.getElementById('heroSlideData');
+  const slideContent = dataEl ? JSON.parse(dataEl.textContent || '[]') : [];
+
+  function goTo(index: number) {
+    slides.forEach((s) => s.classList.remove('active'));
+    dots.forEach((d) => d.classList.remove('active'));
+    slides[index]?.classList.add('active');
+    dots[index]?.classList.add('active');
+    current = index;
+
+    const content = slideContent[index];
+    if (content && eyebrowEl && headingEl && descEl) {
+      eyebrowEl.textContent = content.eyebrow;
+      headingEl.innerHTML = content.heading;
+      descEl.textContent = content.description;
+    }
+  }
+
+  function next() {
+    goTo((current + 1) % slides.length);
+  }
+
+  function startAutoplay() {
+    timer = setInterval(next, 5000);
+  }
+
+  function resetAutoplay() {
+    clearInterval(timer);
+    startAutoplay();
+  }
+
+  if (slides.length > 0) {
+    startAutoplay();
+    dots.forEach((dot) => {
+      dot.addEventListener('click', () => {
+        const index = parseInt(dot.getAttribute('data-index') || '0', 10);
+        goTo(index);
+        resetAutoplay();
+      });
+    });
+  }
+
+  // 客户评价轮播：左右箭头点击滑动 + 自动播放
+  const testTrack = document.getElementById('testimonialTrack');
+  const testSlides = document.querySelectorAll('.testimonial-slide');
+  const testPrev = document.getElementById('testPrev');
+  const testNext = document.getElementById('testNext');
+  const testCarousel = document.getElementById('testimonialCarousel');
+  let testCurrent = 0;
+  let testAutoplayTimer: any = null;
+
+  function testGoTo(index: number) {
+    const total = testSlides.length;
+    testCurrent = ((index % total) + total) % total;
+    if (testTrack) {
+      testTrack.style.transform = `translateX(-${testCurrent * 100}%)`;
+    }
+  }
+
+  function startTestAutoplay() {
+    stopTestAutoplay();
+    if (testSlides.length > 1) {
+      testAutoplayTimer = setInterval(() => testGoTo(testCurrent + 1), 5000);
+    }
+  }
+
+  function stopTestAutoplay() {
+    if (testAutoplayTimer) {
+      clearInterval(testAutoplayTimer);
+      testAutoplayTimer = null;
+    }
+  }
+
+  testPrev?.addEventListener('click', () => { testGoTo(testCurrent - 1); startTestAutoplay(); });
+  testNext?.addEventListener('click', () => { testGoTo(testCurrent + 1); startTestAutoplay(); });
+
+  // 鼠标悬停时暂停自动播放，方便用户阅读；移开后恢复
+  testCarousel?.addEventListener('mouseenter', stopTestAutoplay);
+  testCarousel?.addEventListener('mouseleave', startTestAutoplay);
+
+  startTestAutoplay();
+
+  // 创始人视频：点击播放按钮真正播放视频（原来只是装饰性按钮）
+  const founderVideo = document.getElementById('founderVideo') as HTMLVideoElement | null;
+  const founderPlayBtn = document.getElementById('founderPlayBtn');
+
+  founderPlayBtn?.addEventListener('click', () => {
+    if (!founderVideo) return;
+    founderVideo.controls = true;
+    founderVideo.play();
+    founderPlayBtn.classList.add('is-hidden');
+  });
+  founderVideo?.addEventListener('ended', () => {
+    founderVideo.controls = false;
+    founderPlayBtn?.classList.remove('is-hidden');
+  });
+</script>

@@ -1,0 +1,99 @@
+import { createClient } from '@sanity/client';
+import imageUrlBuilder from '@sanity/image-url';
+
+export const client = createClient({
+  projectId: import.meta.env.PUBLIC_SANITY_PROJECT_ID || 'f7nom1u6',
+  dataset: import.meta.env.PUBLIC_SANITY_DATASET || 'production',
+  apiVersion: import.meta.env.PUBLIC_SANITY_API_VERSION || '2024-01-01',
+  useCdn: true, // 生产环境用CDN读取，速度更快（对南亚/中东/非洲用户更友好）
+});
+
+const builder = imageUrlBuilder(client);
+export function urlFor(source) {
+  return builder.image(source);
+}
+
+// ---- 查询函数 ----
+
+export async function getAllProducts() {
+  return client.fetch(
+    `*[_type == "product"] | order(order asc) {
+      _id, name, slug, category, coverImage, shortDescription, customizable, specs, featured
+    }`
+  );
+}
+
+export async function getFeaturedProducts() {
+  return client.fetch(
+    `*[_type == "product" && featured == true] | order(order asc) [0...6] {
+      _id, name, slug, category, coverImage, shortDescription, specs, customizable
+    }`
+  );
+}
+
+export async function getProductBySlug(slug) {
+  return client.fetch(
+    `*[_type == "product" && slug.current == $slug][0]{
+      _id, name, category, coverImage, gallery, shortDescription, specs, customizable
+    }`,
+    { slug }
+  );
+}
+
+export async function getAllNews(limit = 100) {
+  return client.fetch(
+    `*[_type == "news"] | order(publishedAt desc) [0...$limit] {
+      _id, title, slug, category, coverImage, publishedAt, summary
+    }`,
+    { limit }
+  );
+}
+
+export async function getLatestNews(count = 3) {
+  return client.fetch(
+    `*[_type == "news"] | order(publishedAt desc) [0...$count] {
+      _id, title, slug, category, coverImage, publishedAt, summary
+    }`,
+    { count }
+  );
+}
+
+export async function getNewsBySlug(slug) {
+  return client.fetch(
+    `*[_type == "news" && slug.current == $slug][0]{
+      _id, title, category, coverImage, publishedAt, summary,
+      "body": body[]{
+        ...,
+        _type == "image" => { "asset": { "url": asset->url } }
+      }
+    }`,
+    { slug }
+  );
+}
+
+export async function getSiteSettings() {
+  return client.fetch(`*[_type == "siteSettings"][0]`);
+}
+
+export async function getHomepage() {
+  return client.fetch(`*[_type == "homepage"][0]{
+    heroSlides[]{ image, eyebrow, heading, description },
+    founderPhoto,
+    founderQuote,
+    founderName,
+    testimonials[]{ quote, author }
+  }`);
+}
+
+export async function getAboutPage() {
+  return client.fetch(`*[_type == "aboutPage"][0]{
+    factoryImage,
+    certificatesImage,
+    workshopPhotos,
+    equipmentPhotos[]{ image, caption }
+  }`);
+}
+
+export async function getPartners() {
+  return client.fetch(`*[_type == "partner"] | order(order asc) { _id, name, logo }`);
+}

@@ -1,0 +1,25 @@
+{
+  "name": "wls-lighting-website",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "seed": "node scripts/seed.js",
+    "sanity:dev": "cd sanity && sanity dev",
+    "sanity:deploy": "cd sanity && sanity deploy"
+  },
+  "dependencies": {
+    "@sanity/client": "^6.22.0",
+    "@sanity/image-url": "^1.1.0",
+    "astro": "^4.16.0",
+    "dotenv": "^16.6.1"
+  },
+  "devDependencies": {
+    "@sanity/vision": "^3.62.0",
+    "sanity": "^3.62.0"
+  }
+}

@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.env
+.env.local
+.DS_Store
+.astro/
+sanity/dist/
+sanity/.sanity/
+public/videos/

@@ -1,0 +1,11 @@
+{
+  "name": "wls-lighting-studio",
+  "private": true,
+  "version": "1.0.0",
+  "type": "commonjs",
+  "dependencies": {
+    "sanity": "^3.62.0",
+    "@sanity/vision": "^3.62.0",
+    "styled-components": "^6.1.15"
+  }
+}

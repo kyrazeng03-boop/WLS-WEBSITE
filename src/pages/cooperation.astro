@@ -1,0 +1,212 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactForm from '../components/ContactForm.astro';
+---
+<Layout title="Cooperation | WLS Lighting" description="Become a WLS Lighting distributor or OEM partner. Regional support, sample assistance and a clear customization process.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Cooperation</span>
+      <h1>Two ways to work with WLS Lighting</h1>
+      <p>Whether you're building a distribution business or need OEM/custom production for your own brand, we structure a partnership around your market.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container coop-grid">
+      <div class="coop-card">
+        <div class="coop-card__top">
+          <span class="coop-card__badge">01</span>
+          <span class="eyebrow">Distributor</span>
+        </div>
+        <h2>Regional distribution</h2>
+        <p>We work with local distributors across India, the Middle East and Africa who understand their market and want a reliable factory-direct supply behind them.</p>
+        <ul class="coop-list">
+          <li>Preferential pricing tiers based on volume</li>
+          <li>Sample support for market testing</li>
+          <li>Marketing materials in English, adaptable for local use</li>
+          <li>Territory-level coordination to avoid channel conflict</li>
+        </ul>
+        <a href="#apply" class="coop-card__cta">Apply as a distributor <span aria-hidden="true">→</span></a>
+      </div>
+      <div class="coop-card">
+        <div class="coop-card__top">
+          <span class="coop-card__badge">02</span>
+          <span class="eyebrow">OEM / Customization</span>
+        </div>
+        <h2>Private label &amp; custom specification</h2>
+        <p>For brands and project contractors who need products built to a specific size, light output or packaging — with your branding.</p>
+        <ol class="coop-steps">
+          <li>Share your specification or reference sample</li>
+          <li>We confirm feasibility and provide a sample quote</li>
+          <li>Sample production and approval</li>
+          <li>Bulk production and shipment</li>
+        </ol>
+        <a href="#apply" class="coop-card__cta">Start a custom project <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section id="apply" class="section section--dark">
+    <div class="container">
+      <span class="eyebrow">Apply</span>
+      <h2 class="section-title">Tell us about your business</h2>
+      <p style="max-width:560px;">Fill in a few details and our overseas team will get back to you within 1 business day with next steps.</p>
+      <div class="coop-form-wrap">
+        <ContactForm formType="cooperation" />
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 64px 0 48px;
+  }
+  .page-hero h1 { font-size: clamp(30px, 4vw, 46px); max-width: 100%; }
+  .page-hero p { max-width: 100%; color: var(--text-muted); }
+
+  .coop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+  }
+  .coop-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 44px 40px 36px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+  .coop-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .coop-card:hover {
+    box-shadow: 0 24px 48px -24px rgba(23,19,28,0.22);
+    transform: translateY(-4px);
+    border-color: transparent;
+  }
+  .coop-card:hover::before { transform: scaleX(1); }
+
+  .coop-card__top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 4px;
+  }
+  .coop-card__top .eyebrow { margin-bottom: 0; }
+  .coop-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--glow-soft);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .coop-card h2 { font-size: 24px; margin-bottom: 14px; }
+  .coop-list, .coop-steps {
+    margin: 20px 0 0;
+    padding-left: 0;
+    list-style: none;
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.6;
+    flex-grow: 1;
+  }
+  .coop-list li, .coop-steps li {
+    position: relative;
+    padding-left: 40px;
+    margin-bottom: 16px;
+  }
+  .coop-list li:last-child, .coop-steps li:last-child { margin-bottom: 0; }
+
+  /* Checkmark icon for the distributor benefits list */
+  .coop-list li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 1px;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--glow-pale);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none'%3E%3Cpath d='M3.5 8.5L6.5 11.5L12.5 4.5' stroke='%23A40082' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+
+  /* Numbered circle steps for the OEM process list */
+  .coop-steps { counter-reset: coop-step; }
+  .coop-steps li { counter-increment: coop-step; }
+  .coop-steps li::before {
+    content: counter(coop-step);
+    position: absolute;
+    left: 0; top: 0;
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1.5px solid var(--glow);
+    color: var(--glow);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+  }
+  .coop-steps li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 11.5px; top: 26px;
+    width: 1px; height: calc(100% - 10px);
+    background: var(--line);
+  }
+
+  .coop-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 28px;
+    padding-top: 22px;
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 15px;
+  }
+  .coop-card__cta span {
+    transition: transform 0.2s ease;
+    color: var(--glow);
+  }
+  .coop-card__cta:hover { color: var(--glow); }
+  .coop-card__cta:hover span { transform: translateX(4px); }
+
+  .section-title { font-size: clamp(24px, 3vw, 32px); }
+  .coop-form-wrap {
+    max-width: 720px;
+    margin-top: 36px;
+    background: var(--ink-soft);
+    padding: 32px;
+    border: 1px solid var(--line-onDark);
+  }
+  .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
+
+  @media (max-width: 860px) {
+    .coop-grid { grid-template-columns: 1fr; }
+  }
+</style>

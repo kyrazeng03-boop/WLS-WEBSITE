@@ -1,0 +1,233 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
+import { getAllProducts } from '../../lib/sanity';
+import { productCategories } from '../../lib/categories';
+
+let products = [];
+try {
+  products = await getAllProducts();
+} catch (e) {
+  products = [];
+}
+
+const categories = [{ value: 'all', label: 'All Products' }, ...productCategories];
+
+const categoryIcons = {
+  outdoor: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 56V34"/><path d="M13 34h9"/><rect x="22" y="23" width="23" height="17" rx="2.5"/><path d="M49 25l7-4M51 31.5h8M49 38l7 4"/></svg>',
+  commercial: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M22 6v12M42 6v12"/><rect x="12" y="18" width="40" height="22" rx="3"/><rect x="19" y="24" width="26" height="10" rx="2"/></svg>',
+  smart: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="26" cy="28" r="12"/><path d="M20 40h12M21.5 44.5h9M23 48.5h6"/><path d="M40 15a15 15 0 0 1 8.5 8.5"/><path d="M43.5 20a9 9 0 0 1 5 5"/><circle cx="47" cy="27" r="1.7" fill="currentColor" stroke="none"/></svg>',
+  furniture: '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20h46"/><path d="M16 20v6M24 20v6M32 20v6M40 20v6M48 20v6"/><path d="M13 33l5 10M25 33l3.5 10M35.5 33l3.5 10M46 33l5 10"/></svg>',
+  'dob-driver': '<svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="18" y="18" width="28" height="28" rx="3"/><path d="M24 18v-7M32 18v-7M40 18v-7M24 46v7M32 46v7M40 46v7M18 24h-7M18 32h-7M18 40h-7M46 24h7M46 32h7M46 40h7"/><circle cx="26" cy="26" r="1.8" fill="currentColor" stroke="none"/></svg>',
+};
+---
+<Layout title="Products | WLS Lighting" description="Browse WLS Lighting's full range of DOB light source panels, drivers and lighting solutions — factory-direct, customizable.">
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Product Range</span>
+      <h1>Products</h1>
+      <p>Every product below can be adapted in size, thickness, light output and packaging to fit your project. Select a category to filter, or contact us with your specification directly.</p>
+      <p class="page-hero__note">Our range spans general lighting — outdoor, commercial, smart and furniture lighting — alongside DOB (Driver-on-Board) light source panels and drivers, all built to the same Build Healthy Lighting standard.</p>
+    </div>
+  </section>
+
+  <!-- Category icon tiles -->
+  <section class="section" style="padding-top:16px; padding-bottom:0;">
+    <div class="container">
+      <div class="cat-photo-grid">
+        {productCategories.map((c) => (
+          <a href={`/products?cat=${c.value}`} class="cat-photo-tile">
+            <span class="cat-photo-tile__icon" set:html={categoryIcons[c.value]} />
+            <span>{c.label}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Manufacturer banner — glowing PCB background -->
+  <section class="mfg-banner">
+    <img src="/images/pcb-banner-bg.jpg" alt="WLS Lighting DOB PCB manufacturing" class="mfg-banner__bg" />
+    <div class="mfg-banner__overlay"></div>
+    <div class="container mfg-banner__content">
+      <h2>Manufacturer Specialized in<br/>DOB Lighting Solutions Since 2013</h2>
+      <div class="mfg-banner__products">
+        {new Array(5).fill(null).map((_, i) => (
+          <div class="mfg-banner__product">
+            <img src="/images/placeholder-product.jpg" alt={`Featured product ${i + 1}`} />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top: 48px;">
+    <div class="container">
+      <div class="filter-bar" id="filterBar">
+        {categories.map((c) => (
+          <button class="filter-btn" data-cat={c.value}>{c.label}</button>
+        ))}
+      </div>
+
+      <div class="glow-divider" style="margin: 28px 0 40px;"></div>
+
+      <div class="grid grid--3" id="productGrid">
+        {products.length > 0 ? (
+          products.map((p) => (
+            <div class="product-item" data-cat={p.category}>
+              <ProductCard product={p} />
+            </div>
+          ))
+        ) : (
+          <p>Products will appear here once added in the CMS. In the meantime, feel free to <a href="/contact" style="color:var(--glow); text-decoration:underline;">contact us</a> directly with your requirements.</p>
+        )}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 64px 0 40px;
+  }
+  .page-hero h1 { font-size: clamp(32px, 4vw, 48px); }
+  .page-hero p { max-width: 100%; color: var(--text-muted); }
+  .page-hero__note { font-size: 14px; color: var(--steel); margin-top: 12px; max-width: 100%; }
+
+  .filter-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 40px;
+  }
+  .filter-btn {
+    font-family: var(--font-body);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 9px 18px;
+    border: 1px solid var(--line);
+    background: #fff;
+    color: var(--text-muted);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .filter-btn:hover { border-color: var(--glow); }
+  .filter-btn.active {
+    background: var(--ink);
+    color: var(--glow);
+    border-color: var(--ink);
+  }
+
+  /* Category icon tiles */
+  .cat-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 16px;
+  }
+  .cat-photo-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 28px 12px;
+    transition: background-color 0.2s ease;
+  }
+  .cat-photo-tile__icon {
+    display: block;
+    width: 64px;
+    height: 64px;
+    color: var(--ink);
+    margin-bottom: 18px;
+    transition: color 0.2s ease;
+  }
+  .cat-photo-tile__icon :global(svg) { width: 100%; height: 100%; }
+  .cat-photo-tile:hover .cat-photo-tile__icon { color: var(--glow); }
+  .cat-photo-tile span:last-child {
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .cat-photo-tile:hover span:last-child { color: var(--glow); }
+
+  /* Manufacturer PCB banner */
+  .mfg-banner {
+    position: relative;
+    margin-top: 56px;
+    min-height: 420px;
+    display: flex;
+    align-items: center;
+    color: #fff;
+    overflow: hidden;
+  }
+  .mfg-banner__bg {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%; object-fit: cover;
+  }
+  .mfg-banner__overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, rgba(164,0,130,0.9) 30%, rgba(164,0,130,0.5) 100%);
+  }
+  .mfg-banner__content { position: relative; z-index: 2; width: 100%; }
+  .mfg-banner__content h2 {
+    font-size: clamp(24px, 3.4vw, 38px);
+    max-width: 760px;
+    margin-bottom: 32px;
+  }
+  .mfg-banner__products {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    max-width: 640px;
+  }
+  .mfg-banner__product {
+    aspect-ratio: 1/1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.2);
+    overflow: hidden;
+  }
+  .mfg-banner__product img { width: 100%; height: 100%; object-fit: cover; }
+
+  @media (max-width: 900px) {
+    .cat-photo-grid { grid-template-columns: repeat(3, 1fr); }
+    .mfg-banner__products { grid-template-columns: repeat(5, 1fr); max-width: 100%; }
+  }
+  @media (max-width: 600px) {
+    .cat-photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+
+<script>
+  const buttons = document.querySelectorAll('.filter-btn');
+  const items = document.querySelectorAll('.product-item');
+
+  function applyFilter(cat: string) {
+    buttons.forEach((b) => b.classList.remove('active'));
+    const match = document.querySelector(`.filter-btn[data-cat="${cat}"]`) || document.querySelector('.filter-btn[data-cat="all"]');
+    match?.classList.add('active');
+    items.forEach((item) => {
+      const el = item as HTMLElement;
+      if (cat === 'all' || el.dataset.cat === cat) {
+        el.style.display = '';
+      } else {
+        el.style.display = 'none';
+      }
+    });
+  }
+
+  // 支持从首页 /products?cat=xxx 跳转过来时自动定位分类
+  const params = new URLSearchParams(window.location.search);
+  const initialCat = params.get('cat') || 'all';
+  applyFilter(initialCat);
+
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const cat = btn.getAttribute('data-cat') || 'all';
+      applyFilter(cat);
+    });
+  });
+</script>

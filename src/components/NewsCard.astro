@@ -1,0 +1,21 @@
+---
+import { urlFor } from '../lib/sanity';
+const { item } = Astro.props;
+const imgUrl = item.coverImage ? urlFor(item.coverImage).width(600).height(400).url() : '/images/placeholder-news.jpg';
+const date = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
+const categoryLabels = {
+  'company': 'Company News',
+  'industry': 'Industry Insights',
+  'case-study': 'Case Study',
+};
+---
+<a href={`/news/${item.slug?.current}`} class="card">
+  <div class="card__image">
+    <img src={imgUrl} alt={item.title} loading="lazy" />
+  </div>
+  <div class="card__body">
+    <span class="card__category">{categoryLabels[item.category] || item.category} · {date}</span>
+    <h3 class="card__title">{item.title}</h3>
+    <p class="card__desc">{item.summary}</p>
+  </div>
+</a>
