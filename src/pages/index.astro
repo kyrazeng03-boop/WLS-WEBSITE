@@ -23,11 +23,11 @@ try {
 }
 
 const stats = [
-  { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries served' },
-  { value: '12', label: 'Samsung SMT Lines' },
-  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '10+', label: 'Years in DOB lighting' },
-  { value: '2', label: 'Factories (China + Egypt)' },
-  { value: '24h', label: 'Inquiry response time' },
+  { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries Served' },
+  { value: '12+', label: 'Samsung SMT Lines' },
+  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '13+', label: 'Years In DOB Lighting' },
+  { value: '2+', label: 'Factories (China + Egypt)' },
+  { value: '24h', label: 'Inquiry Response Time' },
 ];
 
 const categoryTiles = productCategories;
@@ -334,6 +334,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   }
   .stat__label {
     font-size: 13px;
+    font-weight: 700;
     color: var(--text-muted);
     margin-top: 6px;
   }
