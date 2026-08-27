@@ -77,11 +77,7 @@ const testimonialsArePlaceholder = !(homepage?.testimonials && homepage.testimon
 
 // ---- 合作伙伴Logo：Sanity有数据就用，没有就用现成的20个静态图兜底 ----
 const fallbackPartnerNames = [
-  'bps', 'kiwi', 'smilet', 'joulwatt',
-  'bmtc', 'mls', 'lcled', 'sanan',
-  'aishi', 'yunrui', 'dzdz', 'anboom',
-  'jingdaowei', 'youjun', 'rcd', 'cctc',
-  'liz', 'fenghua', 'sigabete', 'hd',
+  'bps', 'kiwi', 'bmtc', 'mls', 'aishi', 'yunrui', 'dzdz',
 ];
 const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   ? partnersFromCMS.map((p) => ({ name: p.name, url: urlFor(p.logo).width(320).height(160).url() }))
@@ -178,11 +174,13 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       <span class="eyebrow">Strategy Partners</span>
       <h2 class="section-title" style="margin-bottom:4px;">Outstanding strategic partners</h2>
       <div class="partners-strip">
-        {partnerLogos.map((p) => (
-          <div class="partner-logo">
-            <img src={p.url} alt={`${p.name} logo`} loading="lazy" />
-          </div>
-        ))}
+        <div class="partners-track">
+          {[...partnerLogos, ...partnerLogos].map((p) => (
+            <div class="partner-logo">
+              <img src={p.url} alt={`${p.name} logo`} loading="lazy" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   </section>
@@ -503,12 +501,27 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
 
   /* Partners */
   .partners-strip {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
+    overflow: hidden;
     margin-top: 24px;
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+  }
+  .partners-track {
+    display: flex;
+    width: max-content;
+    gap: 14px;
+    animation: partners-scroll 28s linear infinite;
+  }
+  .partners-strip:hover .partners-track {
+    animation-play-state: paused;
+  }
+  @keyframes partners-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
   }
   .partner-logo {
+    flex: 0 0 auto;
+    width: 180px;
     aspect-ratio: 2/1;
     background: #fff;
     border: 1px solid var(--line);
@@ -604,7 +617,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
 
   @media (max-width: 860px) {
     .founder-grid { grid-template-columns: 1fr; }
-    .partners-strip { grid-template-columns: repeat(3, 1fr); }
+    .partner-logo { width: 140px; }
     .testimonial-card { padding: 60px 20px 40px; border-radius: 20px; }
     .testimonial-quote-mark { font-size: 80px; top: 8px; left: 20px; }
     .testimonial-arrow { width: 36px; height: 36px; font-size: 16px; }
