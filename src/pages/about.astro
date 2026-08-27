@@ -35,7 +35,6 @@ const manufacturingStats = [
 
 // ---- 图片：Sanity有数据就用，没有就用现成的占位图兜底 ----
 const factoryImageUrl = aboutData?.factoryImage ? urlFor(aboutData.factoryImage).width(1200).height(900).url() : '/images/factory-1.jpg';
-const certificatesImageUrl = aboutData?.certificatesImage ? urlFor(aboutData.certificatesImage).width(1200).height(900).url() : '/images/certificates.jpg';
 
 const fallbackEquipmentCaptions = ['R&amp;D lab', 'Testing equipment', 'Production line', 'Quality inspection'];
 const equipmentPhotos = (aboutData?.equipmentPhotos && aboutData.equipmentPhotos.length > 0)
@@ -133,19 +132,6 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
     </div>
   </section>
 
-  <section class="section">
-    <div class="container about-grid">
-      <div class="about-copy">
-        <span class="eyebrow">Certifications &amp; Trust</span>
-        <h2 class="section-title">Compliant for the markets you sell into</h2>
-        <p>Our products carry the certifications distributors and project buyers ask for during due diligence. Certificate copies are available on request — reach out via the contact page and we'll send the relevant documents for your target market.</p>
-        <a href="/contact" class="btn btn--outline-dark">Request Certificates</a>
-      </div>
-      <div class="about-media">
-        <img src={certificatesImageUrl} alt="WLS Lighting product certifications" />
-      </div>
-    </div>
-  </section>
 </Layout>
 
 <style>
