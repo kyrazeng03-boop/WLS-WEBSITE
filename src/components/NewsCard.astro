@@ -1,6 +1,6 @@
 ---
 import { urlFor } from '../lib/sanity';
-const { item } = Astro.props;
+const { item, horizontal = false } = Astro.props;
 const imgUrl = item.coverImage ? urlFor(item.coverImage).width(600).height(400).url() : '/images/placeholder-news.jpg';
 const date = item.publishedAt ? new Date(item.publishedAt).toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: 'numeric' }) : '';
 const categoryLabels = {
@@ -9,7 +9,7 @@ const categoryLabels = {
   'case-study': 'Case Study',
 };
 ---
-<a href={`/news/${item.slug?.current}`} class="card">
+<a href={`/news/${item.slug?.current}`} class={horizontal ? 'card card--row' : 'card'}>
   <div class="card__image">
     <img src={imgUrl} alt={item.title} loading="lazy" />
   </div>
@@ -19,3 +19,34 @@ const categoryLabels = {
     <p class="card__desc">{item.summary}</p>
   </div>
 </a>
+
+<style>
+  .card--row {
+    display: flex;
+    align-items: stretch;
+  }
+  .card--row .card__image {
+    width: 320px;
+    flex-shrink: 0;
+    aspect-ratio: auto;
+  }
+  .card--row .card__body {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 24px 32px;
+  }
+  .card--row .card__title { font-size: 24px; }
+  .card--row .card__desc {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+
+  @media (max-width: 700px) {
+    .card--row { flex-direction: column; }
+    .card--row .card__image { width: 100%; aspect-ratio: 4/3; }
+  }
+</style>

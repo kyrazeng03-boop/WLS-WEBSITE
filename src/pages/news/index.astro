@@ -21,9 +21,9 @@ try {
 
   <section class="section" style="padding-top: 48px;">
     <div class="container">
-      <div class="grid grid--3">
+      <div class="news-list">
         {news.length > 0 ? (
-          news.map((n) => <NewsCard item={n} />)
+          news.map((n) => <NewsCard item={n} horizontal />)
         ) : (
           <p>Articles will appear here once published in the CMS.</p>
         )}
@@ -40,4 +40,10 @@ try {
   }
   .page-hero h1 { font-size: clamp(32px, 4vw, 48px); }
   .page-hero p { max-width: 100%; color: var(--text-muted); }
+
+  .news-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
 </style>
