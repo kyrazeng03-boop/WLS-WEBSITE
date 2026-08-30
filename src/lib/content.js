@@ -1,12 +1,9 @@
 // 全系列产品详情页统一展示的"公司优势"要点
 // 参考竞品页面结构，文案按WLS实际情况调整
 export const companyAdvantages = [
-  'Competitive pricing for bulk orders',
-  '13+ years of DOB manufacturing &amp; OEM/ODM expertise',
-  'Strict quality control on every production batch',
-  'Available in SKD or fully assembled options',
-  'Fast, reliable shipping to 20+ export markets',
-  'Professional after-sales support',
+  'Customizable — Size, thickness, CCT, voltage',
+  'SKD/CKD Available',
+  '100% inspection on every production batch',
 ];
 
 // 产品详情页FAQ区块，参考行业通用问法。⚠️ 涉及具体商务条款（交期/付款比例）的答案是占位内容，
