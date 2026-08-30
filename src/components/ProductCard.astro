@@ -13,7 +13,7 @@ const topSpecs = (product.specs || []).slice(0, 3);
     <img src={imgUrl} alt={product.name} loading="lazy" />
   </a>
   <div class="pcard__body">
-    <span class="pcard__category">{productCategoryLabels[product.category] || product.category}</span>
+    <span class="pcard__category" data-i18n={`cat.${product.category}`}>{productCategoryLabels[product.category] || product.category}</span>
     <a href={detailUrl}><h3 class="pcard__title">{product.name}</h3></a>
     {product.shortDescription && <p class="pcard__desc">{product.shortDescription}</p>}
 
@@ -26,8 +26,8 @@ const topSpecs = (product.specs || []).slice(0, 3);
     )}
 
     <div class="pcard__actions">
-      <a href={detailUrl} class="btn-mini btn-mini--outline">Details</a>
-      <a href={inquiryUrl} class="btn-mini btn-mini--solid">Inquiry Now</a>
+      <a href={detailUrl} class="btn-mini btn-mini--outline" data-i18n="btn.details">Details</a>
+      <a href={inquiryUrl} class="btn-mini btn-mini--solid" data-i18n="btn.inquiryNow">Inquiry Now</a>
     </div>
   </div>
 </div>

@@ -4,52 +4,52 @@ const { prefillSubject = '', formType = 'inquiry' } = Astro.props;
 <form class="contact-form" id="contactForm" data-form-type={formType}>
   <div class="form-row">
     <label>
-      <span>Name*</span>
+      <span data-i18n="form.name">Name*</span>
       <input type="text" name="name" required />
     </label>
     <label>
-      <span>Company</span>
+      <span data-i18n="form.company">Company</span>
       <input type="text" name="company" />
     </label>
   </div>
   <div class="form-row">
     <label>
-      <span>Country*</span>
+      <span data-i18n="form.country">Country*</span>
       <input type="text" name="country" required />
     </label>
     <label>
-      <span>Email*</span>
+      <span data-i18n="form.email">Email*</span>
       <input type="email" name="email" required />
     </label>
   </div>
   <div class="form-row">
     <label>
-      <span>WhatsApp / Phone</span>
+      <span data-i18n="form.phone">WhatsApp / Phone</span>
       <input type="tel" name="phone" />
     </label>
     <label>
-      <span>Estimated Quantity</span>
-      <input type="text" name="quantity" placeholder="e.g. 500 units" />
+      <span data-i18n="form.quantity">Estimated Quantity</span>
+      <input type="text" name="quantity" placeholder="e.g. 500 units" data-i18n-placeholder="form.quantityPlaceholder" />
     </label>
   </div>
   {formType === 'cooperation' && (
     <div class="form-row">
       <label class="full">
-        <span>Business Type*</span>
+        <span data-i18n="form.businessType">Business Type*</span>
         <select name="businessType" required>
-          <option value="">Select...</option>
-          <option value="distributor">Distributor / Agent</option>
-          <option value="oem">OEM / Customization</option>
-          <option value="project">Project / Bulk Order</option>
+          <option value="" data-i18n="form.selectOption">Select...</option>
+          <option value="distributor" data-i18n="form.distributorAgent">Distributor / Agent</option>
+          <option value="oem" data-i18n="form.oemCustomization">OEM / Customization</option>
+          <option value="project" data-i18n="form.projectBulkOrder">Project / Bulk Order</option>
         </select>
       </label>
     </div>
   )}
   <label class="full">
-    <span>Message*</span>
+    <span data-i18n="form.message">Message*</span>
     <textarea name="message" rows="5" required>{prefillSubject}</textarea>
   </label>
-  <button type="submit" class="btn btn--primary">Send Inquiry</button>
+  <button type="submit" class="btn btn--primary" data-i18n="form.submit">Send Inquiry</button>
   <p class="form-note" id="formNote"></p>
 </form>
 

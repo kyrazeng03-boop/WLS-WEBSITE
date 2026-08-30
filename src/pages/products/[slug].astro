@@ -65,7 +65,7 @@ try {
       </div>
 
       <div class="product-detail__info">
-        <span class="eyebrow">{categoryLabel}</span>
+        <span class="eyebrow" data-i18n={`cat.${product.category}`}>{categoryLabel}</span>
         <h1>{product.name}</h1>
         <p>{product.shortDescription}</p>
 
@@ -76,14 +76,14 @@ try {
         </ul>
 
         <nav class="jump-nav">
-          <a href="#specs">Tech Specs</a>
-          <a href="#advantages">Why WLS</a>
-          <a href="#faq">FAQs</a>
+          <a href="#specs" data-i18n="products.jumpnav.specs">Tech Specs</a>
+          <a href="#advantages" data-i18n="products.jumpnav.why">Why WLS</a>
+          <a href="#faq" data-i18n="products.jumpnav.faq">FAQs</a>
         </nav>
 
         {product.specs && product.specs.length > 0 && (
           <>
-            <h3 class="specs-heading">Specifications</h3>
+            <h3 class="specs-heading" data-i18n="products.specsHeading">Specifications</h3>
             <div class="specs-grid" id="specs">
               {product.specs.map((s) => (
                 <div class={`spec-card ${s.value && s.value.includes(' / ') ? 'spec-card--wide' : ''}`}>
@@ -96,8 +96,8 @@ try {
         )}
 
         <div class="product-detail__actions">
-          <button type="button" class="btn btn--primary js-inquiry-btn" data-product={product.name}>Inquiry Now</button>
-          <a href="https://wa.me/8615807600815" target="_blank" rel="noopener" class="btn btn--outline-dark">Chat on WhatsApp</a>
+          <button type="button" class="btn btn--primary js-inquiry-btn" data-product={product.name} data-i18n="btn.inquiryNow">Inquiry Now</button>
+          <a href="https://wa.me/8615807600815" target="_blank" rel="noopener" class="btn btn--outline-dark" data-i18n="btn.chatWhatsApp">Chat on WhatsApp</a>
         </div>
       </div>
     </div>
@@ -107,7 +107,7 @@ try {
   {relatedProducts.length > 0 && (
     <section class="section" style="padding-top:0;">
       <div class="container">
-        <span class="eyebrow">Product Recommendation</span>
+        <span class="eyebrow" data-i18n="products.recommendation.eyebrow">Product Recommendation</span>
         <h2 class="section-title" style="margin-bottom:32px;">More from the {categoryLabel} series</h2>
         <div class="grid grid--3">
           {relatedProducts.map((p) => (
@@ -121,8 +121,8 @@ try {
   <!-- FAQ -->
   <section class="section faq-section" id="faq" style="padding-top:0;">
     <div class="container">
-      <span class="eyebrow">Frequently Asked</span>
-      <h2 class="section-title">Common questions from our partners</h2>
+      <span class="eyebrow" data-i18n="products.faq.eyebrow">Frequently Asked</span>
+      <h2 class="section-title" data-i18n="products.faq.title">Common questions from our partners</h2>
       <div class="faq-list">
         {productFAQs.map((item, i) => (
           <details class="faq-item">

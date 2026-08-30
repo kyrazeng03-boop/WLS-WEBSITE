@@ -24,8 +24,8 @@ const categoryIcons = {
 <Layout title="Products | WLS Lighting" description="Browse WLS Lighting's full range of DOB light source panels, drivers and lighting solutions — factory-direct, customizable.">
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Product Range</span>
-      <h1>Products</h1>
+      <span class="eyebrow" data-i18n="products.hero.eyebrow">Product Range</span>
+      <h1 data-i18n="products.hero.title">Products</h1>
       <p>Every product below can be adapted in size, thickness, light output and packaging to fit your project. Select a category to filter, or contact us with your specification directly.</p>
       <p class="page-hero__note">Our range spans general lighting — outdoor, commercial, smart and furniture lighting — alongside DOB (Driver-on-Board) light source panels and drivers, all built to the same Build Healthy Lighting standard.</p>
     </div>
@@ -38,7 +38,7 @@ const categoryIcons = {
         {productCategories.map((c) => (
           <a href={`/products?cat=${c.value}`} class="cat-photo-tile">
             <span class="cat-photo-tile__icon" set:html={categoryIcons[c.value]} />
-            <span>{c.label}</span>
+            <span data-i18n={`cat.${c.value}`}>{c.label}</span>
           </a>
         ))}
       </div>
@@ -50,7 +50,7 @@ const categoryIcons = {
     <img src="/images/pcb-banner-bg.jpg" alt="WLS Lighting DOB PCB manufacturing" class="mfg-banner__bg" />
     <div class="mfg-banner__overlay"></div>
     <div class="container mfg-banner__content">
-      <h2>Manufacturer Specialized in<br/>DOB Lighting Solutions Since 2013</h2>
+      <h2 data-i18n="products.mfgBanner.title">Manufacturer Specialized in<br/>DOB Lighting Solutions Since 2013</h2>
       <div class="mfg-banner__products">
         {new Array(5).fill(null).map((_, i) => (
           <div class="mfg-banner__product">
@@ -65,7 +65,7 @@ const categoryIcons = {
     <div class="container">
       <div class="filter-bar" id="filterBar">
         {categories.map((c) => (
-          <button class="filter-btn" data-cat={c.value}>{c.label}</button>
+          <button class="filter-btn" data-cat={c.value} data-i18n={c.value === 'all' ? 'btn.allProducts' : `cat.${c.value}`}>{c.label}</button>
         ))}
       </div>
 

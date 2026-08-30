@@ -4,24 +4,24 @@
 <div class="quick-inquiry-overlay" id="quickInquiryOverlay">
   <div class="quick-inquiry-modal">
     <button class="quick-inquiry-close" id="quickInquiryClose" aria-label="Close">&times;</button>
-    <span class="eyebrow">Quick Inquiry</span>
-    <h3 id="quickInquiryTitle">Inquire About This Product</h3>
+    <span class="eyebrow" data-i18n="modal.eyebrow">Quick Inquiry</span>
+    <h3 id="quickInquiryTitle" data-i18n="modal.defaultTitle">Inquire About This Product</h3>
     <form id="quickInquiryForm">
       <input type="hidden" name="product" id="quickInquiryProduct" />
       <div class="qi-row">
-        <label><span>Name*</span><input type="text" name="name" required /></label>
-        <label><span>Company</span><input type="text" name="company" /></label>
+        <label><span data-i18n="form.name">Name*</span><input type="text" name="name" required /></label>
+        <label><span data-i18n="form.company">Company</span><input type="text" name="company" /></label>
       </div>
       <div class="qi-row">
-        <label><span>Country*</span><input type="text" name="country" required /></label>
-        <label><span>Email*</span><input type="email" name="email" required /></label>
+        <label><span data-i18n="form.country">Country*</span><input type="text" name="country" required /></label>
+        <label><span data-i18n="form.email">Email*</span><input type="email" name="email" required /></label>
       </div>
       <div class="qi-row">
-        <label><span>WhatsApp / Phone</span><input type="tel" name="phone" /></label>
-        <label><span>Estimated Quantity</span><input type="text" name="quantity" placeholder="e.g. 500 units" /></label>
+        <label><span data-i18n="form.phone">WhatsApp / Phone</span><input type="tel" name="phone" /></label>
+        <label><span data-i18n="form.quantity">Estimated Quantity</span><input type="text" name="quantity" placeholder="e.g. 500 units" data-i18n-placeholder="form.quantityPlaceholder" /></label>
       </div>
-      <label class="full"><span>Message</span><textarea name="message" rows="3" id="quickInquiryMessage"></textarea></label>
-      <button type="submit" class="btn btn--primary">Send Inquiry</button>
+      <label class="full"><span data-i18n="form.message">Message</span><textarea name="message" rows="3" id="quickInquiryMessage"></textarea></label>
+      <button type="submit" class="btn btn--primary" data-i18n="form.submit">Send Inquiry</button>
       <p class="qi-note" id="quickInquiryNote"></p>
     </form>
   </div>

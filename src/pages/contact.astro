@@ -36,8 +36,8 @@ const offices = [
 <Layout title="Contact Us | WLS Lighting" description="Get in touch with WLS Lighting for pricing, samples or partnership inquiries. WhatsApp, email and factory address included.">
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">Contact Us</span>
-      <h1>Let's talk about your project</h1>
+      <span class="eyebrow" data-i18n="contact.hero.eyebrow">Contact Us</span>
+      <h1 data-i18n="contact.hero.title">Let's talk about your project</h1>
       <p>Send us your requirements and our overseas sales team will respond within 1 business day. For faster replies, message us directly on WhatsApp.</p>
     </div>
   </section>
@@ -45,8 +45,8 @@ const offices = [
   <section class="section contact-form-section">
     <div class="container contact-form-inner">
       <div class="contact-form-intro">
-        <span class="eyebrow">Get in Touch</span>
-        <h2 class="section-title">Tell us what you're looking for</h2>
+        <span class="eyebrow" data-i18n="contact.form.eyebrow">Get in Touch</span>
+        <h2 class="section-title" data-i18n="contact.form.title">Tell us what you're looking for</h2>
         <p>Include your target specs, order quantity and destination country — the more detail you share, the faster we can send accurate pricing and samples.</p>
       </div>
       <div class="contact-form-wrap">
@@ -58,48 +58,48 @@ const offices = [
   <!-- Office locations: contact details + map paired together per office -->
   <section class="section offices-section">
     <div class="container">
-      <span class="eyebrow">Our Offices</span>
-      <h2 class="section-title" style="margin-bottom:32px;">Two locations, one standard</h2>
+      <span class="eyebrow" data-i18n="contact.offices.eyebrow">Our Offices</span>
+      <h2 class="section-title" style="margin-bottom:32px;" data-i18n="contact.offices.title">Two locations, one standard</h2>
 
       <div class="office-row">
         <div class="contact-panel">
-          <span class="eyebrow" style="color: rgba(255,255,255,0.75);">China Factory</span>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.75);" data-i18n="contact.office.china">China Factory</span>
           <div class="info-block">
             <span class="info-icon">💬</span>
             <div>
-              <span class="info-label">WhatsApp (Recommended)</span>
+              <span class="info-label" data-i18n="contact.label.whatsappRecommended">WhatsApp (Recommended)</span>
               <a href={`https://wa.me/${phone.replace(/[^0-9]/g,'')}`} target="_blank" rel="noopener" class="info-value">{phone}</a>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">✉</span>
             <div>
-              <span class="info-label">Email</span>
+              <span class="info-label" data-i18n="contact.label.email">Email</span>
               <a href={`mailto:${email}`} class="info-value">{email}</a>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">🕐</span>
             <div>
-              <span class="info-label">Working Hours</span>
+              <span class="info-label" data-i18n="contact.label.workingHours">Working Hours</span>
               <p class="info-value">{workingHours}</p>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">📍</span>
             <div>
-              <span class="info-label">Factory Address</span>
+              <span class="info-label" data-i18n="contact.label.factoryAddress">Factory Address</span>
               <p class="info-value">{address}</p>
             </div>
           </div>
           <div class="qr-row">
             <div class="qr-box qr-box--filled">
               <img src="/images/qr/wechat-china.png" alt="WeChat QR code" />
-              <span class="qr-box__label">WeChat</span>
+              <span class="qr-box__label" data-i18n="contact.qr.wechat">WeChat</span>
             </div>
             <div class="qr-box qr-box--filled">
               <img src="/images/qr/whatsapp-china.png" alt="WhatsApp QR code" />
-              <span class="qr-box__label">WhatsApp</span>
+              <span class="qr-box__label" data-i18n="contact.qr.whatsapp">WhatsApp</span>
             </div>
           </div>
         </div>
@@ -115,43 +115,43 @@ const offices = [
 
       <div class="office-row">
         <div class="contact-panel">
-          <span class="eyebrow" style="color: rgba(255,255,255,0.75);">Egypt Factory</span>
+          <span class="eyebrow" style="color: rgba(255,255,255,0.75);" data-i18n="contact.office.egypt">Egypt Factory</span>
           <div class="info-block">
             <span class="info-icon">💬</span>
             <div>
-              <span class="info-label">WhatsApp / WeChat</span>
+              <span class="info-label" data-i18n="contact.label.whatsappWechat">WhatsApp / WeChat</span>
               <a href={`https://wa.me/${egyptPhone.replace(/[^0-9]/g,'')}`} target="_blank" rel="noopener" class="info-value">{egyptPhone}</a>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">✉</span>
             <div>
-              <span class="info-label">Email</span>
+              <span class="info-label" data-i18n="contact.label.email">Email</span>
               <a href={`mailto:${egyptEmail}`} class="info-value">{egyptEmail}</a>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">🕐</span>
             <div>
-              <span class="info-label">Working Hours</span>
+              <span class="info-label" data-i18n="contact.label.workingHours">Working Hours</span>
               <p class="info-value">{workingHours}</p>
             </div>
           </div>
           <div class="info-block">
             <span class="info-icon">📍</span>
             <div>
-              <span class="info-label">Factory Address</span>
+              <span class="info-label" data-i18n="contact.label.factoryAddress">Factory Address</span>
               <p class="info-value">{offices[1].address}</p>
             </div>
           </div>
           <div class="qr-row">
             <div class="qr-box">
-              <span class="qr-box__label">WeChat</span>
-              <span class="qr-box__hint">QR coming soon</span>
+              <span class="qr-box__label" data-i18n="contact.qr.wechat">WeChat</span>
+              <span class="qr-box__hint" data-i18n="contact.qr.comingSoon">QR coming soon</span>
             </div>
             <div class="qr-box">
-              <span class="qr-box__label">WhatsApp</span>
-              <span class="qr-box__hint">QR coming soon</span>
+              <span class="qr-box__label" data-i18n="contact.qr.whatsapp">WhatsApp</span>
+              <span class="qr-box__hint" data-i18n="contact.qr.comingSoon">QR coming soon</span>
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
 ---
 const leftNavItems = [
-  { label: 'Home', href: '/' },
-  { label: 'Products', href: '/products' },
-  { label: 'About Us', href: '/about' },
+  { label: 'Home', href: '/', i18n: 'nav.home' },
+  { label: 'Products', href: '/products', i18n: 'nav.products' },
+  { label: 'About Us', href: '/about', i18n: 'nav.about' },
 ];
 const rightNavItems = [
-  { label: 'News', href: '/news' },
-  { label: 'Cooperation', href: '/cooperation' },
+  { label: 'News', href: '/news', i18n: 'nav.news' },
+  { label: 'Cooperation', href: '/cooperation', i18n: 'nav.cooperation' },
 ];
 const allNavItems = [...leftNavItems, ...rightNavItems];
 const currentPath = Astro.url.pathname;
@@ -35,7 +35,7 @@ const socialLinks = [
       </div>
       <nav class="site-header__nav">
         {leftNavItems.map((item) => (
-          <a href={item.href} class={isActive(item.href) ? 'active' : ''}>{item.label}</a>
+          <a href={item.href} class={isActive(item.href) ? 'active' : ''} data-i18n={item.i18n}>{item.label}</a>
         ))}
       </nav>
     </div>
@@ -47,10 +47,14 @@ const socialLinks = [
     <div class="site-header__side site-header__side--right">
       <nav class="site-header__nav">
         {rightNavItems.map((item) => (
-          <a href={item.href} class={isActive(item.href) ? 'active' : ''}>{item.label}</a>
+          <a href={item.href} class={isActive(item.href) ? 'active' : ''} data-i18n={item.i18n}>{item.label}</a>
         ))}
       </nav>
-      <a href="/contact" class="btn btn--primary site-header__cta">Get a Quote</a>
+      <div class="lang-switch" role="group" aria-label="Language">
+        <button type="button" class="lang-switch__btn" data-lang-btn="en">EN</button>
+        <button type="button" class="lang-switch__btn" data-lang-btn="zh">中文</button>
+      </div>
+      <a href="/contact" class="btn btn--primary site-header__cta" data-i18n="nav.cta">Get a Quote</a>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
@@ -60,9 +64,13 @@ const socialLinks = [
 
   <nav class="site-header__mobile-nav" id="siteNavMobile">
     {allNavItems.map((item) => (
-      <a href={item.href} class={isActive(item.href) ? 'active' : ''}>{item.label}</a>
+      <a href={item.href} class={isActive(item.href) ? 'active' : ''} data-i18n={item.i18n}>{item.label}</a>
     ))}
-    <a href="/contact" class="btn btn--primary">Get a Quote</a>
+    <div class="lang-switch lang-switch--mobile" role="group" aria-label="Language">
+      <button type="button" class="lang-switch__btn" data-lang-btn="en">EN</button>
+      <button type="button" class="lang-switch__btn" data-lang-btn="zh">中文</button>
+    </div>
+    <a href="/contact" class="btn btn--primary" data-i18n="nav.cta">Get a Quote</a>
   </nav>
 </header>
 
@@ -152,6 +160,34 @@ const socialLinks = [
   .site-header__cta:hover {
     background: rgba(255,255,255,0.9);
   }
+
+  .lang-switch {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 999px;
+    padding: 3px;
+    flex-shrink: 0;
+  }
+  .lang-switch__btn {
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.65);
+    background: transparent;
+    border: none;
+    border-radius: 999px;
+    padding: 5px 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .lang-switch__btn:hover { color: #fff; }
+  .lang-switch__btn.is-active {
+    background: #fff;
+    color: var(--glow);
+  }
+  .lang-switch--mobile { align-self: flex-start; }
 
   .nav-toggle {
     display: none;

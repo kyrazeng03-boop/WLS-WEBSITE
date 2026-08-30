@@ -23,11 +23,11 @@ try {
 }
 
 const stats = [
-  { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries Served' },
-  { value: '12+', label: 'Samsung SMT Lines' },
-  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '13+', label: 'Years In DOB Lighting' },
-  { value: '2+', label: 'Factories (China + Egypt)' },
-  { value: '24h', label: 'Inquiry Response Time' },
+  { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries Served', i18n: 'home.stat.countries' },
+  { value: '12+', label: 'Samsung SMT Lines', i18n: 'home.stat.smtLines' },
+  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '13+', label: 'Years In DOB Lighting', i18n: 'home.stat.years' },
+  { value: '2+', label: 'Factories (China + Egypt)', i18n: 'home.stat.factories' },
+  { value: '24h', label: 'Inquiry Response Time', i18n: 'home.stat.response' },
 ];
 
 const categoryTiles = productCategories;
@@ -102,8 +102,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       <h1 id="heroHeading" set:html={heroSlides[0]?.heading}></h1>
       <p class="hero__desc" id="heroDesc">{heroSlides[0]?.description}</p>
       <div class="hero__actions">
-        <a href="/contact" class="btn btn--primary">Get a Quote</a>
-        <a href="/products" class="btn btn--outline">View Products</a>
+        <a href="/contact" class="btn btn--primary" data-i18n="nav.cta">Get a Quote</a>
+        <a href="/products" class="btn btn--outline" data-i18n="btn.viewProducts">View Products</a>
       </div>
     </div>
   </section>
@@ -115,7 +115,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       {stats.map((s) => (
         <div class="stat">
           <div class="stat__value">{s.value}</div>
-          <div class="stat__label">{s.label}</div>
+          <div class="stat__label" data-i18n={s.i18n}>{s.label}</div>
         </div>
       ))}
     </div>
@@ -137,8 +137,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
         <button class="founder-play" id="founderPlayBtn" aria-label="Play company introduction video">▶</button>
       </div>
       <div class="founder-copy">
-        <span class="eyebrow">Our Story</span>
-        <h2 class="section-title">Built on a simple belief</h2>
+        <span class="eyebrow" data-i18n="home.story.eyebrow">Our Story</span>
+        <h2 class="section-title" data-i18n="home.story.title">Built on a simple belief</h2>
         <p class="founder-quote">{founderQuote}</p>
         <p class="founder-name">
           — {founderName}
@@ -153,10 +153,10 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
     <div class="container">
       <div class="section-header">
         <div>
-          <span class="eyebrow">Recommended</span>
-          <h2 class="section-title">Products we recommend for your market</h2>
+          <span class="eyebrow" data-i18n="home.products.eyebrow">Recommended</span>
+          <h2 class="section-title" data-i18n="home.products.title">Products we recommend for your market</h2>
         </div>
-        <a href="/products" class="btn btn--outline-dark">All Products</a>
+        <a href="/products" class="btn btn--outline-dark" data-i18n="btn.allProducts">All Products</a>
       </div>
       <div class="grid grid--3">
         {featuredProducts.length > 0 ? (
@@ -171,8 +171,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   <!-- Strategy Partners -->
   <section class="section partners-section">
     <div class="container">
-      <span class="eyebrow">Strategy Partners</span>
-      <h2 class="section-title" style="margin-bottom:4px;">Outstanding strategic partners</h2>
+      <span class="eyebrow" data-i18n="home.partners.eyebrow">Strategy Partners</span>
+      <h2 class="section-title" style="margin-bottom:4px;" data-i18n="home.partners.title">Outstanding strategic partners</h2>
       <div class="partners-strip">
         <div class="partners-track">
           {[...partnerLogos, ...partnerLogos].map((p) => (
@@ -189,8 +189,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   <section class="section testimonials-section">
     <div class="container">
       <div class="testimonials-header">
-        <span class="eyebrow">Client Feedback</span>
-        <h2 class="section-title testimonials-title">What our distributors say</h2>
+        <span class="eyebrow" data-i18n="home.testimonials.eyebrow">Client Feedback</span>
+        <h2 class="section-title testimonials-title" data-i18n="home.testimonials.title">What our distributors say</h2>
       </div>
       <div class="testimonial-carousel" id="testimonialCarousel">
         <button class="testimonial-arrow testimonial-arrow--prev" id="testPrev" aria-label="Previous testimonial">‹</button>
@@ -217,11 +217,11 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   <section class="section coop-cta">
     <div class="container coop-cta__inner">
       <div>
-        <span class="eyebrow">Partner with us</span>
-        <h2 class="section-title">Looking for a distributor or OEM partner?</h2>
+        <span class="eyebrow" data-i18n="home.coop.eyebrow">Partner with us</span>
+        <h2 class="section-title" data-i18n="home.coop.title">Looking for a distributor or OEM partner?</h2>
         <p>We work with regional distributors and project contractors across India, the Middle East and Africa. Get pricing support, samples and territory guidance.</p>
       </div>
-      <a href="/cooperation" class="btn btn--primary">Explore Cooperation</a>
+      <a href="/cooperation" class="btn btn--primary" data-i18n="btn.exploreCooperation">Explore Cooperation</a>
     </div>
   </section>
 
@@ -230,10 +230,10 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
     <div class="container">
       <div class="section-header">
         <div>
-          <span class="eyebrow">Latest News</span>
-          <h2 class="section-title">Stay updated with our latest news</h2>
+          <span class="eyebrow" data-i18n="home.news.eyebrow">Latest News</span>
+          <h2 class="section-title" data-i18n="home.news.title">Stay updated with our latest news</h2>
         </div>
-        <a href="/news" class="btn btn--outline-dark">All News</a>
+        <a href="/news" class="btn btn--outline-dark" data-i18n="btn.allNews">All News</a>
       </div>
       <div class="grid grid--3">
         {latestNews.length > 0 ? (

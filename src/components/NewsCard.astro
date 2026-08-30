@@ -14,7 +14,7 @@ const categoryLabels = {
     <img src={imgUrl} alt={item.title} loading="lazy" />
   </div>
   <div class="card__body">
-    <span class="card__category">{categoryLabels[item.category] || item.category} · {date}</span>
+    <span class="card__category"><span data-i18n={`newsCat.${item.category}`}>{categoryLabels[item.category] || item.category}</span> · {date}</span>
     <h3 class="card__title">{item.title}</h3>
     <p class="card__desc">{item.summary}</p>
   </div>

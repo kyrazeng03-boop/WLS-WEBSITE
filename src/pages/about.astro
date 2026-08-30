@@ -48,8 +48,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
 <Layout title="About Us | WLS Lighting" description="WLS Lighting builds healthy, reliable lighting — DOB light source panels manufactured in Zhongshan and Egypt for 20+ export markets.">
   <section class="page-hero">
     <div class="container">
-      <span class="eyebrow">About Us</span>
-      <h1>An innovator in DOB manufacturing, built on a healthy-lighting standard.</h1>
+      <span class="eyebrow" data-i18n="about.hero.eyebrow">About Us</span>
+      <h1 data-i18n="about.hero.title">An innovator in DOB manufacturing, built on a healthy-lighting standard.</h1>
       <p>WLS Lighting is a light source panel and DOB (Driver-on-Board) lighting solution supplier headquartered in Zhongshan, Guangdong, China, with an additional factory in Egypt serving the Middle East and African markets directly.</p>
     </div>
   </section>
@@ -60,8 +60,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
         <img src={factoryImageUrl} alt="WLS Lighting factory production line" />
       </div>
       <div class="about-copy">
-        <span class="eyebrow">Manufacturing Strength</span>
-        <h2 class="section-title">Two factories, one quality standard</h2>
+        <span class="eyebrow" data-i18n="about.strength.eyebrow">Manufacturing Strength</span>
+        <h2 class="section-title" data-i18n="about.strength.title">Two factories, one quality standard</h2>
         <p>Our Zhongshan headquarters runs full production lines for light source panels and DOB drivers, from raw materials through to finished, tested product. Our Egypt facility extends that same standard closer to Middle Eastern and African customers, shortening lead times and simplifying logistics.</p>
         <p>Every batch goes through structured quality checks before it leaves the factory — because for our distributors and project partners, consistency across container loads matters as much as the spec sheet.</p>
       </div>
@@ -70,8 +70,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
 
   <section class="section section--dark">
     <div class="container">
-      <span class="eyebrow">Company Milestones</span>
-      <h2 class="section-title">A decade of building export relationships</h2>
+      <span class="eyebrow" data-i18n="about.milestones.eyebrow">Company Milestones</span>
+      <h2 class="section-title" data-i18n="about.milestones.title">A decade of building export relationships</h2>
       <div class="milestones">
         {milestones.map((m) => (
           <div class="milestone">
@@ -87,8 +87,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
   <!-- Manufacturing Center stats — ⚠️ 占位数字，等待真实数据替换 -->
   <section class="section mfg-center">
     <div class="container">
-      <span class="eyebrow">By The Numbers</span>
-      <h2 class="section-title">Manufacturing Center</h2>
+      <span class="eyebrow" data-i18n="about.mfg.eyebrow">By The Numbers</span>
+      <h2 class="section-title" data-i18n="about.mfg.title">Manufacturing Center</h2>
       <p class="mfg-note">⚠ Placeholder figures — replace with real company data</p>
       <div class="grid grid--3 mfg-grid">
         {manufacturingStats.map((s) => (
@@ -104,8 +104,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
   <!-- R&D / Testing equipment photos -->
   <section class="section" style="padding-top:0;">
     <div class="container">
-      <span class="eyebrow">R&amp;D &amp; Testing</span>
-      <h2 class="section-title" style="margin-bottom:32px;">Die-casting, machining &amp; quality testing</h2>
+      <span class="eyebrow" data-i18n="about.rd.eyebrow">R&amp;D &amp; Testing</span>
+      <h2 class="section-title" style="margin-bottom:32px;" data-i18n="about.rd.title">Die-casting, machining &amp; quality testing</h2>
       <div class="grid grid--4">
         {equipmentPhotos.map((p) => (
           <div class="photo-tile">
@@ -120,8 +120,8 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
   <!-- Workshop photo wall -->
   <section class="section" style="padding-top:0;">
     <div class="container">
-      <span class="eyebrow">Inside WLS</span>
-      <h2 class="section-title" style="margin-bottom:32px;">Workshop Glance</h2>
+      <span class="eyebrow" data-i18n="about.workshop.eyebrow">Inside WLS</span>
+      <h2 class="section-title" style="margin-bottom:32px;" data-i18n="about.workshop.title">Workshop Glance</h2>
       <div class="grid grid--3">
         {workshopPhotoUrls.map((url, i) => (
           <div class="photo-tile">
