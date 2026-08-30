@@ -6,4 +6,7 @@ dist/
 .astro/
 sanity/dist/
 sanity/.sanity/
-public/videos/
+
+# 批量导入产品文字/规格用的实际数据文件（内容经常变，不需要进代码仓库）
+# 只有模板文件 import-data/products-template.xlsx 会被提交，方便以后随时复用
+import-data/products.xlsx
