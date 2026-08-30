@@ -5,8 +5,6 @@ const { product } = Astro.props;
 const imgUrl = product.coverImage ? urlFor(product.coverImage).width(600).height(450).url() : '/images/placeholder-product.jpg';
 const detailUrl = `/products/${product.slug?.current}`;
 const inquiryUrl = `/contact?product=${encodeURIComponent(product.name)}`;
-// 卡片上最多展示3条参数要点，让采购商不用点进详情页就能判断是否符合需求
-const topSpecs = (product.specs || []).slice(0, 3);
 ---
 <div class="pcard">
   <a href={detailUrl} class="pcard__image">
@@ -16,14 +14,6 @@ const topSpecs = (product.specs || []).slice(0, 3);
     <span class="pcard__category" data-i18n={`cat.${product.category}`}>{productCategoryLabels[product.category] || product.category}</span>
     <a href={detailUrl}><h3 class="pcard__title">{product.name}</h3></a>
     {product.shortDescription && <p class="pcard__desc">{product.shortDescription}</p>}
-
-    {topSpecs.length > 0 && (
-      <ul class="pcard__specs">
-        {topSpecs.map((s) => (
-          <li><span class="pcard__spec-label">{s.label}</span><span class="pcard__spec-value">{s.value}</span></li>
-        ))}
-      </ul>
-    )}
 
     <div class="pcard__actions">
       <a href={detailUrl} class="btn-mini btn-mini--outline" data-i18n="btn.details">Details</a>
@@ -80,22 +70,6 @@ const topSpecs = (product.specs || []).slice(0, 3);
     margin: 0 0 12px;
     color: var(--text-muted);
   }
-  .pcard__specs {
-    list-style: none;
-    margin: 0 0 16px;
-    padding: 10px 0 0;
-    border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 12px;
-  }
-  .pcard__specs li {
-    display: flex;
-    justify-content: space-between;
-    padding: 3px 0;
-    color: var(--text-muted);
-  }
-  .pcard__spec-value { color: var(--ink); font-weight: 500; }
-
   .pcard__actions {
     margin-top: auto;
     display: flex;
