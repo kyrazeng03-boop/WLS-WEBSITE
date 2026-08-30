@@ -102,7 +102,7 @@ export const translations = {
 
   // ---- Products listing / detail ----
   'products.hero.eyebrow': { en: 'Product Range', zh: '产品系列' },
-  'products.hero.title': { en: 'Our Collections', zh: '臻选系列' },
+  'products.hero.title': { en: 'Our <span class="page-hero__highlight">Collections</span>', zh: '臻选<span class="page-hero__highlight">系列</span>' },
   'products.jumpnav.specs': { en: 'Tech Specs', zh: '技术参数' },
   'products.jumpnav.why': { en: 'Why WLS', zh: '为什么选择威林胜' },
   'products.jumpnav.faq': { en: 'FAQs', zh: '常见问题' },

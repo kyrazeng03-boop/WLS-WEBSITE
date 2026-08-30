@@ -25,10 +25,9 @@ const categoryIcons = {
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-i18n="products.hero.eyebrow">Product Range</span>
-      <h1 data-i18n="products.hero.title">Our Collections</h1>
+      <h1 data-i18n="products.hero.title">Our <span class="page-hero__highlight">Collections</span></h1>
       <p>Explore our comprehensive range of LED lighting solutions designed for residential, commercial, and industrial applications.</p>
     </div>
-    <div class="glow-divider page-hero__divider"></div>
   </section>
 
   <!-- Category icon tiles -->
@@ -77,8 +76,10 @@ const categoryIcons = {
     color: var(--ink);
     padding: 72px 0 52px;
     overflow: hidden;
-    background-image: radial-gradient(circle at 1px 1px, rgba(23,19,28,0.1) 1px, transparent 0);
-    background-size: 28px 28px;
+    background-image:
+      linear-gradient(to bottom, transparent 0%, transparent 78%, var(--paper) 100%),
+      radial-gradient(circle at 1px 1px, rgba(23,19,28,0.1) 1px, transparent 0);
+    background-size: 100% 100%, 28px 28px;
   }
   .page-hero::before {
     content: '';
@@ -104,10 +105,26 @@ const categoryIcons = {
   }
   .page-hero .container { position: relative; z-index: 1; }
   .page-hero h1 { font-size: clamp(32px, 4vw, 48px); }
-  .page-hero p { max-width: 640px; color: var(--text-muted); }
-  .page-hero__divider {
+  .page-hero p { max-width: none; color: var(--text-muted); white-space: nowrap; }
+  .page-hero__highlight {
+    position: relative;
+    display: inline-block;
+    color: var(--glow);
+    transition: color 0.25s ease;
+    cursor: default;
+  }
+  .page-hero__highlight::after {
+    content: '';
     position: absolute;
-    bottom: 0; left: 0; right: 0;
+    left: 0; right: 100%; bottom: -2px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
+    transition: right 0.3s ease;
+  }
+  .page-hero__highlight:hover { color: var(--glow-deep); }
+  .page-hero__highlight:hover::after { right: 0; }
+  @media (max-width: 700px) {
+    .page-hero p { white-space: normal; }
   }
 
   .filter-bar {
