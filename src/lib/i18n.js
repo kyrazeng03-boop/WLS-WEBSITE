@@ -102,8 +102,7 @@ export const translations = {
 
   // ---- Products listing / detail ----
   'products.hero.eyebrow': { en: 'Product Range', zh: '产品系列' },
-  'products.hero.title': { en: 'Products', zh: '产品中心' },
-  'products.mfgBanner.title': { en: 'Manufacturer Specialized in<br/>DOB Lighting Solutions Since 2013', zh: '专注DOB照明解决方案制造商<br/>始于2013年' },
+  'products.hero.title': { en: 'Our Collections', zh: '臻选系列' },
   'products.jumpnav.specs': { en: 'Tech Specs', zh: '技术参数' },
   'products.jumpnav.why': { en: 'Why WLS', zh: '为什么选择威林胜' },
   'products.jumpnav.faq': { en: 'FAQs', zh: '常见问题' },

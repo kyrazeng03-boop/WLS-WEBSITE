@@ -25,10 +25,10 @@ const categoryIcons = {
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-i18n="products.hero.eyebrow">Product Range</span>
-      <h1 data-i18n="products.hero.title">Products</h1>
-      <p>Every product below can be adapted in size, thickness, light output and packaging to fit your project. Select a category to filter, or contact us with your specification directly.</p>
-      <p class="page-hero__note">Our range spans general lighting — outdoor, commercial, smart and furniture lighting — alongside DOB (Driver-on-Board) light source panels and drivers, all built to the same Build Healthy Lighting standard.</p>
+      <h1 data-i18n="products.hero.title">Our Collections</h1>
+      <p>Explore our comprehensive range of LED lighting solutions designed for residential, commercial, and industrial applications.</p>
     </div>
+    <div class="glow-divider page-hero__divider"></div>
   </section>
 
   <!-- Category icon tiles -->
@@ -40,22 +40,6 @@ const categoryIcons = {
             <span class="cat-photo-tile__icon" set:html={categoryIcons[c.value]} />
             <span data-i18n={`cat.${c.value}`}>{c.label}</span>
           </a>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- Manufacturer banner — glowing PCB background -->
-  <section class="mfg-banner">
-    <img src="/images/pcb-banner-bg.jpg" alt="WLS Lighting DOB PCB manufacturing" class="mfg-banner__bg" />
-    <div class="mfg-banner__overlay"></div>
-    <div class="container mfg-banner__content">
-      <h2 data-i18n="products.mfgBanner.title">Manufacturer Specialized in<br/>DOB Lighting Solutions Since 2013</h2>
-      <div class="mfg-banner__products">
-        {new Array(5).fill(null).map((_, i) => (
-          <div class="mfg-banner__product">
-            <img src="/images/placeholder-product.jpg" alt={`Featured product ${i + 1}`} />
-          </div>
         ))}
       </div>
     </div>
@@ -88,13 +72,43 @@ const categoryIcons = {
 
 <style>
   .page-hero {
+    position: relative;
     background: var(--section-wash);
     color: var(--ink);
-    padding: 64px 0 40px;
+    padding: 72px 0 52px;
+    overflow: hidden;
+    background-image: radial-gradient(circle at 1px 1px, rgba(23,19,28,0.1) 1px, transparent 0);
+    background-size: 28px 28px;
   }
+  .page-hero::before {
+    content: '';
+    position: absolute;
+    top: -140px;
+    right: -100px;
+    width: 380px;
+    height: 380px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(164,0,130,0.14), transparent 70%);
+    pointer-events: none;
+  }
+  .page-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -160px;
+    left: -60px;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(164,0,130,0.08), transparent 70%);
+    pointer-events: none;
+  }
+  .page-hero .container { position: relative; z-index: 1; }
   .page-hero h1 { font-size: clamp(32px, 4vw, 48px); }
-  .page-hero p { max-width: 100%; color: var(--text-muted); }
-  .page-hero__note { font-size: 14px; color: var(--steel); margin-top: 12px; max-width: 100%; }
+  .page-hero p { max-width: 640px; color: var(--text-muted); }
+  .page-hero__divider {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
 
   .filter-bar {
     display: flex;
@@ -154,47 +168,8 @@ const categoryIcons = {
   }
   .cat-photo-tile:hover span:last-child { color: var(--glow); }
 
-  /* Manufacturer PCB banner */
-  .mfg-banner {
-    position: relative;
-    margin-top: 56px;
-    min-height: 420px;
-    display: flex;
-    align-items: center;
-    color: #fff;
-    overflow: hidden;
-  }
-  .mfg-banner__bg {
-    position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover;
-  }
-  .mfg-banner__overlay {
-    position: absolute; inset: 0;
-    background: linear-gradient(90deg, rgba(164,0,130,0.9) 30%, rgba(164,0,130,0.5) 100%);
-  }
-  .mfg-banner__content { position: relative; z-index: 2; width: 100%; }
-  .mfg-banner__content h2 {
-    font-size: clamp(24px, 3.4vw, 38px);
-    max-width: 760px;
-    margin-bottom: 32px;
-  }
-  .mfg-banner__products {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 12px;
-    max-width: 640px;
-  }
-  .mfg-banner__product {
-    aspect-ratio: 1/1;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.2);
-    overflow: hidden;
-  }
-  .mfg-banner__product img { width: 100%; height: 100%; object-fit: cover; }
-
   @media (max-width: 900px) {
     .cat-photo-grid { grid-template-columns: repeat(3, 1fr); }
-    .mfg-banner__products { grid-template-columns: repeat(5, 1fr); max-width: 100%; }
   }
   @media (max-width: 600px) {
     .cat-photo-grid { grid-template-columns: repeat(2, 1fr); }
