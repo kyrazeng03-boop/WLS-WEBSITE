@@ -21,8 +21,10 @@ if (!product) {
   return Astro.redirect('/products');
 }
 
-const coverUrl = product.coverImage ? urlFor(product.coverImage).width(1000).height(750).url() : '/images/placeholder-product.jpg';
-const galleryUrls = (product.gallery || []).map((img) => urlFor(img).width(1000).height(750).url());
+// 不强制裁成4:3——保留图片原始比例，交给前端用 object-fit: contain 完整显示，
+// 避免部分图片（带Logo/标题的宣传图、尺寸标注图）被裁掉文字或留白错位
+const coverUrl = product.coverImage ? urlFor(product.coverImage).width(1200).url() : '/images/placeholder-product.jpg';
+const galleryUrls = (product.gallery || []).map((img) => urlFor(img).width(1200).url());
 // 主图轮播用的完整图片列表：封面图 + 图集，供左右箭头切换
 const allImages = [coverUrl, ...galleryUrls];
 const categoryLabel = productCategoryLabels[product.category] || product.category;
@@ -203,7 +205,7 @@ try {
   }
   .carousel-img {
     position: absolute; inset: 0;
-    width: 100%; height: 100%; object-fit: cover;
+    width: 100%; height: 100%; object-fit: contain;
     opacity: 0;
     transition: opacity 0.35s ease;
   }
@@ -235,7 +237,8 @@ try {
   }
   .thumb-img {
     aspect-ratio: 1/1;
-    object-fit: cover;
+    object-fit: contain;
+    background: var(--paper-soft);
     cursor: pointer;
     opacity: 0.55;
     border: 2px solid transparent;
@@ -307,6 +310,7 @@ try {
     position: relative;
     padding-left: 22px;
     font-size: 14px;
+    font-weight: 700;
     color: var(--text-muted);
   }
   .advantages-list li::before {
