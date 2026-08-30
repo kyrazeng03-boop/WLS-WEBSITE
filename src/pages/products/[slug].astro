@@ -68,14 +68,10 @@ try {
         <p>{product.shortDescription}</p>
 
         <ul class="advantages-list" id="advantages">
-          {companyAdvantages.map((a) => (
+          {companyAdvantages.slice(0, 3).map((a) => (
             <li set:html={a} />
           ))}
         </ul>
-
-        {product.customizable && (
-          <span class="badge">Customizable — size, thickness &amp; light output</span>
-        )}
 
         <nav class="jump-nav">
           <a href="#specs">Tech Specs</a>
@@ -88,7 +84,7 @@ try {
             <h3 class="specs-heading">Specifications</h3>
             <div class="specs-grid" id="specs">
               {product.specs.map((s) => (
-                <div class="spec-card">
+                <div class={`spec-card ${s.value && s.value.includes('/') ? 'spec-card--wide' : ''}`}>
                   <span class="spec-card__label">{s.label}</span>
                   <span class="spec-card__value">{s.value}</span>
                 </div>
@@ -279,12 +275,14 @@ try {
     transition: border-color 0.2s ease;
   }
   .spec-card:hover { border-color: var(--glow-soft); }
+  .spec-card--wide { grid-column: 1 / -1; }
   .spec-card__label {
     display: block;
-    font-family: var(--font-mono);
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    font-family: var(--font-body);
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: normal;
+    text-transform: none;
     color: var(--steel);
     margin-bottom: 6px;
   }
