@@ -91,11 +91,12 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
         <img src={slide.imageUrl} alt={`WLS Lighting slide ${i + 1}`} class={`hero-slide ${i === 0 ? 'active' : ''}`} />
       ))}
       <div class="hero__overlay"></div>
-      <div class="hero__dots" id="heroDots">
-        {heroSlides.map((_, i) => (
-          <button class={`hero__dot ${i === 0 ? 'active' : ''}`} data-index={i} aria-label={`Slide ${i + 1}`}></button>
-        ))}
-      </div>
+      {heroSlides.length > 1 && (
+        <>
+          <button class="hero__arrow hero__arrow--prev" id="heroPrev" aria-label="Previous slide">‹</button>
+          <button class="hero__arrow hero__arrow--next" id="heroNext" aria-label="Next slide">›</button>
+        </>
+      )}
     </div>
     <div class="container hero__content">
       <span class="eyebrow" id="heroEyebrow">{heroSlides[0]?.eyebrow}</span>
@@ -269,30 +270,31 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
     background: linear-gradient(0deg, rgba(23,19,28,0.72) 0%, rgba(23,19,28,0.32) 45%, rgba(23,19,28,0.05) 100%);
     z-index: 2;
   }
-  .hero__dots {
+  .hero__arrow {
     position: absolute;
-    bottom: 36px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 50%;
+    transform: translateY(-50%);
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    border: 1px solid rgba(255,255,255,0.4);
+    background: rgba(23,19,28,0.35);
+    color: #fff;
+    font-size: 24px;
+    line-height: 1;
+    cursor: pointer;
     z-index: 3;
     display: flex;
-    gap: 16px;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
   }
-  .hero__dot {
-    width: 16px; height: 16px;
-    border-radius: 50%;
-    border: 2px solid rgba(255,255,255,0.7);
-    background: transparent;
-    padding: 0;
-    cursor: pointer;
-    transition: all 0.25s ease;
-  }
-  .hero__dot:hover { border-color: #fff; transform: scale(1.15); }
-  .hero__dot.active {
-    background: var(--glow-soft);
-    border-color: #fff;
-    box-shadow: 0 0 10px rgba(255,255,255,0.6);
-    transform: scale(1.15);
+  .hero__arrow:hover { background: var(--glow); border-color: var(--glow); }
+  .hero__arrow--prev { left: 20px; }
+  .hero__arrow--next { right: 20px; }
+  @media (max-width: 700px) {
+    .hero__arrow { width: 38px; height: 38px; font-size: 18px; }
+    .hero__arrow--prev { left: 10px; }
+    .hero__arrow--next { right: 10px; }
   }
   .hero__content {
     position: relative;
@@ -638,7 +640,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   // Hero轮播：图+对应文案 同步自动切换（5秒一次），支持点击圆点手动切换
   // 文案数据从页面内嵌的JSON读取（服务端渲染时已经根据Sanity数据或兜底内容生成好）
   const slides = document.querySelectorAll('.hero-slide');
-  const dots = document.querySelectorAll('.hero__dot');
+  const heroPrevBtn = document.getElementById('heroPrev');
+  const heroNextBtn = document.getElementById('heroNext');
   const eyebrowEl = document.getElementById('heroEyebrow');
   const headingEl = document.getElementById('heroHeading');
   const descEl = document.getElementById('heroDesc');
@@ -649,13 +652,13 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   const slideContent = dataEl ? JSON.parse(dataEl.textContent || '[]') : [];
 
   function goTo(index: number) {
+    const total = slides.length;
+    const i = ((index % total) + total) % total;
     slides.forEach((s) => s.classList.remove('active'));
-    dots.forEach((d) => d.classList.remove('active'));
-    slides[index]?.classList.add('active');
-    dots[index]?.classList.add('active');
-    current = index;
+    slides[i]?.classList.add('active');
+    current = i;
 
-    const content = slideContent[index];
+    const content = slideContent[i];
     if (content && eyebrowEl && headingEl && descEl) {
       eyebrowEl.textContent = content.eyebrow;
       headingEl.innerHTML = content.heading;
@@ -664,7 +667,10 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   }
 
   function next() {
-    goTo((current + 1) % slides.length);
+    goTo(current + 1);
+  }
+  function prev() {
+    goTo(current - 1);
   }
 
   function startAutoplay() {
@@ -678,13 +684,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
 
   if (slides.length > 0) {
     startAutoplay();
-    dots.forEach((dot) => {
-      dot.addEventListener('click', () => {
-        const index = parseInt(dot.getAttribute('data-index') || '0', 10);
-        goTo(index);
-        resetAutoplay();
-      });
-    });
+    heroNextBtn?.addEventListener('click', () => { next(); resetAutoplay(); });
+    heroPrevBtn?.addEventListener('click', () => { prev(); resetAutoplay(); });
   }
 
   // 客户评价轮播：左右箭头点击滑动 + 自动播放
