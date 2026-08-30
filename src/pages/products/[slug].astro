@@ -1,5 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
+import ProductCard from '../../components/ProductCard.astro';
 import { getAllProducts, getProductBySlug, urlFor } from '../../lib/sanity';
 import { productCategoryLabels } from '../../lib/categories';
 import { companyAdvantages, productFAQs } from '../../lib/content';
@@ -25,6 +26,17 @@ const galleryUrls = (product.gallery || []).map((img) => urlFor(img).width(1000)
 // 主图轮播用的完整图片列表：封面图 + 图集，供左右箭头切换
 const allImages = [coverUrl, ...galleryUrls];
 const categoryLabel = productCategoryLabels[product.category] || product.category;
+
+// 同系列推荐 —— 排除当前产品本身，最多展示3个
+let relatedProducts = [];
+try {
+  const allProducts = await getAllProducts();
+  relatedProducts = allProducts
+    .filter((p) => p.category === product.category && p.slug?.current !== slug)
+    .slice(0, 3);
+} catch (e) {
+  relatedProducts = [];
+}
 ---
 <Layout title={`${product.name} | WLS Lighting`} description={product.shortDescription}>
   <section class="section" style="padding-top: 48px;">
@@ -86,6 +98,21 @@ const categoryLabel = productCategoryLabels[product.category] || product.categor
       </div>
     </div>
   </section>
+
+  <!-- Product Recommendation -->
+  {relatedProducts.length > 0 && (
+    <section class="section" style="padding-top:0;">
+      <div class="container">
+        <span class="eyebrow">Product Recommendation</span>
+        <h2 class="section-title" style="margin-bottom:32px;">More from the {categoryLabel} series</h2>
+        <div class="grid grid--3">
+          {relatedProducts.map((p) => (
+            <ProductCard product={p} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <!-- FAQ -->
   <section class="section faq-section" id="faq" style="padding-top:0;">
