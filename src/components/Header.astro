@@ -50,16 +50,18 @@ const socialLinks = [
           <a href={item.href} class={isActive(item.href) ? 'active' : ''} data-i18n={item.i18n}>{item.label}</a>
         ))}
       </nav>
-      <div class="lang-switch" role="group" aria-label="Language">
-        <button type="button" class="lang-switch__btn" data-lang-btn="en">EN</button>
-        <button type="button" class="lang-switch__btn" data-lang-btn="zh">中文</button>
-      </div>
       <a href="/contact" class="btn btn--primary site-header__cta" data-i18n="nav.cta">Get a Quote</a>
     </div>
 
     <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
+  </div>
+
+  <!-- 语言切换按钮固定在导航栏最右侧，独立于中间居中的菜单组 -->
+  <div class="lang-switch lang-switch--float" role="group" aria-label="Language">
+    <button type="button" class="lang-switch__btn" data-lang-btn="en">EN</button>
+    <button type="button" class="lang-switch__btn" data-lang-btn="zh">中文</button>
   </div>
 
   <nav class="site-header__mobile-nav" id="siteNavMobile">
@@ -188,6 +190,13 @@ const socialLinks = [
     color: var(--glow);
   }
   .lang-switch--mobile { align-self: flex-start; }
+  .lang-switch--float {
+    position: absolute;
+    top: 50%;
+    right: 24px;
+    transform: translateY(-50%);
+    z-index: 10;
+  }
 
   .nav-toggle {
     display: none;
@@ -213,6 +222,7 @@ const socialLinks = [
     }
     .site-header__side { display: none; }
     .nav-toggle { display: flex; }
+    .lang-switch--float { display: none; }
 
     .site-header__mobile-nav.open {
       display: flex;
