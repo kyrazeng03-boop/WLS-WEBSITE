@@ -40,7 +40,17 @@ const socialLinks = [
 
   <div class="container site-footer__inner">
     <div class="footer-col">
-      <img src="/images/logo/logo-full-purple.png" alt="WLS Lighting" class="footer-logo" />
+      <a href="/" class="footer-brand" aria-label="WLS Lighting — Home">
+        <span class="footer-brand__en">
+          <span class="footer-brand__en-small">Ingenuity quality Lighting</span>
+          <span class="footer-brand__en-big">Build Healthy</span>
+        </span>
+        <span class="footer-brand__divider" aria-hidden="true"></span>
+        <span class="footer-brand__cn">
+          <span class="footer-brand__cn-line">匠心品质</span>
+          <span class="footer-brand__cn-line">打造健康照明</span>
+        </span>
+      </a>
       <p>Build Healthy Lighting. DOB lighting, light source panel and emergency lighting solutions, factory-direct from China, serving 20+ countries across South &amp; Southeast Asia, the Middle East and Africa.</p>
       <div class="footer-sitemap">
         <a href="/">Home</a>
@@ -105,10 +115,42 @@ const socialLinks = [
     background: var(--section-wash);
     color: var(--text-muted);
   }
-  .footer-logo {
-    height: 40px;
-    width: auto;
-    display: block;
+  .footer-brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 14px;
+    text-decoration: none;
+  }
+  .footer-brand__en {
+    display: flex;
+    flex-direction: column;
+  }
+  .footer-brand__en-small {
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    color: var(--steel);
+  }
+  .footer-brand__en-big {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--glow);
+  }
+  .footer-brand__divider {
+    width: 1px;
+    height: 30px;
+    background: var(--line);
+  }
+  .footer-brand__cn {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.35;
+  }
+  .footer-brand__cn-line {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--glow);
   }
   .site-footer__inner {
     display: grid;
