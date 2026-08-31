@@ -45,7 +45,18 @@ try {
   const targets = document.querySelectorAll(
     '.section-title, .grid > *, .founder-grid > *, .office-card, .positioning-item, .belief-point, .mfg-stat, .why-item, .coop-card, .photo-tile, .faq-item, .cat-photo-tile, .custom-card'
   );
-  targets.forEach((el) => el.classList.add('reveal'));
+  // 按"同一父级容器内排第几个"记录序号，写入 CSS 变量 --reveal-i，
+  // 让同一组卡片/网格项依次错开淡入（而不是全部同时出现）——
+  // 用父级分组而不是全局序号，这样每个独立板块的卡片都是从0开始错开，
+  // 不会因为页面靠后的板块继承了前面板块的序号而延迟过久。
+  const revealGroupCounts = new Map<Element, number>();
+  targets.forEach((el) => {
+    el.classList.add('reveal');
+    const parent = el.parentElement;
+    const i = parent ? (revealGroupCounts.get(parent) ?? 0) : 0;
+    if (parent) revealGroupCounts.set(parent, i + 1);
+    (el as HTMLElement).style.setProperty('--reveal-i', String(Math.min(i, 6)));
+  });
 
   const observer = new IntersectionObserver(
     (entries) => {

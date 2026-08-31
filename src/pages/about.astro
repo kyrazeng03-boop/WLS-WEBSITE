@@ -10,9 +10,9 @@ try {
 }
 
 const milestones = [
-  { year: '2013', text: "DOB lighting items were promoted into multiple overseas markets, marking WLS Lighting's first cross-border distributor relationships in Southeast Asia.", tag: 'Multi-country launch' },
-  { year: '2017', text: "Established WLS Lighting's overseas factory in Egypt, shortening lead times and simplifying logistics for customers across the Middle East and Africa.", tag: 'Egypt factory' },
-  { year: '2023', text: 'Sales network expanded to over 20 countries and regions, supported by a growing in-house team of engineers and quality inspectors.', tag: '20+ countries' },
+  { year: '2013', text: "DOB lighting items were promoted into multiple overseas markets, marking WLS Lighting's first cross-border distributor relationships in Southeast Asia.", tag: 'Multi-Country Launch' },
+  { year: '2017', text: "Established WLS Lighting's overseas factory in Egypt, shortening lead times and simplifying logistics for customers across the Middle East and Africa.", tag: 'Egypt Factory' },
+  { year: '2023', text: 'Sales network expanded to over 20 countries and regions, supported by a growing in-house team of engineers and quality inspectors.', tag: '20+ Countries' },
   { year: '2025', text: 'Continued growth across India, the Middle East and African markets, backed by deeper OEM/ODM partnerships and expanded production capacity.', tag: 'India · Middle East · Africa' },
 ];
 
@@ -29,7 +29,7 @@ const manufacturingStats = [
 // ---- 图片：Sanity有数据就用，没有就用现成的占位图兜底 ----
 const factoryImageUrl = aboutData?.factoryImage ? urlFor(aboutData.factoryImage).width(1200).height(900).url() : '/images/factory-1.jpg';
 
-const fallbackEquipmentCaptions = ['R&amp;D lab', 'Testing equipment', 'Production line', 'Quality inspection'];
+const fallbackEquipmentCaptions = ['R&amp;D Lab', 'Testing Equipment', 'Production Line', 'Quality Inspection'];
 const equipmentPhotos = (aboutData?.equipmentPhotos && aboutData.equipmentPhotos.length > 0)
   ? aboutData.equipmentPhotos.map((p) => ({ url: urlFor(p.image).width(1200).height(900).url(), caption: p.caption || '' }))
   : fallbackEquipmentCaptions.map((caption) => ({ url: '/images/equipment-photo.jpg', caption }));
@@ -42,7 +42,7 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
   <section class="page-hero">
     <div class="container">
       <span class="eyebrow" data-i18n="about.hero.eyebrow">About Us</span>
-      <h1 data-i18n="about.hero.title">An innovator in DOB manufacturing, built on a healthy-lighting standard.</h1>
+      <h1 data-i18n="about.hero.title">An Innovator In DOB Manufacturing, Built On A Healthy-Lighting Standard.</h1>
       <p>WLS Lighting is a light source panel and DOB (Driver-on-Board) lighting solution supplier headquartered in Zhongshan, Guangdong, China, with an additional factory in Egypt serving the Middle East and African markets directly.</p>
     </div>
   </section>
@@ -54,7 +54,7 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
       </div>
       <div class="about-copy">
         <span class="eyebrow" data-i18n="about.strength.eyebrow">Manufacturing Strength</span>
-        <h2 class="section-title" data-i18n="about.strength.title">Two factories, one quality standard</h2>
+        <h2 class="section-title" data-i18n="about.strength.title">Two Factories, One Quality Standard</h2>
         <p>Our Zhongshan headquarters runs full production lines for light source panels and DOB drivers, from raw materials through to finished, tested product. Our Egypt facility extends that same standard closer to Middle Eastern and African customers, shortening lead times and simplifying logistics.</p>
         <p>Every batch goes through structured quality checks before it leaves the factory — because for our distributors and project partners, consistency across container loads matters as much as the spec sheet.</p>
       </div>
@@ -65,7 +65,7 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
     <div class="milestones-map" aria-hidden="true"></div>
     <div class="container" style="position:relative; z-index:1;">
       <span class="eyebrow" data-i18n="about.milestones.eyebrow">Company Milestones</span>
-      <h2 class="section-title" data-i18n="about.milestones.title">Our growth story</h2>
+      <h2 class="section-title" data-i18n="about.milestones.title">Our Growth Story</h2>
 
       <div class="milestones">
         <div class="milestones-track" aria-hidden="true"></div>
@@ -103,7 +103,7 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
   <section class="section" style="padding-top:0;">
     <div class="container">
       <span class="eyebrow" data-i18n="about.rd.eyebrow">R&amp;D &amp; Testing</span>
-      <h2 class="section-title" style="margin-bottom:32px;" data-i18n="about.rd.title">Die-casting, machining &amp; quality testing</h2>
+      <h2 class="section-title" style="margin-bottom:32px;" data-i18n="about.rd.title">Die-Casting, Machining &amp; Quality Testing</h2>
       <div class="grid grid--4">
         {equipmentPhotos.map((p) => (
           <div class="photo-tile">
