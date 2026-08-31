@@ -98,7 +98,7 @@ export const translations = {
   'coop.oem.title': { en: 'Private Label & Custom Specification', zh: '贴牌与定制规格' },
   'coop.oem.cta': { en: 'Start A Custom Project', zh: '开启定制项目' },
   'coop.custom.eyebrow': { en: 'Customization', zh: '定制能力' },
-  'coop.custom.title': { en: '100% Customization', zh: '100% 定制化' },
+  'coop.custom.title': { en: '100% <span class="page-hero__highlight">Customization</span>', zh: '100% <span class="page-hero__highlight">定制化</span>' },
   'coop.custom.subtitle': { en: 'As a factory-direct light source panel manufacturer, WLS Lighting offers highly customizable lighting solutions built around your project.', zh: '作为光源板工厂直销制造商，威林胜可以围绕您的项目，提供高度定制化的照明解决方案。' },
   'coop.custom.design.title': { en: 'Design', zh: '结构设计' },
   'coop.custom.design.desc': { en: 'From standard shapes to fully custom PCB layouts, we help bring your fixture design ideas to life with precision engineering.', zh: '从标准形状到完全定制的PCB板型，我们用精密工艺把您的灯具设计想法变成现实。' },

@@ -106,25 +106,7 @@ const categoryIcons = {
   .page-hero .container { position: relative; z-index: 1; }
   .page-hero h1 { font-size: clamp(36px, 4.6vw, 54px); }
   .page-hero p { max-width: none; color: var(--text-muted); white-space: nowrap; }
-  /* 用 :global() 是因为语言切换脚本会用 innerHTML 整体替换这个标题的内容，
-     动态插入的 span 拿不到 Astro 局部作用域的属性，普通scoped样式选不中它 */
-  :global(.page-hero__highlight) {
-    position: relative;
-    display: inline-block;
-    color: var(--glow);
-    transition: color 0.25s ease;
-    cursor: default;
-  }
-  :global(.page-hero__highlight::after) {
-    content: '';
-    position: absolute;
-    left: 0; right: 100%; bottom: -2px;
-    height: 3px;
-    background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
-    transition: right 0.3s ease;
-  }
-  :global(.page-hero__highlight:hover) { color: var(--glow-deep); }
-  :global(.page-hero__highlight:hover::after) { right: 0; }
+  /* .page-hero__highlight 样式已挪到 global.css 做成全站通用类 */
   @media (max-width: 700px) {
     .page-hero p { white-space: normal; }
   }
