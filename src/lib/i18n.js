@@ -62,7 +62,7 @@ export const translations = {
   'about.strength.eyebrow': { en: 'Manufacturing Strength', zh: '制造实力' },
   'about.strength.title': { en: 'Two factories, one quality standard', zh: '两座工厂，同一质量标准' },
   'about.milestones.eyebrow': { en: 'Company Milestones', zh: '公司里程碑' },
-  'about.milestones.title': { en: 'A decade of building export relationships', zh: '十年出口合作历程' },
+  'about.milestones.title': { en: 'Our growth story', zh: '我们的成长故事' },
   'about.mfg.eyebrow': { en: 'By The Numbers', zh: '数据一览' },
   'about.mfg.title': { en: 'Manufacturing Center', zh: '生产制造中心' },
   'about.rd.eyebrow': { en: 'R&D & Testing', zh: '研发与测试' },

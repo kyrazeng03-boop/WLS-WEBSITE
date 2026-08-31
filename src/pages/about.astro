@@ -10,8 +10,8 @@ try {
 }
 
 const milestones = [
-  { year: '2013', text: 'DOB lighting items were promoted into multiple overseas markets, marking WLS Lighting’s first cross-border distributor relationships in Southeast Asia.', tag: 'Multi-country launch' },
-  { year: '2017', text: 'Established WLS Lighting’s overseas factory in Egypt, shortening lead times and simplifying logistics for customers across the Middle East and Africa.', tag: 'Egypt factory' },
+  { year: '2013', text: "DOB lighting items were promoted into multiple overseas markets, marking WLS Lighting's first cross-border distributor relationships in Southeast Asia.", tag: 'Multi-country launch' },
+  { year: '2017', text: "Established WLS Lighting's overseas factory in Egypt, shortening lead times and simplifying logistics for customers across the Middle East and Africa.", tag: 'Egypt factory' },
   { year: '2023', text: 'Sales network expanded to over 20 countries and regions, supported by a growing in-house team of engineers and quality inspectors.', tag: '20+ countries' },
   { year: '2025', text: 'Continued growth across India, the Middle East and African markets, backed by deeper OEM/ODM partnerships and expanded production capacity.', tag: 'India · Middle East · Africa' },
 ];
@@ -65,7 +65,7 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
     <div class="milestones-map" aria-hidden="true"></div>
     <div class="container" style="position:relative; z-index:1;">
       <span class="eyebrow" data-i18n="about.milestones.eyebrow">Company Milestones</span>
-      <h2 class="section-title" data-i18n="about.milestones.title">A decade of building export relationships</h2>
+      <h2 class="section-title" data-i18n="about.milestones.title">Our growth story</h2>
 
       <div class="milestones">
         <div class="milestones-track" aria-hidden="true"></div>
@@ -211,6 +211,38 @@ const workshopPhotoUrls = (aboutData?.workshopPhotos && aboutData.workshopPhotos
     font-size: 13px;
     letter-spacing: 0.02em;
     box-shadow: 0 0 0 6px var(--section-wash), 0 10px 20px -8px rgba(164,0,130,0.4);
+    cursor: default;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  /* 光标移到年份圆点上：放大变色 + 一圈向外扩散的雷达光晕，呼应地图上的据点标记 */
+  .milestone__dot::before,
+  .milestone__dot::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    border: 1.5px solid var(--glow);
+    opacity: 0;
+    pointer-events: none;
+  }
+  .milestone__dot:hover {
+    transform: scale(1.12);
+    background: var(--glow-deep);
+  }
+  .milestone__dot:hover::before,
+  .milestone__dot:hover::after {
+    animation: milestone-ping 1.4s ease-out infinite;
+  }
+  .milestone__dot:hover::after {
+    animation-delay: 0.5s;
+  }
+  @keyframes milestone-ping {
+    0% { transform: scale(1); opacity: 0.55; }
+    100% { transform: scale(1.9); opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .milestone__dot:hover::before,
+    .milestone__dot:hover::after { animation: none; }
   }
   .milestone__card {
     position: relative;
