@@ -1,6 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import ContactForm from '../components/ContactForm.astro';
+
+const customizationOptions = [
+  { key: 'design', icon: 'design', title: 'Design', desc: "From standard shapes to fully custom PCB layouts, we help bring your fixture design ideas to life with precision engineering." },
+  { key: 'cct', icon: 'cct', title: 'Color Temperature', desc: "Choose your CCT from warm 2700K to daylight 6500K, matched to your project's lighting scheme." },
+  { key: 'size', icon: 'size', title: 'Size & Wattage', desc: 'Custom panel dimensions and wattage output tailored to fit any fixture or project specification.' },
+  { key: 'branding', icon: 'branding', title: 'Branding', desc: 'Private label packaging and logo printing available for all custom orders, large or small.' },
+];
+
+const customizationIcons = {
+  design: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l1-4L16 5l3 3L8 19l-4 1z"/><path d="M13.5 7.5l3 3"/></svg>',
+  cct: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8L6 18M18 6l1.8-1.8"/></svg>',
+  size: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6"/><path d="M15 21h6v-6"/><path d="M3 3l7 7"/><path d="M21 21l-7-7"/></svg>',
+  branding: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4L11 3.8A2 2 0 0 0 9.6 3H4a1 1 0 0 0-1 1v5.6a2 2 0 0 0 .8 1.4l9.6 9.6a2 2 0 0 0 2.8 0l4.4-4.4a2 2 0 0 0 0-2.8z"/><circle cx="7.5" cy="7.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
+};
 ---
 <Layout title="Cooperation | WLS Lighting" description="Become a WLS Lighting distributor or OEM partner. Regional support, sample assistance and a clear customization process.">
   <section class="page-hero">
@@ -42,6 +56,25 @@ import ContactForm from '../components/ContactForm.astro';
           <li>Bulk production and shipment</li>
         </ol>
         <a href="#apply" class="coop-card__cta"><span data-i18n="coop.oem.cta">Start a custom project</span> <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section customization-section">
+    <div class="container">
+      <div class="customization-header">
+        <span class="eyebrow" data-i18n="coop.custom.eyebrow">Customization</span>
+        <h2 class="section-title" data-i18n="coop.custom.title">100% Customization</h2>
+        <p data-i18n="coop.custom.subtitle">As a factory-direct light source panel manufacturer, WLS Lighting offers highly customizable lighting solutions built around your project.</p>
+      </div>
+      <div class="custom-grid">
+        {customizationOptions.map((c) => (
+          <div class="custom-card">
+            <div class="custom-card__icon" set:html={customizationIcons[c.icon]} />
+            <h3 data-i18n={`coop.custom.${c.key}.title`}>{c.title}</h3>
+            <p data-i18n={`coop.custom.${c.key}.desc`}>{c.desc}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
@@ -206,7 +239,79 @@ import ContactForm from '../components/ContactForm.astro';
   }
   .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
 
+  /* ---- 100% Customization ---- */
+  .customization-header {
+    text-align: center;
+    max-width: 640px;
+    margin: 0 auto 48px;
+  }
+  .customization-header .eyebrow { justify-content: center; }
+  .customization-header .section-title { margin: 0 auto 12px; }
+  .customization-header p { margin: 0; }
+
+  .custom-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+  .custom-card {
+    position: relative;
+    text-align: center;
+    background: #fff;
+    border: 1px solid var(--line);
+    padding: 36px 24px 30px;
+    overflow: hidden;
+    transition: box-shadow 0.3s ease, transform 0.3s ease, border-color 0.3s ease;
+  }
+  .custom-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s ease;
+  }
+  .custom-card:hover {
+    box-shadow: 0 24px 48px -24px rgba(23,19,28,0.22);
+    transform: translateY(-6px);
+    border-color: transparent;
+  }
+  .custom-card:hover::before { transform: scaleX(1); }
+  .custom-card__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin: 0 auto 18px;
+    color: var(--ink);
+    transition: color 0.3s ease, transform 0.4s ease;
+  }
+  .custom-card__icon svg { width: 100%; height: 100%; }
+  .custom-card:hover .custom-card__icon {
+    color: var(--glow);
+    transform: scale(1.12) rotate(-6deg);
+  }
+  .custom-card h3 {
+    font-size: 18px;
+    margin: 0 0 8px;
+    transition: color 0.25s ease;
+  }
+  .custom-card:hover h3 { color: var(--glow); }
+  .custom-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    margin: 0;
+  }
+  @media (max-width: 900px) {
+    .custom-grid { grid-template-columns: repeat(2, 1fr); }
+  }
   @media (max-width: 860px) {
     .coop-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .custom-grid { grid-template-columns: 1fr; }
   }
 </style>
