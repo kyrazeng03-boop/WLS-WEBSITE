@@ -328,15 +328,15 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   .stat { text-align: center; }
   .stat__value {
     font-family: var(--font-display);
-    font-size: 34px;
+    font-size: clamp(34px, 3.4vw, 46px);
     font-weight: 700;
     color: var(--glow);
   }
   .stat__label {
-    font-size: 13px;
+    font-size: 15px;
     font-weight: 700;
     color: var(--text-muted);
-    margin-top: 6px;
+    margin-top: 8px;
   }
 
   .section-title { font-size: clamp(27px, 3.4vw, 36px); max-width: 680px; }
