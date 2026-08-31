@@ -171,14 +171,14 @@ img { max-width: 100%; display: block; }
 /* ---- 标题高亮字：标题最后一个词/短语用品牌紫强调，悬停时底部有渐变下划线扫入
    2026-08-31 从 products/index.astro 挪到这里做成全站通用类，任何页面标题都能用，
    写法：<h1>Our <span class="page-hero__highlight">Collections</span></h1> ---- */
-:global(.page-hero__highlight) {
+.page-hero__highlight {
   position: relative;
   display: inline-block;
   color: var(--glow);
   transition: color 0.25s ease;
   cursor: default;
 }
-:global(.page-hero__highlight::after) {
+.page-hero__highlight::after {
   content: '';
   position: absolute;
   left: 0; right: 100%; bottom: -2px;
@@ -186,8 +186,8 @@ img { max-width: 100%; display: block; }
   background: linear-gradient(90deg, var(--glow-deep), var(--glow), var(--glow-soft));
   transition: right 0.3s ease;
 }
-:global(.page-hero__highlight:hover) { color: var(--glow-deep); }
-:global(.page-hero__highlight:hover::after) { right: 0; }
+.page-hero__highlight:hover { color: var(--glow-deep); }
+.page-hero__highlight:hover::after { right: 0; }
 
 /* ---- 按钮 ---- */
 .btn {
