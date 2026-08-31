@@ -22,7 +22,7 @@
   --font-mono: 'IBM Plex Mono', monospace;
 
   /* ---- Spacing ---- */
-  --section-pad: clamp(48px, 6vw, 88px);
+  --section-pad: clamp(36px, 4.5vw, 64px); /* 2026-08-31 收紧：板块之间的空白之前太大，整体调紧凑一些 */
   --container-w: 1520px; /* 2026-08-30 加宽：跟导航栏放宽后的宽度保持统一，整站观感更大气 */
 }
 
