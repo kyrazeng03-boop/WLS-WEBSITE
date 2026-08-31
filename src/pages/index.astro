@@ -77,7 +77,7 @@ const testimonialsArePlaceholder = !(homepage?.testimonials && homepage.testimon
 
 // ---- 合作伙伴Logo：Sanity有数据就用，没有就用现成的20个静态图兜底 ----
 const fallbackPartnerNames = [
-  'bps', 'kiwi', 'bmtc', 'mls', 'aishi', 'yunrui', 'dzdz',
+  'bps', 'kiwi', 'bmtc', 'mls', 'aishi', 'yunrui', 'joulwatt',
 ];
 const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   ? partnersFromCMS.map((p) => ({ name: p.name, url: urlFor(p.logo).width(320).height(160).url() }))
