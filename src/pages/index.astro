@@ -431,6 +431,14 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
     gap: 40px;
   }
   .coop-cta__inner p { max-width: 520px; }
+  .coop-cta__inner .section-title {
+    font-size: clamp(18px, 2.1vw, 30px);
+    white-space: nowrap;
+    max-width: none;
+  }
+  @media (max-width: 860px) {
+    .coop-cta__inner .section-title { white-space: normal; }
+  }
 
   /* 板块衔接：细分割线，避免相邻板块背景太接近时显得大段空白 */
   .founder-section,
