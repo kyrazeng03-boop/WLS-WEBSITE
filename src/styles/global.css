@@ -23,6 +23,7 @@
 
   /* ---- Spacing ---- */
   --section-pad: clamp(36px, 4.5vw, 64px); /* 2026-08-31 收紧：板块之间的空白之前太大，整体调紧凑一些 */
+  --section-pad-top: clamp(20px, 2.5vw, 36px); /* 2026-08-31 新增：板块顶部留白单独收得更紧，让新板块的内容紧贴上一板块的结尾处 */
   --container-w: 1520px; /* 2026-08-30 加宽：跟导航栏放宽后的宽度保持统一，整站观感更大气 */
 }
 
@@ -67,7 +68,7 @@ img { max-width: 100%; display: block; }
 }
 
 .section {
-  padding: var(--section-pad) 0;
+  padding: var(--section-pad-top) 0 var(--section-pad);
 }
 
 /* 注：.section--dark 类名保留，语义为"中性浅灰调区块"——紫色不再用作大面积背景，只做强调色/文字色 */
