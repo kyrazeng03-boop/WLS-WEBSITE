@@ -46,7 +46,7 @@ export const translations = {
   'home.story.eyebrow': { en: 'Our Story', zh: '我们的故事' },
   'home.story.title': { en: 'Built On A Simple Belief', zh: '始于一个简单的信念' },
   'home.products.eyebrow': { en: 'Recommended', zh: '推荐产品' },
-  'home.products.title': { en: 'Products We Recommend For Your Market', zh: '为您的市场推荐的产品' },
+  'home.products.title': { en: 'Hot Selling Products', zh: '热销产品' },
   'home.partners.eyebrow': { en: 'Strategy Partners', zh: '战略合作伙伴' },
   'home.partners.title': { en: 'Outstanding Strategic Partners', zh: '优秀的战略合作伙伴' },
   'home.testimonials.eyebrow': { en: 'Client Feedback', zh: '客户反馈' },
