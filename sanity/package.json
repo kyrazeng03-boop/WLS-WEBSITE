@@ -6,6 +6,7 @@
   "dependencies": {
     "sanity": "^3.62.0",
     "@sanity/vision": "^3.62.0",
-    "styled-components": "^6.1.15"
+    "styled-components": "^6.1.15",
+    "mammoth": "^1.12.2"
   }
 }

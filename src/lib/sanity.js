@@ -34,7 +34,12 @@ export async function getFeaturedProducts() {
 export async function getProductBySlug(slug) {
   return client.fetch(
     `*[_type == "product" && slug.current == $slug][0]{
-      _id, name, category, coverImage, gallery, shortDescription, specs, customizable
+      _id, name, category, coverImage, gallery, shortDescription, specs, customizable,
+      documents[]{
+        title,
+        "fileUrl": file.asset->url,
+        "fileName": file.asset->originalFilename
+      }
     }`,
     { slug }
   );
