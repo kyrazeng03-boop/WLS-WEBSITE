@@ -121,6 +121,7 @@ export const translations = {
   'products.specsHeading': { en: 'Specifications', zh: '规格参数' },
   'products.downloadsHeading': { en: 'Downloads', zh: '资料下载' },
   'products.recommendation.eyebrow': { en: 'Product Recommendation', zh: '推荐产品' },
+  'products.recommendation.title': { en: 'Related Products', zh: '相关产品' },
   'products.faq.eyebrow': { en: 'Frequently Asked', zh: '常见问题' },
   'products.faq.title': { en: 'Common Questions From Our Partners', zh: '合作伙伴常见问题' },
 
