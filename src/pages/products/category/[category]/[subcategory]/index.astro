@@ -1,0 +1,107 @@
+---
+// @ts-nocheck
+// 2026-09-02 新增：分类浏览第二层——某个系列（比如 Outdoor Lighting 下面的
+// Constant Current LED Flood Light DOB）的落地页。
+// 如果这个系列下有产品填了"三级分类"，这里显示的是型号分组卡片（点进去到第三层）；
+// 没填三级分类的产品，直接在这个页面展示。
+import Layout from '../../../../../layouts/Layout.astro';
+import ProductCard from '../../../../../components/ProductCard.astro';
+import GroupTile from '../../../../../components/GroupTile.astro';
+import { urlFor } from '../../../../../lib/sanity';
+import { buildProductTree } from '../../../../../lib/productTree';
+import { productCategories, productCategoryLabels } from '../../../../../lib/categories';
+
+export async function getStaticPaths() {
+  const tree = await buildProductTree();
+  const paths = [];
+  for (const c of productCategories) {
+    const node = tree[c.value];
+    if (!node) continue;
+    for (const seriesSlug of Object.keys(node.series)) {
+      paths.push({ params: { category: c.value, subcategory: seriesSlug } });
+    }
+  }
+  return paths;
+}
+
+const { category, subcategory } = Astro.params;
+const tree = await buildProductTree();
+const categoryNode = tree[category] || { products: [], series: {} };
+const seriesNode = categoryNode.series[subcategory];
+
+if (!seriesNode) {
+  return Astro.redirect(`/products/category/${category}`);
+}
+
+const categoryLabel = productCategoryLabels[category] || category;
+
+// 型号(variant)下如果只有1个真实产品，不展示成"分组卡片"（信息不全、也没有询盘按钮），
+// 而是直接当成一张完整的产品卡片(ProductCard)展示——一步到位看到参数和操作按钮。
+// 只有型号下确实有多个产品时，才展示成分组卡片（点进去到下一层选具体产品）。
+const variantList = [];
+const singleVariantProducts = [];
+for (const [slug, v] of Object.entries(seriesNode.variants)) {
+  if (v.products.length === 1) {
+    singleVariantProducts.push(v.products[0]);
+    continue;
+  }
+  variantList.push({
+    slug,
+    label: v.label,
+    coverUrl: v.products[0]?.coverImage ? urlFor(v.products[0].coverImage).width(600).url() : '',
+    count: v.products.length,
+  });
+}
+
+const flatProducts = [...seriesNode.products, ...singleVariantProducts];
+
+const totalCount =
+  flatProducts.length + variantList.reduce((sum, v) => sum + v.count, 0);
+---
+<Layout
+  title={`${seriesNode.label} | WLS Lighting`}
+  description={`Browse WLS Lighting's ${seriesNode.label} range — factory-direct, customizable.`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow"><a href={`/products/category/${category}`}>{categoryLabel}</a></span>
+      <h1>{seriesNode.label}</h1>
+      <p>{totalCount} product{totalCount === 1 ? '' : 's'} available</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {variantList.length > 0 && (
+        <div class="grid grid--4">
+          {variantList.map((v) => (
+            <GroupTile
+              href={`/products/category/${category}/${subcategory}/${v.slug}`}
+              label={v.label}
+              coverUrl={v.coverUrl}
+              count={v.count}
+            />
+          ))}
+        </div>
+      )}
+
+      {flatProducts.length > 0 && (
+        <div class="grid grid--4" style={variantList.length > 0 ? 'margin-top:28px;' : ''}>
+          {flatProducts.map((p) => <ProductCard product={p} />)}
+        </div>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 52px 0 36px;
+  }
+  .page-hero .eyebrow a { color: inherit; text-decoration: none; }
+  .page-hero .eyebrow a:hover { color: var(--glow); }
+  .page-hero h1 { font-size: clamp(30px, 4vw, 46px); margin: 8px 0 6px; }
+  .page-hero p { color: var(--text-muted); }
+</style>

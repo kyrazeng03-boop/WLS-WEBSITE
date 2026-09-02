@@ -8,6 +8,8 @@ import {set, useClient, useFormValue} from 'sanity';
 // 约定的文件格式（每行一条，标签/内容用中英文冒号分隔都可以）：
 //   标题：产品名称
 //   描述：简短描述（一行）
+//   二级分类：Flood Light（可选）
+//   三级分类：Linear Flood Light（可选）
 //   规格
 //   Wattage: 30W 50W 100W 150W 200W
 //   Lumens: 100-160LM/W
@@ -21,6 +23,8 @@ function parseProductDoc(text) {
   const lines = text.split(/\r?\n/);
   let name = '';
   let shortDescription = '';
+  let subCategory = '';
+  let subSubCategory = '';
   const specs = [];
   let inSpecsSection = false;
 
@@ -36,6 +40,16 @@ function parseProductDoc(text) {
     const descMatch = line.match(/^描述[:：]\s*(.+)$/);
     if (descMatch) {
       shortDescription = descMatch[1].trim();
+      continue;
+    }
+    const subCatMatch = line.match(/^二级分类[:：]\s*(.+)$/);
+    if (subCatMatch) {
+      subCategory = subCatMatch[1].trim();
+      continue;
+    }
+    const subSubCatMatch = line.match(/^三级分类[:：]\s*(.+)$/);
+    if (subSubCatMatch) {
+      subSubCategory = subSubCatMatch[1].trim();
       continue;
     }
     if (/^规格[:：]?$/.test(line)) {
@@ -54,7 +68,7 @@ function parseProductDoc(text) {
       }
     }
   }
-  return {name, shortDescription, specs};
+  return {name, shortDescription, subCategory, subSubCategory, specs};
 }
 
 export function ProductImportInput(props) {
@@ -86,8 +100,8 @@ export function ProductImportInput(props) {
           text = await file.text();
         }
 
-        const {name, shortDescription, specs} = parseProductDoc(text);
-        if (!name && !shortDescription && specs.length === 0) {
+        const {name, shortDescription, subCategory, subSubCategory, specs} = parseProductDoc(text);
+        if (!name && !shortDescription && !subCategory && !subSubCategory && specs.length === 0) {
           setStatus('没有识别到任何内容，请检查文件里是否有"标题：""描述：""规格"这几行标记');
           setBusy(false);
           return;
@@ -96,6 +110,8 @@ export function ProductImportInput(props) {
         const patch = {};
         if (name) patch.name = name;
         if (shortDescription) patch.shortDescription = shortDescription;
+        if (subCategory) patch.subCategory = subCategory;
+        if (subSubCategory) patch.subSubCategory = subSubCategory;
         if (specs.length > 0) patch.specs = specs;
 
         await client.patch(docId).set(patch).commit({autoGenerateArrayKeys: true});
@@ -105,6 +121,8 @@ export function ProductImportInput(props) {
         const parts = [];
         if (name) parts.push('标题 ✓');
         if (shortDescription) parts.push('描述 ✓');
+        if (subCategory) parts.push('二级分类 ✓');
+        if (subSubCategory) parts.push('三级分类 ✓');
         if (specs.length > 0) parts.push(`参数 ${specs.length} 条 ✓`);
         setStatus(`已自动填入：${parts.join('  ')}，请往下检查各字段是否正确`);
       } catch (e) {
@@ -124,9 +142,9 @@ export function ProductImportInput(props) {
           📄 从 Word / txt 文件自动导入产品信息
         </Text>
         <Text size={1} muted>
-          文件里第一行写「标题：产品名称」，第二行写「描述：简短描述」，然后另起一行写「规格」，
-          下面每行一条「参数名: 参数值」。选好文件后会自动识别并填入标题、描述和规格表，
-          其余内容（卖点列表、图片备注等）会自动忽略，不会出错。填完后请往下检查一遍，确认无误再发布。
+          文件里第一行写「标题：产品名称」，第二行写「描述：简短描述」，可以再加「二级分类：」「三级分类：」
+          （都是可选的），然后另起一行写「规格」，下面每行一条「参数名: 参数值」。选好文件后会自动识别并填入
+          对应字段，其余内容（卖点列表、图片备注等）会自动忽略，不会出错。填完后请往下检查一遍，确认无误再发布。
         </Text>
         <Flex align="center" gap={3} wrap="wrap">
           <Button

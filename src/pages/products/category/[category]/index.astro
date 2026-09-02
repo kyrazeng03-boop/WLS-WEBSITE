@@ -1,0 +1,96 @@
+---
+// @ts-nocheck
+// 2026-09-02 新增：分类浏览第一层——某个大类（比如 Outdoor Lighting）下面的落地页。
+// 如果这个大类下有产品填了"二级分类"，这里显示的是系列分组卡片（点进去到第二层）；
+// 没填二级分类的产品，直接在这个页面展示（不需要再点一层）。
+import Layout from '../../../../layouts/Layout.astro';
+import ProductCard from '../../../../components/ProductCard.astro';
+import GroupTile from '../../../../components/GroupTile.astro';
+import { urlFor } from '../../../../lib/sanity';
+import { buildProductTree, countSeriesProducts, getSingleProduct } from '../../../../lib/productTree';
+import { productCategories, productCategoryLabels } from '../../../../lib/categories';
+
+export async function getStaticPaths() {
+  return productCategories.map((c) => ({ params: { category: c.value } }));
+}
+
+const { category } = Astro.params;
+const tree = await buildProductTree();
+const node = tree[category] || { products: [], series: {} };
+const categoryLabel = productCategoryLabels[category] || category;
+
+// 系列下如果总共只有1个真实产品，不再展示成"分组卡片"（没有类目标签/简介/询盘按钮，
+// 点进去也只是跳到产品页），而是直接当成一张完整的产品卡片(ProductCard)展示在下面的
+// 产品区——这样既能一步到位看到参数，卡片本身的信息和操作按钮也是完整的。
+// 只有系列下确实有多个产品需要先分组浏览时，才展示成分组卡片。
+const seriesList = [];
+const singleSeriesProducts = [];
+for (const [slug, s] of Object.entries(node.series)) {
+  const single = getSingleProduct(s);
+  if (single) {
+    singleSeriesProducts.push(single);
+    continue;
+  }
+  const repProduct = s.products[0] || Object.values(s.variants)[0]?.products[0];
+  seriesList.push({
+    slug,
+    label: s.label,
+    coverUrl: repProduct?.coverImage ? urlFor(repProduct.coverImage).width(600).url() : '',
+    count: countSeriesProducts(s),
+  });
+}
+
+const flatProducts = [...node.products, ...singleSeriesProducts];
+
+const totalCount =
+  flatProducts.length + seriesList.reduce((sum, s) => sum + s.count, 0);
+---
+<Layout
+  title={`${categoryLabel} | WLS Lighting`}
+  description={`Browse WLS Lighting's ${categoryLabel} product range — factory-direct, customizable.`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow" data-i18n={`cat.${category}`}>{categoryLabel}</span>
+      <h1>{categoryLabel}</h1>
+      <p>{totalCount} product{totalCount === 1 ? '' : 's'} available</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      {seriesList.length > 0 && (
+        <div class="grid grid--4">
+          {seriesList.map((s) => (
+            <GroupTile
+              href={`/products/category/${category}/${s.slug}`}
+              label={s.label}
+              coverUrl={s.coverUrl}
+              count={s.count}
+            />
+          ))}
+        </div>
+      )}
+
+      {flatProducts.length > 0 && (
+        <div class="grid grid--4" style={seriesList.length > 0 ? 'margin-top:28px;' : ''}>
+          {flatProducts.map((p) => <ProductCard product={p} />)}
+        </div>
+      )}
+
+      {seriesList.length === 0 && flatProducts.length === 0 && (
+        <p>Products will appear here once added in the CMS. In the meantime, feel free to <a href="/contact" style="color:var(--glow); text-decoration:underline;">contact us</a> directly with your requirements.</p>
+      )}
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 52px 0 36px;
+  }
+  .page-hero h1 { font-size: clamp(30px, 4vw, 46px); margin: 8px 0 6px; }
+  .page-hero p { color: var(--text-muted); }
+</style>

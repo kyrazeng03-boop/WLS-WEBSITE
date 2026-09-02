@@ -1,0 +1,55 @@
+---
+// 2026-09-02 新增：分类浏览页里用的"系列/型号分组"卡片——跟具体产品卡片(ProductCard)长得
+// 类似，但点进去不是产品详情页，而是下一层分组/型号列表页，而且没有价格和询盘按钮。
+const { href, label, coverUrl, count } = Astro.props;
+---
+<a href={href} class="group-tile">
+  <div class="group-tile__media">
+    {coverUrl && <img src={coverUrl} alt={label} loading="lazy" />}
+  </div>
+  <span class="group-tile__name">{label}</span>
+  {typeof count === 'number' && (
+    <span class="group-tile__count">{count} product{count === 1 ? '' : 's'} available</span>
+  )}
+</a>
+
+<style>
+  .group-tile {
+    display: block;
+    background: #fff;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+  }
+  .group-tile:hover {
+    border-color: var(--glow-soft);
+    transform: translateY(-3px);
+  }
+  .group-tile__media {
+    aspect-ratio: 4 / 3;
+    background: var(--paper-soft);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .group-tile__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .group-tile__name {
+    display: block;
+    padding: 16px 18px 4px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--ink);
+  }
+  .group-tile__count {
+    display: block;
+    padding: 0 18px 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+</style>

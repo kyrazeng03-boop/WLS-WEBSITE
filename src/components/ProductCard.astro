@@ -5,13 +5,14 @@ const { product } = Astro.props;
 const imgUrl = product.coverImage ? urlFor(product.coverImage).width(600).height(450).url() : '/images/placeholder-product.jpg';
 const detailUrl = `/products/${product.slug?.current}`;
 const inquiryUrl = `/contact?product=${encodeURIComponent(product.name)}`;
+const categoryUrl = `/products/category/${product.category}`;
 ---
 <div class="pcard">
   <a href={detailUrl} class="pcard__image">
     <img src={imgUrl} alt={product.name} loading="lazy" />
   </a>
   <div class="pcard__body">
-    <span class="pcard__category" data-i18n={`cat.${product.category}`}>{productCategoryLabels[product.category] || product.category}</span>
+    <a href={categoryUrl} class="pcard__category" data-i18n={`cat.${product.category}`}>{productCategoryLabels[product.category] || product.category}</a>
     <a href={detailUrl}><h3 class="pcard__title">{product.name}</h3></a>
     {product.shortDescription && <p class="pcard__desc">{product.shortDescription}</p>}
 
@@ -55,12 +56,16 @@ const inquiryUrl = `/contact?product=${encodeURIComponent(product.name)}`;
     flex: 1;
   }
   .pcard__category {
+    display: inline-block;
     font-family: var(--font-mono);
     font-size: 12px;
     letter-spacing: 0.06em;
     text-transform: uppercase;
     color: var(--steel);
+    text-decoration: none;
+    transition: color 0.2s ease;
   }
+  .pcard__category:hover { color: var(--glow); }
   .pcard__title {
     font-size: 19px;
     margin: 6px 0 6px;

@@ -4,6 +4,21 @@ import Footer from '../components/Footer.astro';
 import WhatsAppButton from '../components/WhatsAppButton.astro';
 import QuickInquiryModal from '../components/QuickInquiryModal.astro';
 import { getSiteSettings } from '../lib/sanity';
+// 2026-09-02：字体改成本地打包（@fontsource），不再从 Google Fonts 的
+// fonts.googleapis.com 实时请求——国内网络访问经常被墙/超时，字体一旦加载失败，
+// 浏览器会静默换成系统默认字体，导致标题/正文字体"看起来突然变了"。
+// 这几行 import 会被打包工具处理成本地静态字体文件，跟随网站一起发布，不依赖外部网络。
+import '@fontsource/space-grotesk/500.css';
+import '@fontsource/space-grotesk/600.css';
+import '@fontsource/space-grotesk/700.css';
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/500.css';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins/800.css';
 import '../styles/global.css';
 
 const {

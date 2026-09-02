@@ -1,0 +1,72 @@
+---
+// @ts-nocheck
+// 2026-09-02 新增：分类浏览第三层（也是最底层）——某个具体型号分组（比如 High P）的落地页，
+// 展示这个型号下的真实产品（一般就一个，但也可能有多个）。
+import Layout from '../../../../../../layouts/Layout.astro';
+import ProductCard from '../../../../../../components/ProductCard.astro';
+import { buildProductTree } from '../../../../../../lib/productTree';
+import { productCategories, productCategoryLabels } from '../../../../../../lib/categories';
+
+export async function getStaticPaths() {
+  const tree = await buildProductTree();
+  const paths = [];
+  for (const c of productCategories) {
+    const categoryNode = tree[c.value];
+    if (!categoryNode) continue;
+    for (const [seriesSlug, seriesNode] of Object.entries(categoryNode.series)) {
+      for (const variantSlug of Object.keys(seriesNode.variants)) {
+        paths.push({
+          params: { category: c.value, subcategory: seriesSlug, subsubcategory: variantSlug },
+        });
+      }
+    }
+  }
+  return paths;
+}
+
+const { category, subcategory, subsubcategory } = Astro.params;
+const tree = await buildProductTree();
+const categoryNode = tree[category] || { products: [], series: {} };
+const seriesNode = categoryNode.series[subcategory];
+const variantNode = seriesNode?.variants[subsubcategory];
+
+if (!variantNode) {
+  return Astro.redirect(`/products/category/${category}/${subcategory}`);
+}
+
+const categoryLabel = productCategoryLabels[category] || category;
+---
+<Layout
+  title={`${variantNode.label} | WLS Lighting`}
+  description={`Browse WLS Lighting's ${variantNode.label} range — factory-direct, customizable.`}
+>
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">
+        <a href={`/products/category/${category}`}>{categoryLabel}</a> / <a href={`/products/category/${category}/${subcategory}`}>{seriesNode.label}</a>
+      </span>
+      <h1>{variantNode.label}</h1>
+      <p>{variantNode.products.length} product{variantNode.products.length === 1 ? '' : 's'} available</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="grid grid--4">
+        {variantNode.products.map((p) => <ProductCard product={p} />)}
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .page-hero {
+    background: var(--section-wash);
+    color: var(--ink);
+    padding: 52px 0 36px;
+  }
+  .page-hero .eyebrow a { color: inherit; text-decoration: none; }
+  .page-hero .eyebrow a:hover { color: var(--glow); }
+  .page-hero h1 { font-size: clamp(30px, 4vw, 46px); margin: 8px 0 6px; }
+  .page-hero p { color: var(--text-muted); }
+</style>

@@ -18,7 +18,7 @@ export function urlFor(source) {
 export async function getAllProducts() {
   return client.fetch(
     `*[_type == "product"] | order(order asc) {
-      _id, name, slug, category, coverImage, shortDescription, customizable, specs, featured
+      _id, name, slug, category, subCategory, subSubCategory, coverImage, shortDescription, customizable, specs, featured
     }`
   );
 }
@@ -26,7 +26,7 @@ export async function getAllProducts() {
 export async function getFeaturedProducts() {
   return client.fetch(
     `*[_type == "product" && featured == true] | order(order asc) [0...6] {
-      _id, name, slug, category, coverImage, shortDescription, specs, customizable
+      _id, name, slug, category, subCategory, subSubCategory, coverImage, shortDescription, specs, customizable
     }`
   );
 }
@@ -34,7 +34,7 @@ export async function getFeaturedProducts() {
 export async function getProductBySlug(slug) {
   return client.fetch(
     `*[_type == "product" && slug.current == $slug][0]{
-      _id, name, category, coverImage, gallery, shortDescription, specs, customizable,
+      _id, name, category, subCategory, subSubCategory, coverImage, gallery, shortDescription, specs, customizable,
       documents[]{
         title,
         "fileUrl": file.asset->url,

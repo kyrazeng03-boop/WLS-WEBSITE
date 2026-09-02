@@ -80,7 +80,7 @@ try {
       </div>
 
       <div class="product-detail__info">
-        <span class="eyebrow" data-i18n={`cat.${product.category}`}>{categoryLabel}</span>
+        <a href={`/products/category/${product.category}`} class="eyebrow" data-i18n={`cat.${product.category}`}>{categoryLabel}</a>
         <h1>{product.name}</h1>
         <p>{product.shortDescription}</p>
 

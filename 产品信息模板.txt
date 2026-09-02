@@ -1,0 +1,15 @@
+标题：产品名称（例如：DOB Floodlight）
+描述：一句话产品卖点描述（例如：High power outdoor flood light with constant current DOB driver integration, built for industrial and mining site lighting）
+二级分类：（可选，例如 Flood Light，没有可以整行删掉）
+三级分类：（可选，例如 Linear Flood Light，没有可以整行删掉）
+
+规格
+Wattage:
+Lumens:
+Beam Angle:
+IP Rating:
+Surge Protection:
+Power Factor:
+CCT:
+Warranty:
+Input Voltage:

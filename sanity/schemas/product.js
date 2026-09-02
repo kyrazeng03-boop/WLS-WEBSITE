@@ -41,6 +41,18 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'subCategory',
+      title: '二级分类（可选，比如 Outdoor Lighting 下面的 Flood Light / Street Light / Garden Light）',
+      type: 'string',
+      description: '先自由填写就行，不用非得跟别的产品完全一致。等实际产品录得差不多了，我会根据大家实际填的这些值，统一整理成分类筛选标签和分类页面。',
+    },
+    {
+      name: 'subSubCategory',
+      title: '三级分类（可选，比如 Flood Light 下面更细的 Linear Flood Light / Round Flood Light）',
+      type: 'string',
+      description: '同样先自由填写，非必填。没有这么细的分类可以不填。',
+    },
+    {
       name: 'coverImage',
       title: 'Cover Image 封面图（不限固定比例，方图/4:3/宣传长图都可以，详情页主图会自动按这张图的原始比例显示，不会裁切变形）',
       type: 'image',
@@ -91,6 +103,7 @@ export default {
     {
       name: 'specs',
       title: 'Specifications 参数表',
+      description: '每个产品记录在这套分类体系里都是真实的最细一级（比如"High P"），不管有没有填二级/三级分类，都应该有自己真实的规格参数，所以这里必填至少一条。',
       type: 'array',
       of: [
         {
@@ -102,6 +115,7 @@ export default {
           ],
         },
       ],
+      validation: (Rule) => Rule.min(1).error('请至少填写一条规格参数'),
     },
     {
       name: 'customizable',

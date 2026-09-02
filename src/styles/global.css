@@ -1,4 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=Poppins:wght@400;600;800&display=swap');
+/* 2026-09-02：字体改成本地打包（@fontsource），不再从 fonts.googleapis.com 实时加载。
+   原因：国内网络访问 Google 域名不稳定/经常被墙，一旦字体请求失败，浏览器会静默回退到
+   系统默认字体，页面上所有用到 --font-display/--font-body/--font-mono 的标题、正文、
+   标签文字看起来就会"整体变了样"（不是代码坏了，是字体没加载出来）。改成本地打包后
+   字体文件跟着网站一起打包发布，不依赖外部网络，全球访问都稳定。
+   实际的 import 语句在 src/layouts/Layout.astro 里（因为要用 JS import 让打包工具处理）。 */
 
 :root {
   /* ---- Color tokens (2026-08-20 更新：白/浅灰为主色，紫色收窄为辅助色——按钮、链接、Logo、强调文字) ---- */
@@ -146,6 +151,7 @@ img { max-width: 100%; display: block; }
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--glow);
+  text-decoration: none;
   display: inline-flex;
   align-items: center;
   gap: 10px;

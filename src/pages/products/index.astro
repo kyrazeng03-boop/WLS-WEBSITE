@@ -1,14 +1,48 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import ProductCard from '../../components/ProductCard.astro';
-import { getAllProducts } from '../../lib/sanity';
+import GroupTile from '../../components/GroupTile.astro';
+import { urlFor } from '../../lib/sanity';
+import { buildProductTree, countSeriesProducts, getSingleProduct } from '../../lib/productTree';
 import { productCategories } from '../../lib/categories';
 
-let products = [];
+// 2026-09-02：这个总览页原来是把所有产品平铺展示的，现在改成跟 /products/category/xxx
+// 那套新页面一样的分组逻辑——同一个二级分类（系列）下的产品会合并显示成一张分组卡片
+// （点进去到分类浏览页看具体型号），没填二级分类的产品还是照旧单独一张卡片。
+// 这样不管从哪个入口进来看到的都是同一套分组结果，不会出现"这里有分组、那里没分组"的不一致。
+let tree = {};
 try {
-  products = await getAllProducts();
+  tree = await buildProductTree();
 } catch (e) {
-  products = [];
+  tree = {};
+}
+
+const displayItems = [];
+for (const c of productCategories) {
+  const node = tree[c.value];
+  if (!node) continue;
+  for (const [seriesSlug, s] of Object.entries(node.series)) {
+    // 系列下如果总共只有1个真实产品，不展示成"分组卡片"（信息不全、没有询盘按钮），
+    // 直接当成一张完整的产品卡片(ProductCard)展示，跟其它单品卡片保持一致的样式和操作按钮。
+    const single = getSingleProduct(s);
+    if (single) {
+      displayItems.push({ type: 'product', category: c.value, key: single._id, product: single });
+      continue;
+    }
+    const repProduct = s.products[0] || Object.values(s.variants)[0]?.products[0];
+    displayItems.push({
+      type: 'series',
+      category: c.value,
+      key: `series-${c.value}-${seriesSlug}`,
+      href: `/products/category/${c.value}/${seriesSlug}`,
+      label: s.label,
+      coverUrl: repProduct?.coverImage ? urlFor(repProduct.coverImage).width(600).url() : '',
+      count: countSeriesProducts(s),
+    });
+  }
+  for (const p of node.products) {
+    displayItems.push({ type: 'product', category: c.value, key: p._id, product: p });
+  }
 }
 
 const categories = [{ value: 'all', label: 'All Products' }, ...productCategories];
@@ -35,7 +69,7 @@ const categoryIcons = {
     <div class="container">
       <div class="cat-photo-grid">
         {productCategories.map((c) => (
-          <a href={`/products?cat=${c.value}`} class="cat-photo-tile">
+          <a href={`/products/category/${c.value}`} class="cat-photo-tile">
             <span class="cat-photo-tile__icon" set:html={categoryIcons[c.value]} />
             <span data-i18n={`cat.${c.value}`}>{c.label}</span>
           </a>
@@ -55,10 +89,14 @@ const categoryIcons = {
       <div class="glow-divider" style="margin: 28px 0 40px;"></div>
 
       <div class="grid grid--3" id="productGrid">
-        {products.length > 0 ? (
-          products.map((p) => (
-            <div class="product-item" data-cat={p.category}>
-              <ProductCard product={p} />
+        {displayItems.length > 0 ? (
+          displayItems.map((item) => (
+            <div class="product-item" data-cat={item.category}>
+              {item.type === 'series' ? (
+                <GroupTile href={item.href} label={item.label} coverUrl={item.coverUrl} count={item.count} />
+              ) : (
+                <ProductCard product={item.product} />
+              )}
             </div>
           ))
         ) : (
