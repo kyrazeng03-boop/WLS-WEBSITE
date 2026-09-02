@@ -30,8 +30,8 @@ export const productFAQs = [
     a: "Yes. WLS provides flexible OEM/ODM and private-label solutions, including customized color temperatures (2700K–6500K), beam angles, optics, product design, packaging, and branding to match your market's requirements.",
   },
   {
-    q: 'What performance standards do WLS products meet?',
-    a: "WLS products are built with quality LED components and go through quality inspection on every production batch before shipment. Many of our lighting products deliver over 100 lm/W efficacy and a power factor above 0.9 — check the spec sheet on each product page for exact figures, and we're happy to share the relevant test reports and certificates on request.",
+    q: 'What is the typical lead time for orders?',
+    a: "Lead time depends on order volume and how much customization is involved. Samples are usually the fastest to turn around, while bulk orders take a bit longer once specifications and quantities are confirmed — contact us with your requirements and we'll give you an accurate timeline.",
   },
   {
     q: 'What payment terms are available?',

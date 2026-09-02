@@ -123,7 +123,7 @@ export const translations = {
   'products.recommendation.eyebrow': { en: 'Product Recommendation', zh: '推荐产品' },
   'products.recommendation.title': { en: 'Related Products', zh: '相关产品' },
   'products.faq.eyebrow': { en: 'Frequently Asked', zh: '常见问题' },
-  'products.faq.title': { en: 'Common Questions From Our Partners', zh: '合作伙伴常见问题' },
+  'products.faq.title': { en: 'FAQ', zh: 'FAQ' },
 
   // ---- News categories (fixed labels mapped from Sanity's category enum) ----
   'newsCat.company': { en: 'Company News', zh: '公司新闻' },
