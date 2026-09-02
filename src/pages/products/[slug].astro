@@ -27,6 +27,21 @@ const coverUrl = product.coverImage ? urlFor(product.coverImage).width(1200).url
 const galleryUrls = (product.gallery || []).map((img) => urlFor(img).width(1200).url());
 // 主图轮播用的完整图片列表：封面图 + 图集，供左右箭头切换
 const allImages = [coverUrl, ...galleryUrls];
+
+// 2026-09-02：不同产品/不同图片的原始比例其实不一样（有的是方图，有的是4:3实拍图，
+// 有的是带Logo文案的宣传长图），之前主图框写死 aspect-ratio 会导致跟封面图比例不一致时
+// 两侧/上下出现大片空白。这里直接从Sanity图片资源的文件名里解析出封面图的原始宽高
+// （Sanity图片_ref格式形如 "image-<hash>-800x800-jpg"，宽高就编码在文件名里），
+// 让主图框的比例跟封面图保持一致，消除多余留白。解析失败时兜底用4:3。
+function getImageRatio(source) {
+  const ref = source?.asset?._ref || '';
+  const match = ref.match(/-(\d+)x(\d+)-/);
+  if (match) {
+    return `${match[1]} / ${match[2]}`;
+  }
+  return '4 / 3';
+}
+const mainImageRatio = getImageRatio(product.coverImage);
 const categoryLabel = productCategoryLabels[product.category] || product.category;
 
 // 同系列推荐 —— 排除当前产品本身，最多展示3个
@@ -44,7 +59,7 @@ try {
   <section class="section" style="padding-top: 48px;">
     <div class="container product-detail">
       <div class="product-detail__media">
-        <div class="product-detail__main-image" id="productCarousel">
+        <div class="product-detail__main-image" id="productCarousel" style={`aspect-ratio: ${mainImageRatio};`}>
           {allImages.map((url, i) => (
             <img src={url} alt={product.name} class={`carousel-img ${i === 0 ? 'active' : ''}`} data-index={i} />
           ))}
@@ -199,7 +214,7 @@ try {
   }
   .product-detail__main-image {
     position: relative;
-    aspect-ratio: 4/3;
+    aspect-ratio: 4/3; /* 兜底比例：实际比例由页面内联样式按封面图原始尺寸动态设置，见上方frontmatter */
     overflow: hidden;
     background: var(--paper-soft);
   }
