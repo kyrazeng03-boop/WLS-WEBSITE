@@ -31,7 +31,7 @@ export const productFAQs = [
   },
   {
     q: 'What is the typical lead time for orders?',
-    a: "Lead time depends on order volume and how much customization is involved. Samples are usually the fastest to turn around, while bulk orders take a bit longer once specifications and quantities are confirmed — contact us with your requirements and we'll give you an accurate timeline.",
+    a: 'Samples typically take 3–5 days. Bulk orders usually take 15–20 days, and we can expedite rush orders down to 7–10 days depending on order size and specification.',
   },
   {
     q: 'What payment terms are available?',
