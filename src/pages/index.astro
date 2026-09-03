@@ -25,7 +25,7 @@ try {
 const stats = [
   { value: settings?.exportCountries ? `${settings.exportCountries}+` : '20+', label: 'Countries Served', i18n: 'home.stat.countries' },
   { value: '12+', label: 'Samsung SMT Lines', i18n: 'home.stat.smtLines' },
-  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '13+', label: 'Years In DOB Lighting', i18n: 'home.stat.years' },
+  { value: settings?.foundedYear ? `${new Date().getFullYear() - settings.foundedYear}+` : '13+', label: 'Years in DOB Lighting', i18n: 'home.stat.years' },
   { value: '2+', label: 'Factories (China + Egypt)', i18n: 'home.stat.factories' },
   { value: '24h', label: 'Inquiry Response Time', i18n: 'home.stat.response' },
 ];
@@ -41,10 +41,10 @@ const trustBadges = [
 
 // ---- Hero轮播：Sanity有数据就用Sanity，没有就用现成的4张占位图+文案兜底 ----
 const fallbackHeroSlides = [
-  { imageUrl: '/images/hero-1.jpg', eyebrow: 'Manufacturing Excellence', heading: 'Inside The Factory Built For Reliable,<br/>At-Scale Production.', description: "WLS Lighting's Zhongshan and Egypt facilities run full production lines from raw materials to finished, tested product — built for consistency across every container load." },
-  { imageUrl: '/images/hero-2.jpg', eyebrow: 'Complete Product Range', heading: 'One Supplier, A Full Range —<br/>From Light Source Panels To DOB Drivers.', description: 'Outdoor, commercial, smart and furniture lighting, plus DOB drivers — all built to the same Build Healthy Lighting standard.' },
-  { imageUrl: '/images/hero-3.jpg', eyebrow: 'Flagship Solutions', heading: 'Our Best-Selling DOB Lighting,<br/>Engineered For Demanding Export Markets.', description: 'Factory-direct pricing, fast turnaround and customization on the products our distributors and project partners order most.' },
-  { imageUrl: '/images/hero-4.jpg', eyebrow: 'Global Export Partner', heading: 'Trusted Across 20+ Countries In<br/>Asia, The Middle East And Africa.', description: 'Over a decade of export experience, with a dedicated overseas factory in Egypt shortening lead times for Middle Eastern and African customers.' },
+  { imageUrl: '/images/hero-1.jpg', eyebrow: 'Manufacturing Excellence', heading: 'Inside the Factory Built for Reliable,<br/>At-Scale Production.', description: "WLS Lighting's Zhongshan and Egypt facilities run full production lines from raw materials to finished, tested product — built for consistency across every container load." },
+  { imageUrl: '/images/hero-2.jpg', eyebrow: 'Complete Product Range', heading: 'One Supplier, a Full Range —<br/>from Light Source Panels to DOB Drivers.', description: 'Outdoor, commercial, smart and furniture lighting, plus DOB drivers — all built to the same Build Healthy Lighting standard.' },
+  { imageUrl: '/images/hero-3.jpg', eyebrow: 'Flagship Solutions', heading: 'Our Best-Selling DOB Lighting,<br/>Engineered for Demanding Export Markets.', description: 'Factory-direct pricing, fast turnaround and customization on the products our distributors and project partners order most.' },
+  { imageUrl: '/images/hero-4.jpg', eyebrow: 'Global Export Partner', heading: 'Trusted Across 20+ Countries in<br/>Asia, the Middle East and Africa.', description: 'Over a decade of export experience, with a dedicated overseas factory in Egypt shortening lead times for Middle Eastern and African customers.' },
 ];
 const heroSlides = (homepage?.heroSlides && homepage.heroSlides.length > 0)
   ? homepage.heroSlides.map((s) => ({
@@ -103,7 +103,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       <h1 id="heroHeading" set:html={heroSlides[0]?.heading}></h1>
       <p class="hero__desc" id="heroDesc">{heroSlides[0]?.description}</p>
       <div class="hero__actions">
-        <a href="/contact" class="btn btn--primary" data-i18n="nav.cta">Get A Quote</a>
+        <a href="/contact" class="btn btn--primary" data-i18n="nav.cta">Get a Quote</a>
         <a href="/products" class="btn btn--outline" data-i18n="btn.viewProducts">View Products</a>
       </div>
     </div>
@@ -139,7 +139,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       </div>
       <div class="founder-copy">
         <span class="eyebrow" data-i18n="home.story.eyebrow">Our Story</span>
-        <h2 class="section-title" data-i18n="home.story.title">Built On A Simple Belief</h2>
+        <h2 class="section-title" data-i18n="home.story.title">Built on a Simple Belief</h2>
         <p class="founder-quote">{founderQuote}</p>
         <p class="founder-name">
           — {founderName}
@@ -218,8 +218,8 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
   <section class="section coop-cta">
     <div class="container coop-cta__inner">
       <div>
-        <span class="eyebrow" data-i18n="home.coop.eyebrow">Partner With Us</span>
-        <h2 class="section-title" data-i18n="home.coop.title">Looking For A Distributor Or OEM Partner?</h2>
+        <span class="eyebrow" data-i18n="home.coop.eyebrow">Partner with Us</span>
+        <h2 class="section-title" data-i18n="home.coop.title">Looking for a Distributor or OEM Partner?</h2>
         <p>We work with regional distributors and project contractors across India, the Middle East and Africa. Get pricing support, samples and territory guidance.</p>
       </div>
       <a href="/cooperation" class="btn btn--primary" data-i18n="btn.exploreCooperation">Explore Cooperation</a>
@@ -232,7 +232,7 @@ const partnerLogos = (partnersFromCMS && partnersFromCMS.length > 0)
       <div class="section-header">
         <div>
           <span class="eyebrow" data-i18n="home.news.eyebrow">Latest News</span>
-          <h2 class="section-title" data-i18n="home.news.title">Stay Updated With Our Latest News</h2>
+          <h2 class="section-title" data-i18n="home.news.title">Stay Updated with Our Latest News</h2>
         </div>
         <a href="/news" class="btn btn--outline-dark" data-i18n="btn.allNews">All News</a>
       </div>

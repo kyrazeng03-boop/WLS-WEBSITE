@@ -8,10 +8,10 @@ export const translations = {
   'nav.about': { en: 'About Us', zh: '关于我们' },
   'nav.news': { en: 'News', zh: '新闻' },
   'nav.cooperation': { en: 'Cooperation', zh: '合作' },
-  'nav.cta': { en: 'Get A Quote', zh: '获取报价' },
+  'nav.cta': { en: 'Get a Quote', zh: '获取报价' },
 
   // ---- Footer ----
-  'footer.ctaText': { en: "Don't Hesitate To Tell Us About Your Needs", zh: '欢迎随时告诉我们您的需求' },
+  'footer.ctaText': { en: "Don't Hesitate to Tell Us about Your Needs", zh: '欢迎随时告诉我们您的需求' },
   'footer.ctaBtn': { en: 'Contact Us', zh: '联系我们' },
   'footer.followUs': { en: 'Follow Us On:', zh: '关注我们：' },
   'footer.productsHeading': { en: 'Products', zh: '产品' },
@@ -34,36 +34,36 @@ export const translations = {
   'btn.allProducts': { en: 'All Products', zh: '所有产品' },
   'btn.allNews': { en: 'All News', zh: '所有新闻' },
   'btn.viewProducts': { en: 'View Products', zh: '查看产品' },
-  'btn.chatWhatsApp': { en: 'Chat On WhatsApp', zh: 'WhatsApp联系' },
+  'btn.chatWhatsApp': { en: 'Chat on WhatsApp', zh: 'WhatsApp联系' },
   'btn.exploreCooperation': { en: 'Explore Cooperation', zh: '了解合作方式' },
 
   // ---- Homepage ----
   'home.stat.countries': { en: 'Countries Served', zh: '服务国家' },
   'home.stat.smtLines': { en: 'Samsung SMT Lines', zh: '三星SMT产线' },
-  'home.stat.years': { en: 'Years In DOB Lighting', zh: '年DOB照明经验' },
+  'home.stat.years': { en: 'Years in DOB Lighting', zh: '年DOB照明经验' },
   'home.stat.factories': { en: 'Factories (China + Egypt)', zh: '工厂（中国+埃及）' },
   'home.stat.response': { en: 'Inquiry Response Time', zh: '询盘响应时间' },
   'home.story.eyebrow': { en: 'Our Story', zh: '我们的故事' },
-  'home.story.title': { en: 'Built On A Simple Belief', zh: '始于一个简单的信念' },
+  'home.story.title': { en: 'Built on a Simple Belief', zh: '始于一个简单的信念' },
   'home.products.eyebrow': { en: 'Recommended', zh: '推荐产品' },
   'home.products.title': { en: 'Hot Selling Products', zh: '热销产品' },
   'home.partners.eyebrow': { en: 'Strategy Partners', zh: '战略合作伙伴' },
   'home.partners.title': { en: 'Outstanding Strategic Partners', zh: '优秀的战略合作伙伴' },
   'home.testimonials.eyebrow': { en: 'Client Feedback', zh: '客户反馈' },
   'home.testimonials.title': { en: 'What Our Distributors Say', zh: '经销商怎么说' },
-  'home.coop.eyebrow': { en: 'Partner With Us', zh: '与我们合作' },
-  'home.coop.title': { en: 'Looking For A Distributor Or OEM Partner?', zh: '寻找经销商或OEM合作伙伴？' },
+  'home.coop.eyebrow': { en: 'Partner with Us', zh: '与我们合作' },
+  'home.coop.title': { en: 'Looking for a Distributor or OEM Partner?', zh: '寻找经销商或OEM合作伙伴？' },
   'home.news.eyebrow': { en: 'Latest News', zh: '最新动态' },
-  'home.news.title': { en: 'Stay Updated With Our Latest News', zh: '了解我们的最新动态' },
+  'home.news.title': { en: 'Stay Updated with Our Latest News', zh: '了解我们的最新动态' },
 
   // ---- About page ----
   'about.hero.eyebrow': { en: 'About Us', zh: '关于我们' },
-  'about.hero.title': { en: 'An Innovator In DOB Manufacturing, Built On A Healthy-Lighting Standard.', zh: '专注DOB制造创新，坚持健康照明标准。' },
+  'about.hero.title': { en: 'An Innovator in DOB Manufacturing, Built on a Healthy-Lighting Standard.', zh: '专注DOB制造创新，坚持健康照明标准。' },
   'about.strength.eyebrow': { en: 'Manufacturing Strength', zh: '制造实力' },
   'about.strength.title': { en: 'Two Factories, One Quality Standard', zh: '两座工厂，同一质量标准' },
   'about.milestones.eyebrow': { en: 'Company Milestones', zh: '公司里程碑' },
   'about.milestones.title': { en: 'Our Growth Story', zh: '我们的成长故事' },
-  'about.mfg.eyebrow': { en: 'By The Numbers', zh: '数据一览' },
+  'about.mfg.eyebrow': { en: 'By the Numbers', zh: '数据一览' },
   'about.mfg.title': { en: 'Manufacturing Center', zh: '生产制造中心' },
   'about.rd.eyebrow': { en: 'R&D & Testing', zh: '研发与测试' },
   'about.rd.title': { en: 'Die-Casting, Machining & Quality Testing', zh: '压铸、加工与质量检测' },
@@ -72,8 +72,8 @@ export const translations = {
 
   // ---- Contact page ----
   'contact.hero.eyebrow': { en: 'Contact Us', zh: '联系我们' },
-  'contact.hero.title': { en: "Let's Talk About Your Project", zh: '一起聊聊您的项目' },
-  'contact.form.eyebrow': { en: 'Get In Touch', zh: '联系方式' },
+  'contact.hero.title': { en: "Let's Talk about Your Project", zh: '一起聊聊您的项目' },
+  'contact.form.eyebrow': { en: 'Get in Touch', zh: '联系方式' },
   'contact.form.title': { en: "Tell Us What You're Looking For", zh: '告诉我们您的需求' },
   'contact.offices.eyebrow': { en: 'Our Offices', zh: '办公地点' },
   'contact.offices.title': { en: 'Two Locations, One Standard', zh: '两地办公，同一标准' },
@@ -90,13 +90,13 @@ export const translations = {
 
   // ---- Cooperation page ----
   'coop.hero.eyebrow': { en: 'Cooperation', zh: '合作' },
-  'coop.hero.title': { en: 'Two Ways To Work With WLS Lighting', zh: '两种与威林胜合作的方式' },
+  'coop.hero.title': { en: 'Two Ways to Work with WLS Lighting', zh: '两种与威林胜合作的方式' },
   'coop.distributor.eyebrow': { en: 'Distributor', zh: '经销商' },
   'coop.distributor.title': { en: 'Regional Distribution', zh: '区域经销' },
-  'coop.distributor.cta': { en: 'Apply As A Distributor', zh: '申请成为经销商' },
+  'coop.distributor.cta': { en: 'Apply as a Distributor', zh: '申请成为经销商' },
   'coop.oem.eyebrow': { en: 'OEM / Customization', zh: 'OEM / 定制' },
   'coop.oem.title': { en: 'Private Label & Custom Specification', zh: '贴牌与定制规格' },
-  'coop.oem.cta': { en: 'Start A Custom Project', zh: '开启定制项目' },
+  'coop.oem.cta': { en: 'Start a Custom Project', zh: '开启定制项目' },
   'coop.custom.eyebrow': { en: 'Customization', zh: '定制能力' },
   'coop.custom.title': { en: '100% <span class="page-hero__highlight">Customization</span>', zh: '100% <span class="page-hero__highlight">定制化</span>' },
   'coop.custom.subtitle': { en: 'As a factory-direct light source panel manufacturer, WLS Lighting offers highly customizable lighting solutions built around your project.', zh: '作为光源板工厂直销制造商，威林胜可以围绕您的项目，提供高度定制化的照明解决方案。' },
@@ -109,7 +109,7 @@ export const translations = {
   'coop.custom.branding.title': { en: 'Branding', zh: '品牌贴牌' },
   'coop.custom.branding.desc': { en: 'Private label packaging and logo printing available for all custom orders, large or small.', zh: '所有定制订单均支持贴牌包装和logo印刷，不限订单大小。' },
   'coop.apply.eyebrow': { en: 'Apply', zh: '申请合作' },
-  'coop.apply.title': { en: 'Tell Us About Your Business', zh: '告诉我们您的业务情况' },
+  'coop.apply.title': { en: 'Tell Us about Your Business', zh: '告诉我们您的业务情况' },
 
   // ---- Products listing / detail ----
   'products.hero.eyebrow': { en: 'Product Range', zh: '产品系列' },
@@ -132,7 +132,7 @@ export const translations = {
 
   // ---- News ----
   'news.hero.eyebrow': { en: 'News', zh: '新闻动态' },
-  'news.hero.title': { en: 'Follow The Latest Information', zh: '获取最新资讯' },
+  'news.hero.title': { en: 'Follow the Latest Information', zh: '获取最新资讯' },
   'news.cta.text': { en: 'Interested in working with WLS Lighting?', zh: '有兴趣与威林胜合作吗？' },
 
   // ---- Forms (ContactForm.astro + QuickInquiryModal.astro share these) ----
@@ -153,5 +153,5 @@ export const translations = {
 
   // ---- QuickInquiryModal ----
   'modal.eyebrow': { en: 'Quick Inquiry', zh: '快速询价' },
-  'modal.defaultTitle': { en: 'Inquire About This Product', zh: '咨询此产品' },
+  'modal.defaultTitle': { en: 'Inquire about This Product', zh: '咨询此产品' },
 };

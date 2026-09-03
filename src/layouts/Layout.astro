@@ -8,12 +8,13 @@ import { getSiteSettings } from '../lib/sanity';
 // fonts.googleapis.com 实时请求——国内网络访问经常被墙/超时，字体一旦加载失败，
 // 浏览器会静默换成系统默认字体，导致标题/正文字体"看起来突然变了"。
 // 这几行 import 会被打包工具处理成本地静态字体文件，跟随网站一起发布，不依赖外部网络。
-import '@fontsource/space-grotesk/500.css';
-import '@fontsource/space-grotesk/600.css';
-import '@fontsource/space-grotesk/700.css';
-import '@fontsource/inter/400.css';
-import '@fontsource/inter/500.css';
-import '@fontsource/inter/600.css';
+// 2026-09-03：标题+正文统一换成 Public Sans（参考 usa.lighting.philips.com 的字体气质，
+// 详见 global.css 里 --font-display/--font-body 那段注释）——不再需要 Space Grotesk/Inter。
+import '@fontsource/public-sans/400.css';
+import '@fontsource/public-sans/500.css';
+import '@fontsource/public-sans/600.css';
+import '@fontsource/public-sans/700.css';
+import '@fontsource/public-sans/800.css';
 import '@fontsource/ibm-plex-mono/400.css';
 import '@fontsource/ibm-plex-mono/500.css';
 import '@fontsource/poppins/400.css';

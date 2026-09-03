@@ -21,9 +21,18 @@
   --line-onDark: rgba(255, 255, 255, 0.18);
   --text-muted: #6E6570;
 
-  /* ---- Type tokens ---- */
-  --font-display: 'Space Grotesk', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* ---- Type tokens ----
+     2026-09-03：标题字体和正文字体统一换成 Public Sans，参考的是
+     https://www.usa.lighting.philips.com/consumer 这个网站的字体气质——
+     实测那个网站标题/正文/导航/按钮全站统一用的是 "Neue Frutiger World"，
+     但那是 Monotype 的商业收费字体，没有企业授权不能直接用。Public Sans是
+     免费开源字体，跟 Neue Frutiger 一样是干净、克制的人文无衬线风格，
+     视觉气质接近，用它来达到"看起来像那个网站"的效果，不涉及版权问题。
+     字号、颜色都没有改动，只是把原来 Space Grotesk(标题)/Inter(正文) 两款
+     字体换成了同一款 Public Sans（标签用的等宽字体 IBM Plex Mono 维持不变，
+     那是刻意做成技术感标签的独立设计，不是这次要模仿的对象）。 */
+  --font-display: 'Public Sans', sans-serif;
+  --font-body: 'Public Sans', sans-serif;
   --font-mono: 'IBM Plex Mono', monospace;
 
   /* ---- Spacing ---- */
