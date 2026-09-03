@@ -4,9 +4,10 @@
 // 跟项目里其它 .js 文件保持一致的宽松风格）
 import { getAllProducts } from './sanity';
 
-// URL里用的短横线格式（比如把 "Constant Current LED Flood Light DOB" 变成
-// "constant-current-led-flood-light-dob"），二级分类/三级分类是自由文本，
-// 不像 slug 字段那样自带链接用的短横线格式，所以这里自己转一下。
+// URL里用的短横线格式。2026-09-03 之前二级/三级分类是产品里手打的自由文本，
+// 没有自带链接用的短横线格式，所以要靠这个函数现转；现在二级/三级分类是
+// 独立的分类文档，自己就带了 slug 字段（sanity.js 查询时已经取出来了），
+// 优先直接用那个 slug，这个函数只在极少数分类文档没填 slug 时兜底用。
 export function slugify(str) {
   return (str || '')
     .toString()
@@ -47,25 +48,27 @@ export async function buildProductTree() {
     if (!cat) continue;
     if (!tree[cat]) tree[cat] = { products: [], series: {} };
 
-    const subCategory = p.subCategory && p.subCategory.trim();
+    // subCategory / subSubCategory 现在是解引用出来的 {title, slug} 对象（见 sanity.js），
+    // 没选分类的产品这两个字段是 null/undefined
+    const subCategory = p.subCategory?.title?.trim();
     if (!subCategory) {
       tree[cat].products.push(p);
       continue;
     }
 
-    const seriesSlug = slugify(subCategory);
+    const seriesSlug = p.subCategory.slug || slugify(subCategory);
     if (!tree[cat].series[seriesSlug]) {
       tree[cat].series[seriesSlug] = { label: subCategory, products: [], variants: {} };
     }
     const seriesNode = tree[cat].series[seriesSlug];
 
-    const subSubCategory = p.subSubCategory && p.subSubCategory.trim();
+    const subSubCategory = p.subSubCategory?.title?.trim();
     if (!subSubCategory) {
       seriesNode.products.push(p);
       continue;
     }
 
-    const variantSlug = slugify(subSubCategory);
+    const variantSlug = p.subSubCategory.slug || slugify(subSubCategory);
     if (!seriesNode.variants[variantSlug]) {
       seriesNode.variants[variantSlug] = { label: subSubCategory, products: [] };
     }

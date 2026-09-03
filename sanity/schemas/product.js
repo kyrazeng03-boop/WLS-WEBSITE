@@ -1,9 +1,17 @@
 import {ProductImportInput} from '../components/ProductImportInput.jsx';
+import {CATEGORY_OPTIONS} from '../lib/categoryOptions';
 
 export default {
   name: 'product',
   title: 'Product 产品',
   type: 'document',
+  // 配合 deskStructure.js：从"按分类浏览"里某个二级/三级分类下点"+"新建产品时，
+  // 会自动带上这里的一级/二级/三级分类，不用再手动选一遍
+  initialValue: (params) => ({
+    category: params?.category,
+    subCategory: params?.subCategory ? {_type: 'reference', _ref: params.subCategory} : undefined,
+    subSubCategory: params?.subSubCategory ? {_type: 'reference', _ref: params.subSubCategory} : undefined,
+  }),
   fields: [
     {
       name: 'importHelper',
@@ -29,28 +37,35 @@ export default {
       name: 'category',
       title: 'Category 分类',
       type: 'string',
-      options: {
-        list: [
-          { title: 'Outdoor Lighting Series 户外照明', value: 'outdoor' },
-          { title: 'Commercial Lighting Series 商业照明', value: 'commercial' },
-          { title: 'Smart Lighting Series 智能照明', value: 'smart' },
-          { title: 'Furniture Lighting Series 家具照明', value: 'furniture' },
-          { title: 'DOB Driver Series 驱动系列', value: 'dob-driver' },
-        ],
-      },
+      options: { list: CATEGORY_OPTIONS },
       validation: (Rule) => Rule.required(),
     },
     {
       name: 'subCategory',
       title: '二级分类（可选，比如 Outdoor Lighting 下面的 Flood Light / Street Light / Garden Light）',
-      type: 'string',
-      description: '先自由填写就行，不用非得跟别的产品完全一致。等实际产品录得差不多了，我会根据大家实际填的这些值，统一整理成分类筛选标签和分类页面。',
+      type: 'reference',
+      to: [{ type: 'subCategory' }],
+      description: '先选好上面的"一级分类"，这里的下拉列表只会显示对应一级分类下已经建好的二级分类。如果列表里没有你要的选项，去 Studio 左侧"分类管理"（或对应一级分类下面的"新建/管理二级分类"）里先建一个，再回来选。',
+      options: {
+        filter: ({ document }) => {
+          if (!document?.category) return { filter: 'false' };
+          return { filter: 'category == $cat', params: { cat: document.category } };
+        },
+      },
     },
     {
       name: 'subSubCategory',
       title: '三级分类（可选，比如 Flood Light 下面更细的 Linear Flood Light / Round Flood Light）',
-      type: 'string',
-      description: '同样先自由填写，非必填。没有这么细的分类可以不填。',
+      type: 'reference',
+      to: [{ type: 'subSubCategory' }],
+      description: '先选好上面的"二级分类"，这里的下拉列表只会显示对应二级分类下已经建好的三级分类。同样，没有的话先去"分类管理"里建一个。',
+      options: {
+        filter: ({ document }) => {
+          const scRef = document?.subCategory?._ref;
+          if (!scRef) return { filter: 'false' };
+          return { filter: 'subCategory._ref == $sc', params: { sc: scRef } };
+        },
+      },
     },
     {
       name: 'coverImage',

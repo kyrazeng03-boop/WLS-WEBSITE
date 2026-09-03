@@ -10,6 +10,7 @@
     "preview": "astro preview",
     "seed": "node scripts/seed.js",
     "import:products": "node scripts/import-products.js",
+    "migrate:categories": "node scripts/migrate-categories.mjs",
     "sanity:dev": "cd sanity && sanity dev",
     "sanity:deploy": "cd sanity && sanity deploy"
   },
