@@ -21,6 +21,15 @@
 import { CATEGORY_OPTIONS } from './lib/categoryOptions';
 
 const NO_SUBCATEGORY_TITLE = '（未选二级分类 No Subcategory）';
+const UNTITLED = '（未命名 Untitled — 请去补填 Title）';
+
+// 分类文档如果是刚新建、还没填 Title 就被列进来了（比如草稿状态），
+// sub.title 会是 undefined——Sanity 要求侧边栏每个 list item 必须有 title，
+// 不然整个结构树会直接报错崩掉。这里统一兜底成一个能看懂的占位文字，
+// 而不是让整个"按分类浏览"打不开。
+function titleOf(doc) {
+  return (doc && doc.title) || UNTITLED;
+}
 
 function productListNode(S, { id, title, filter, params, initTemplateParams }) {
   return S.documentList()
@@ -47,7 +56,7 @@ function subSubCategoryChild(S, client, cat, sub) {
         .child(
           S.documentList()
             .id(`sc-${sub._id}__manage__list`)
-            .title(`${sub.title} — 三级分类管理`)
+            .title(`${titleOf(sub)} — 三级分类管理`)
             .schemaType('subSubCategory')
             .filter('_type == "subSubCategory" && subCategory._ref == $scId')
             .params({ scId: sub._id })
@@ -57,11 +66,11 @@ function subSubCategoryChild(S, client, cat, sub) {
       ...subsubs.map((ssc) =>
         S.listItem()
           .id(`ssc-${ssc._id}`)
-          .title(ssc.title)
+          .title(titleOf(ssc))
           .child(
             productListNode(S, {
               id: `ssc-${ssc._id}__list`,
-              title: ssc.title,
+              title: titleOf(ssc),
               filter: '_type == "product" && subSubCategory._ref == $id',
               params: { id: ssc._id },
               initTemplateParams: { category: cat.value, subCategory: sub._id, subSubCategory: ssc._id },
@@ -74,11 +83,11 @@ function subSubCategoryChild(S, client, cat, sub) {
     items.push(
       S.listItem()
         .id(`sc-${sub._id}__direct`)
-        .title(`（直属"${sub.title}"，未选三级分类）`)
+        .title(`（直属"${titleOf(sub)}"，未选三级分类）`)
         .child(
           productListNode(S, {
             id: `sc-${sub._id}__direct__list`,
-            title: sub.title,
+            title: titleOf(sub),
             filter: '_type == "product" && subCategory._ref == $id && !defined(subSubCategory)',
             params: { id: sub._id },
             initTemplateParams: { category: cat.value, subCategory: sub._id },
@@ -86,7 +95,7 @@ function subSubCategoryChild(S, client, cat, sub) {
         )
     );
 
-    return S.list().id(`sc-${sub._id}__wrap`).title(sub.title).items(items);
+    return S.list().id(`sc-${sub._id}__wrap`).title(titleOf(sub)).items(items);
   };
 }
 
@@ -114,7 +123,7 @@ function subCategoryChild(S, client, cat) {
       ...subs.map((sub) =>
         S.listItem()
           .id(`sc-${sub._id}`)
-          .title(sub.title)
+          .title(titleOf(sub))
           .child(subSubCategoryChild(S, client, cat, sub))
       ),
     ];
