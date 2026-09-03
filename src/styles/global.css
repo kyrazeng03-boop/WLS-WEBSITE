@@ -155,13 +155,16 @@ img { max-width: 100%; display: block; }
 }
 
 .eyebrow {
+  /* 2026-09-03：全站去掉标题上方那行紫色小标签（比如"MANUFACTURING STRENGTH"），
+     用户确认不需要展示——用 display:none 整体隐藏，比逐个页面删标签更安全，
+     以后想恢复的话把这行删掉就行，不用重新写内容。 */
+  display: none;
   font-family: var(--font-mono);
   font-size: 14px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--glow);
   text-decoration: none;
-  display: inline-flex;
   align-items: center;
   gap: 10px;
   margin-bottom: 16px;
