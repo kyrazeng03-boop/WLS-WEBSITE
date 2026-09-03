@@ -281,15 +281,8 @@ const applyIcons = {
   }
   .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
 
-  /* 文字这一栏拉伸到跟表单一样高：标题+说明贴顶，信任点列表占满剩下的
-     高度（flex:1），4 条信任点再用 space-between 平均分布在这段剩余高度里——
-     这样多出来的空间是分散在 4 条之间的小间距，而不是集中成一大块空白，
-     同时列表最后一条的底边还是能跟表单底边对齐。 */
-  .apply-info {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+  /* 顶部对齐即可：标题+说明+信任点从上往下按自然间距排列，
+     不再强制拉伸/平分高度撑满表单底部，行距也不会因为撑高被拉大。 */
   .apply-info__top .eyebrow { margin-bottom: 12px; }
   .apply-info__top .section-title { margin-bottom: 12px; }
 
@@ -299,8 +292,6 @@ const applyIcons = {
     padding: 0;
     display: flex;
     flex-direction: column;
-    flex: 1;
-    justify-content: space-between;
     gap: 22px;
   }
   .apply-points li {
