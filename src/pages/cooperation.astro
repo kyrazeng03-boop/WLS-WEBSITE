@@ -16,6 +16,22 @@ const customizationIcons = {
   size: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 3H3v6"/><path d="M15 21h6v-6"/><path d="M3 3l7 7"/><path d="M21 21l-7-7"/></svg>',
   branding: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.6 13.4L11 3.8A2 2 0 0 0 9.6 3H4a1 1 0 0 0-1 1v5.6a2 2 0 0 0 .8 1.4l9.6 9.6a2 2 0 0 0 2.8 0l4.4-4.4a2 2 0 0 0 0-2.8z"/><circle cx="7.5" cy="7.5" r="1.1" fill="currentColor" stroke="none"/></svg>',
 };
+
+// 2026-09-03: "Tell Us about Your Business" 板块——文字说明挪到表单右边后新增的
+// 几条信任点/亮点，配上简单的线性小图标
+const applyPoints = [
+  { title: '1-Business-Day Response', desc: 'Our overseas team replies to every inquiry within 1 business day.', icon: 'clock' },
+  { title: 'Samples in 3–5 Days', desc: 'Bulk orders ship in 15–20 days, with rush production available in 7–10 days.', icon: 'box' },
+  { title: 'Dedicated Account Support', desc: 'A single point of contact guides your order from quotation through delivery.', icon: 'support' },
+  { title: 'Confidential by Default', desc: 'Your business details are only ever used to prepare your quotation.', icon: 'shield' },
+];
+
+const applyIcons = {
+  clock: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>',
+  box: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 7.5L12 3l8.5 4.5L12 12 3.5 7.5z"/><path d="M3.5 7.5V16l8.5 4.5 8.5-4.5V7.5"/><path d="M12 12v8.5"/></svg>',
+  support: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 16 0"/><rect x="3" y="12" width="4" height="6" rx="1.3"/><rect x="17" y="12" width="4" height="6" rx="1.3"/><path d="M19 18v1a3 3 0 0 1-3 3h-2"/></svg>',
+  shield: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+};
 ---
 <Layout title="Cooperation | WLS Lighting" description="Become a WLS Lighting distributor or OEM partner. Regional support, sample assistance and a clear customization process.">
   <section class="page-hero">
@@ -81,12 +97,25 @@ const customizationIcons = {
   </section>
 
   <section id="apply" class="section section--dark">
-    <div class="container">
-      <span class="eyebrow" data-i18n="coop.apply.eyebrow">Apply</span>
-      <h2 class="section-title" data-i18n="coop.apply.title">Tell Us about Your Business</h2>
-      <p style="max-width:560px;">Fill in a few details and our overseas team will get back to you within 1 business day with next steps.</p>
+    <div class="container apply-grid">
       <div class="coop-form-wrap">
         <ContactForm formType="cooperation" />
+      </div>
+      <div class="apply-info">
+        <span class="eyebrow" data-i18n="coop.apply.eyebrow">Apply</span>
+        <h2 class="section-title" data-i18n="coop.apply.title">Tell Us about Your Business</h2>
+        <p>Fill in a few details and our overseas team will get back to you within 1 business day with next steps.</p>
+        <ul class="apply-points">
+          {applyPoints.map((pt) => (
+            <li>
+              <span class="apply-points__icon" set:html={applyIcons[pt.icon]} />
+              <div>
+                <strong>{pt.title}</strong>
+                <p>{pt.desc}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
       </div>
     </div>
   </section>
@@ -234,14 +263,67 @@ const customizationIcons = {
 
   .section-title { font-size: clamp(27px, 3.4vw, 36px); }
 
+  /* 2026-09-03：表单右边原来是空的，把标题+说明文字挪过来，
+     再补几条信任点（响应速度/交期/专属对接人/保密），配小图标，
+     填满右边空间，同时内容也更丰富一点 */
+  .apply-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
   .coop-form-wrap {
-    max-width: 720px;
-    margin-top: 36px;
     background: var(--ink-soft);
     padding: 32px;
     border: 1px solid var(--line-onDark);
   }
   .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
+
+  .apply-info .eyebrow { margin-bottom: 12px; }
+  .apply-info .section-title { margin-bottom: 12px; }
+  .apply-info > p { max-width: 480px; }
+
+  .apply-points {
+    list-style: none;
+    margin: 28px 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+  }
+  .apply-points li {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .apply-points__icon {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--glow-pale);
+    color: var(--glow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .apply-points__icon :global(svg) { width: 20px; height: 20px; }
+  .apply-points strong {
+    display: block;
+    font-size: 15px;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+  .apply-points p {
+    font-size: 14px;
+    margin: 0;
+    max-width: 380px;
+  }
+
+  @media (max-width: 900px) {
+    .apply-grid { grid-template-columns: 1fr; gap: 32px; }
+    .apply-info { order: -1; }
+  }
 
   /* ---- 100% Customization ---- */
   .customization-header {
