@@ -85,13 +85,16 @@ const customizationIcons = {
       <span class="eyebrow" data-i18n="coop.apply.eyebrow">Apply</span>
       <h2 class="section-title" data-i18n="coop.apply.title">Tell Us about Your Business</h2>
       <p style="max-width:560px;">Fill in a few details and our overseas team will get back to you within 1 business day with next steps.</p>
-      <div class="coop-form-wrap">
-        <ContactForm formType="cooperation" />
+      <div class="apply-grid">
+        <div class="coop-form-wrap">
+          <ContactForm formType="cooperation" />
+        </div>
+        <div class="apply-offices">
+          <OfficesSection compact />
+        </div>
       </div>
     </div>
   </section>
-
-  <OfficesSection />
 </Layout>
 
 <style>
@@ -233,14 +236,26 @@ const customizationIcons = {
   .coop-card__cta:hover span { transform: translateX(4px); }
 
   .section-title { font-size: clamp(27px, 3.4vw, 36px); }
-  .coop-form-wrap {
-    max-width: 720px;
+
+  /* 2026-09-03：原来表单下面单独占一整块的"两个工厂"板块，挪到表单右边并排显示、
+     整体缩小了一圈（具体缩小样式见 OfficesSection.astro 里的 compact 模式），
+     不用再往下滑一屏才能看到工厂地址和地图。 */
+  .apply-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 40px;
+    align-items: start;
     margin-top: 36px;
+  }
+  .coop-form-wrap {
     background: var(--ink-soft);
     padding: 32px;
     border: 1px solid var(--line-onDark);
   }
   .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
+  @media (max-width: 900px) {
+    .apply-grid { grid-template-columns: 1fr; }
+  }
 
   /* ---- 100% Customization ---- */
   .customization-header {

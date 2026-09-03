@@ -4,6 +4,13 @@
 // 两处保持完全同步（改一处，两个页面都跟着变），不用各自维护一份数据。
 import { getSiteSettings } from '../lib/sanity';
 
+// 2026-09-03 新增 compact 模式：给 cooperation.astro 用，把这个板块直接放进
+// "Tell Us about Your Business" 那个深色板块右边（跟表单并排），而不是单独占一整块。
+// compact=true 时：不再自己套 <section>/大标题（跟表单挨在一起时标题重复没必要），
+// 两个工厂的卡片+地图从"卡片并排地图"改成上下堆叠，整体尺寸也通过CSS缩小了一圈。
+const { compact = false } = Astro.props;
+const Wrapper = compact ? 'div' : 'section';
+
 let settings = null;
 try {
   settings = await getSiteSettings();
@@ -32,10 +39,14 @@ const offices = [
 ];
 ---
 <!-- Office locations: contact details + map paired together per office -->
-<section class="section offices-section">
-  <div class="container">
-    <span class="eyebrow" data-i18n="contact.offices.eyebrow">Our Offices</span>
-    <h2 class="section-title" style="margin-bottom:32px;" data-i18n="contact.offices.title">Two Locations, One Standard</h2>
+<Wrapper class={compact ? 'offices-compact' : 'section offices-section'}>
+  <div class={compact ? '' : 'container'}>
+    {!compact && (
+      <>
+        <span class="eyebrow" data-i18n="contact.offices.eyebrow">Our Offices</span>
+        <h2 class="section-title" style="margin-bottom:32px;" data-i18n="contact.offices.title">Two Locations, One Standard</h2>
+      </>
+    )}
 
     <div class="office-row">
       <div class="contact-panel">
@@ -141,7 +152,7 @@ const offices = [
       </div>
     </div>
   </div>
-</section>
+</Wrapper>
 
 <style>
   /* 每个页面自己的 <style> 都会本地重复定义 .section-title（Astro scoped CSS 不会跨组件生效），
@@ -257,4 +268,22 @@ const offices = [
     .office-row { grid-template-columns: 1fr; }
     .office-row .office-map { min-height: 260px; }
   }
+
+  /* ---- compact 模式：跟表单并排放的缩小版，两个工厂卡片+地图改成上下堆叠 ---- */
+  .offices-compact {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .offices-compact .office-row {
+    grid-template-columns: 1fr;
+    margin-bottom: 0;
+  }
+  .offices-compact .office-row .office-map { min-height: 140px; }
+  .offices-compact .contact-panel { padding: 18px; gap: 12px; }
+  .offices-compact .info-block { padding-top: 10px; gap: 8px; }
+  .offices-compact .info-icon { font-size: 15px; }
+  .offices-compact .info-label { font-size: 10px; margin-bottom: 2px; }
+  .offices-compact .info-value { font-size: 13px; }
+  .offices-compact .qr-row { gap: 8px; padding-top: 10px; }
 </style>
