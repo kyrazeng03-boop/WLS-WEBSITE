@@ -270,14 +270,18 @@ const offices = [
   }
 
   /* ---- compact 模式：跟表单并排放的缩小版 ----
-     2026-09-03 改版：两个工厂改成"左右并排"（不再上下堆叠），
-     而且整个板块高度跟着外层 .apply-grid 的 stretch 走——地图用 flex:1，
-     只要外层被拉伸到跟左边表单一样高，地图会自动变高填满剩余空间，
-     不会再出现左右两栏高度对不上的情况（不管哪边内容更长，都会自动补齐）。 */
-  .offices-compact { height: 100%; }
+     2026-09-03 改回竖向排列：两个工厂（中国、埃及）还是像最初那样上下堆叠，
+     不做左右并排。地图仍然用 flex:1，配合外层 .apply-grid 的 stretch，
+     尽量把整体高度往左边表单那边靠——如果两个工厂堆起来天然就比表单高，
+     地图会被压缩到 min-height 那条线，这时右边会比左边略高一点，属于正常情况。 */
+  .offices-compact {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
   .offices-compact-inner {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
     gap: 16px;
     height: 100%;
   }
@@ -285,7 +289,7 @@ const offices = [
     display: flex;
     flex-direction: column;
     margin-bottom: 0;
-    height: 100%;
+    flex: 1;
   }
   .offices-compact-inner .office-row .contact-panel { flex: 0 0 auto; }
   .offices-compact-inner .office-row .office-map { flex: 1; min-height: 120px; }
@@ -295,8 +299,4 @@ const offices = [
   .offices-compact-inner .info-label { font-size: 10px; margin-bottom: 2px; }
   .offices-compact-inner .info-value { font-size: 13px; }
   .offices-compact-inner .qr-row { gap: 8px; padding-top: 10px; }
-
-  @media (max-width: 560px) {
-    .offices-compact-inner { grid-template-columns: 1fr; }
-  }
 </style>
