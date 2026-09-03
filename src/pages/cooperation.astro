@@ -85,16 +85,13 @@ const customizationIcons = {
       <span class="eyebrow" data-i18n="coop.apply.eyebrow">Apply</span>
       <h2 class="section-title" data-i18n="coop.apply.title">Tell Us about Your Business</h2>
       <p style="max-width:560px;">Fill in a few details and our overseas team will get back to you within 1 business day with next steps.</p>
-      <div class="apply-grid">
-        <div class="coop-form-wrap">
-          <ContactForm formType="cooperation" />
-        </div>
-        <div class="apply-offices">
-          <OfficesSection compact />
-        </div>
+      <div class="coop-form-wrap">
+        <ContactForm formType="cooperation" />
       </div>
     </div>
   </section>
+
+  <OfficesSection />
 </Layout>
 
 <style>
@@ -237,38 +234,14 @@ const customizationIcons = {
 
   .section-title { font-size: clamp(27px, 3.4vw, 36px); }
 
-  /* 2026-09-03：原来表单下面单独占一整块的"两个工厂"板块，挪到表单右边并排显示、
-     整体缩小了一圈（具体缩小样式见 OfficesSection.astro 里的 compact 模式），
-     不用再往下滑一屏才能看到工厂地址和地图。
-     2026-09-03 再调整：align-items 从 start 改成 stretch，让左右两栏自动拉到
-     同样高——表单这边通过加大内边距/间距让整体更高一点，工厂那边
-     （OfficesSection compact 模式）的地图用 flex:1 自动撑满多出来的高度，
-     两栏最终会严格一样高，不会再一边比另一边长一截。 */
-  .apply-grid {
-    display: grid;
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: 40px;
-    align-items: stretch;
-    margin-top: 36px;
-  }
   .coop-form-wrap {
+    max-width: 720px;
+    margin-top: 36px;
     background: var(--ink-soft);
-    padding: 44px 40px;
+    padding: 32px;
     border: 1px solid var(--line-onDark);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
   }
   .coop-form-wrap :global(label) { color: rgba(246,245,242,0.6); }
-  .coop-form-wrap :global(.contact-form) { gap: 24px; }
-  .coop-form-wrap :global(textarea) { min-height: 130px; }
-  .apply-offices { height: 100%; }
-  @media (max-width: 900px) {
-    .apply-grid { grid-template-columns: 1fr; }
-    .coop-form-wrap { height: auto; }
-    .apply-offices { height: auto; }
-  }
 
   /* ---- 100% Customization ---- */
   .customization-header {
