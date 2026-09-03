@@ -40,7 +40,7 @@ const offices = [
 ---
 <!-- Office locations: contact details + map paired together per office -->
 <Wrapper class={compact ? 'offices-compact' : 'section offices-section'}>
-  <div class={compact ? '' : 'container'}>
+  <div class={compact ? 'offices-compact-inner' : 'container'}>
     {!compact && (
       <>
         <span class="eyebrow" data-i18n="contact.offices.eyebrow">Our Offices</span>
@@ -269,21 +269,34 @@ const offices = [
     .office-row .office-map { min-height: 260px; }
   }
 
-  /* ---- compact 模式：跟表单并排放的缩小版，两个工厂卡片+地图改成上下堆叠 ---- */
-  .offices-compact {
+  /* ---- compact 模式：跟表单并排放的缩小版 ----
+     2026-09-03 改版：两个工厂改成"左右并排"（不再上下堆叠），
+     而且整个板块高度跟着外层 .apply-grid 的 stretch 走——地图用 flex:1，
+     只要外层被拉伸到跟左边表单一样高，地图会自动变高填满剩余空间，
+     不会再出现左右两栏高度对不上的情况（不管哪边内容更长，都会自动补齐）。 */
+  .offices-compact { height: 100%; }
+  .offices-compact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    height: 100%;
+  }
+  .offices-compact-inner .office-row {
     display: flex;
     flex-direction: column;
-    gap: 20px;
-  }
-  .offices-compact .office-row {
-    grid-template-columns: 1fr;
     margin-bottom: 0;
+    height: 100%;
   }
-  .offices-compact .office-row .office-map { min-height: 140px; }
-  .offices-compact .contact-panel { padding: 18px; gap: 12px; }
-  .offices-compact .info-block { padding-top: 10px; gap: 8px; }
-  .offices-compact .info-icon { font-size: 15px; }
-  .offices-compact .info-label { font-size: 10px; margin-bottom: 2px; }
-  .offices-compact .info-value { font-size: 13px; }
-  .offices-compact .qr-row { gap: 8px; padding-top: 10px; }
+  .offices-compact-inner .office-row .contact-panel { flex: 0 0 auto; }
+  .offices-compact-inner .office-row .office-map { flex: 1; min-height: 120px; }
+  .offices-compact-inner .contact-panel { padding: 18px; gap: 12px; }
+  .offices-compact-inner .info-block { padding-top: 10px; gap: 8px; }
+  .offices-compact-inner .info-icon { font-size: 15px; }
+  .offices-compact-inner .info-label { font-size: 10px; margin-bottom: 2px; }
+  .offices-compact-inner .info-value { font-size: 13px; }
+  .offices-compact-inner .qr-row { gap: 8px; padding-top: 10px; }
+
+  @media (max-width: 560px) {
+    .offices-compact-inner { grid-template-columns: 1fr; }
+  }
 </style>
