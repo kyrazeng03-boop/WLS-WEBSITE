@@ -28,7 +28,8 @@ const singleSeriesProducts = [];
 for (const [slug, s] of Object.entries(node.series)) {
   const single = getSingleProduct(s);
   if (single) {
-    singleSeriesProducts.push(single);
+    // 标题显示系列名而不是产品自己的型号名，跟旁边的分组卡片风格保持一致
+    singleSeriesProducts.push({ product: single, titleOverride: s.label });
     continue;
   }
   const repProduct = s.products[0] || Object.values(s.variants)[0]?.products[0];
@@ -40,7 +41,11 @@ for (const [slug, s] of Object.entries(node.series)) {
   });
 }
 
-const flatProducts = [...node.products, ...singleSeriesProducts];
+// 没填二级分类、直接挂在大类下面的产品，标题还是显示产品自己的名字
+const flatProducts = [
+  ...node.products.map((p) => ({ product: p, titleOverride: undefined })),
+  ...singleSeriesProducts,
+];
 
 const totalCount =
   flatProducts.length + seriesList.reduce((sum, s) => sum + s.count, 0);
@@ -74,7 +79,9 @@ const totalCount =
 
       {flatProducts.length > 0 && (
         <div class="grid grid--4" style={seriesList.length > 0 ? 'margin-top:28px;' : ''}>
-          {flatProducts.map((p) => <ProductCard product={p} />)}
+          {flatProducts.map(({ product, titleOverride }) => (
+            <ProductCard product={product} titleOverride={titleOverride} />
+          ))}
         </div>
       )}
 

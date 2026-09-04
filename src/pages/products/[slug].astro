@@ -103,12 +103,21 @@ try {
           <>
             <h3 class="specs-heading" data-i18n="products.specsHeading">Specifications</h3>
             <div class="specs-grid" id="specs">
-              {product.specs.map((s) => (
-                <div class={`spec-card ${s.value && s.value.includes(' / ') ? 'spec-card--wide' : ''}`}>
-                  <span class="spec-card__label">{s.label}</span>
-                  <span class="spec-card__value">{s.value}</span>
-                </div>
-              ))}
+              {product.specs.map((s) => {
+                // Wattage 这一行不管值写成什么格式，都单独占一整行（不跟别的参数挤在
+                // 一个 2 列网格里）——因为常见写法是"100W/150W/200W"这种没空格的多档位，
+                // 一行放不下容易挤/换行难看。其余参数如果值里带" / "（前后有空格）这种
+                // 多值写法，也沿用原来的逻辑单独占一行。
+                const isWide =
+                  (s.label && s.label.trim().toLowerCase() === 'wattage') ||
+                  (s.value && s.value.includes(' / '));
+                return (
+                  <div class={`spec-card ${isWide ? 'spec-card--wide' : ''}`}>
+                    <span class="spec-card__label">{s.label}</span>
+                    <span class="spec-card__value">{s.value}</span>
+                  </div>
+                );
+              })}
             </div>
           </>
         )}

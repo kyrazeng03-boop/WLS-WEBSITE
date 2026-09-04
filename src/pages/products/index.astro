@@ -26,7 +26,9 @@ for (const c of productCategories) {
     // 直接当成一张完整的产品卡片(ProductCard)展示，跟其它单品卡片保持一致的样式和操作按钮。
     const single = getSingleProduct(s);
     if (single) {
-      displayItems.push({ type: 'product', category: c.value, key: single._id, product: single });
+      // 系列下只有1个产品，直接展示成产品卡片，但标题显示系列名（比如"UFO Mining
+      // Floodlight"），不显示产品自己的具体型号名——跟旁边其它分组卡片风格一致。
+      displayItems.push({ type: 'product', category: c.value, key: single._id, product: single, titleOverride: s.label });
       continue;
     }
     const repProduct = s.products[0] || Object.values(s.variants)[0]?.products[0];
@@ -95,7 +97,7 @@ const categoryIcons = {
               {item.type === 'series' ? (
                 <GroupTile href={item.href} label={item.label} coverUrl={item.coverUrl} count={item.count} />
               ) : (
-                <ProductCard product={item.product} />
+                <ProductCard product={item.product} titleOverride={item.titleOverride} />
               )}
             </div>
           ))

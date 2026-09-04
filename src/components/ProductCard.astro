@@ -1,7 +1,12 @@
 ---
 import { urlFor } from '../lib/sanity';
 import { productCategoryLabels } from '../lib/categories';
-const { product } = Astro.props;
+// titleOverride：分类浏览页里，如果一个二级/三级分类下面只有1个真实产品，
+// 会把这个产品直接当卡片展示（不用再点一层分组页），但卡片标题这时候要显示
+// 分类名（比如"UFO Mining Floodlight"）而不是产品自己的具体型号名，
+// 这样跟同一页面里其它"分组卡片"的标题风格保持一致。不传就还是显示产品名。
+const { product, titleOverride } = Astro.props;
+const displayTitle = titleOverride || product.name;
 const imgUrl = product.coverImage ? urlFor(product.coverImage).width(600).height(450).url() : '/images/placeholder-product.jpg';
 const detailUrl = `/products/${product.slug?.current}`;
 const inquiryUrl = `/contact?product=${encodeURIComponent(product.name)}`;
@@ -9,11 +14,11 @@ const categoryUrl = `/products/category/${product.category}`;
 ---
 <div class="pcard">
   <a href={detailUrl} class="pcard__image">
-    <img src={imgUrl} alt={product.name} loading="lazy" />
+    <img src={imgUrl} alt={displayTitle} loading="lazy" />
   </a>
   <div class="pcard__body">
     <a href={categoryUrl} class="pcard__category" data-i18n={`cat.${product.category}`}>{productCategoryLabels[product.category] || product.category}</a>
-    <a href={detailUrl}><h3 class="pcard__title">{product.name}</h3></a>
+    <a href={detailUrl}><h3 class="pcard__title">{displayTitle}</h3></a>
     {product.shortDescription && <p class="pcard__desc">{product.shortDescription}</p>}
 
     <div class="pcard__actions">
